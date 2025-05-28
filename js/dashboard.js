@@ -97,7 +97,9 @@ class EnergyDashboard {
     }
 
     calculateMetrics(weather) {
-        const totalProduction = this.energyManager.getTotalOutput(weather);
+        const energyManagerProduction = this.energyManager.getTotalOutput(weather);
+        const zoneEnergyProduction = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
+        const totalProduction = energyManagerProduction + zoneEnergyProduction;
         const totalConsumption = this.zoneManager.getTotalEnergyDemand();
         const totalCost = this.energyManager.getTotalCost();
         const totalInstallations = this.energyManager.getTotalInstallations();

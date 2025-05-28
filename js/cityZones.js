@@ -60,18 +60,25 @@ class CityZone {
     }
 
     getTotalEnergyProduction(energyManager, weather) {
+        if (!energyManager || !weather) return 0;
+        
         let totalProduction = 0;
         
-        this.energySources.forEach((sources, cellId) => {
-            sources.forEach(sourceType => {
-                const source = energyManager.getSource(sourceType);
-                if (source) {
-                    const baseOutput = source.getCurrentOutput(weather);
-                    const terrainBonus = this.getTerrainBonus(sourceType);
-                    totalProduction += (baseOutput * terrainBonus);
-                }
+        try {
+            this.energySources.forEach((sources, cellId) => {
+                sources.forEach(sourceType => {
+                    const source = energyManager.getSource(sourceType);
+                    if (source) {
+                        const baseOutput = source.getCurrentOutput(weather);
+                        const terrainBonus = this.getTerrainBonus(sourceType);
+                        totalProduction += (baseOutput * terrainBonus);
+                    }
+                });
             });
-        });
+        } catch (error) {
+            console.log('Energy production calculation error:', error);
+            return 0;
+        }
         
         return totalProduction;
     }

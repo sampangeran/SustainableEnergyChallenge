@@ -522,19 +522,26 @@ class RenewableEnergySimulator {
         if (zoneType) {
             cell.classList.add(`zone-${zoneType}`);
             
-            // Check if zone is underpowered
-            const zone = this.zoneManager.zones.get(zoneType);
-            if (zone && zone.income > 0) { // Only check income-generating zones
-                const weather = this.weatherSystem.getCurrentWeather();
-                const zoneInfo = zone.getZoneInfo(this.energyManager, weather);
-                if (!zoneInfo.isPowered) {
-                    cell.classList.add('underpowered');
-                    // Add power deficit indicator
-                    const powerIcon = document.createElement('div');
-                    powerIcon.className = 'power-status';
-                    powerIcon.innerHTML = '⚡';
-                    powerIcon.title = `Power shortage: ${Math.round(zoneInfo.powerRatio * 100)}% supplied`;
-                    cell.appendChild(powerIcon);
+            // Check if zone is underpowered (but only if we have both managers)
+            if (this.energyManager && this.weatherSystem) {
+                const zone = this.zoneManager.zones.get(zoneType);
+                if (zone && zone.income > 0) { // Only check income-generating zones
+                    try {
+                        const weather = this.weatherSystem.getCurrentWeather();
+                        const zoneInfo = zone.getZoneInfo(this.energyManager, weather);
+                        if (!zoneInfo.isPowered) {
+                            cell.classList.add('underpowered');
+                            // Add power deficit indicator
+                            const powerIcon = document.createElement('div');
+                            powerIcon.className = 'power-status';
+                            powerIcon.innerHTML = '⚡';
+                            powerIcon.title = `Power shortage: ${Math.round(zoneInfo.powerRatio * 100)}% supplied`;
+                            cell.appendChild(powerIcon);
+                        }
+                    } catch (error) {
+                        // Silently handle errors during initialization
+                        console.log('Zone power check skipped during initialization');
+                    }
                 }
             }
         }

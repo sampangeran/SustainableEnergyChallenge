@@ -486,12 +486,40 @@ class RenewableEnergySimulator {
     }
 
     applyEnergyToSelectedCells(event) {
-        // For energy mode, we'll just handle the first cell for now
-        // since placing multiple energy sources requires more complex logic
-        if (this.selectedCells.size > 0) {
-            const firstCell = Array.from(this.selectedCells)[0];
-            const [row, col] = firstCell.split('-').map(Number);
-            this.handleEnergyClick(row, col, event);
+        // Get the currently active energy source type from placement mode
+        const energyPlacementButtons = document.querySelectorAll('.energy-source.active');
+        let activeEnergyType = null;
+        
+        if (energyPlacementButtons.length > 0) {
+            activeEnergyType = energyPlacementButtons[0].dataset.type;
+        }
+        
+        if (activeEnergyType) {
+            // Place the active energy source type on all valid selected cells
+            let placedCount = 0;
+            this.selectedCells.forEach(cellKey => {
+                const [row, col] = cellKey.split('-').map(Number);
+                const zoneType = this.zoneManager.getCellZone(row, col);
+                
+                // Only place if cell has a zone and doesn't already have an energy source
+                if (zoneType && !this.zoneManager.hasEnergySource(row, col)) {
+                    this.placeEnergySource(row, col, activeEnergyType);
+                    placedCount++;
+                }
+            });
+            
+            if (placedCount > 0) {
+                this.showNotification(`Placed ${placedCount} ${activeEnergyType} source(s)`, 'success');
+            } else {
+                this.showNotification('No valid locations for energy placement in selection', 'warning');
+            }
+        } else {
+            // If no energy type is active, show placement options for the first cell
+            if (this.selectedCells.size > 0) {
+                const firstCell = Array.from(this.selectedCells)[0];
+                const [row, col] = firstCell.split('-').map(Number);
+                this.handleEnergyClick(row, col, event);
+            }
         }
     }
 

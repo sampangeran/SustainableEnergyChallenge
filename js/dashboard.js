@@ -109,8 +109,8 @@ class EnergyDashboard {
         // Calculate annual savings (simplified model)
         const annualSavings = this.calculateAnnualSavings(totalProduction, carbonReduction);
         
-        // Calculate sustainability score
-        const sustainabilityScore = this.calculateSustainabilityScore(
+        // Calculate detailed sustainability score
+        const sustainabilityData = this.calculateSustainabilityScore(
             efficiency, carbonReduction, totalInstallations
         );
         
@@ -127,7 +127,7 @@ class EnergyDashboard {
             totalCost,
             annualSavings,
             carbonReduction,
-            sustainabilityScore,
+            sustainabilityData,
             energyMix,
             zoneStats,
             weather,
@@ -143,22 +143,134 @@ class EnergyDashboard {
     }
 
     calculateSustainabilityScore(efficiency, carbonReduction, installations) {
-        let score = 0;
-        
-        // Efficiency component (40% of score)
-        score += (efficiency / 100) * 40;
-        
-        // Carbon reduction component (35% of score)
-        const maxCarbonReduction = 100; // Assumed maximum
-        score += Math.min(carbonReduction / maxCarbonReduction, 1) * 35;
-        
-        // Installation diversity component (25% of score)
         const energyMix = this.energyManager.getEnergyMix();
-        const sourceCount = Object.values(energyMix).filter(mix => mix.count > 0).length;
-        const maxSources = 5;
-        score += (sourceCount / maxSources) * 25;
+        const totalProduction = this.energyManager.getTotalOutput(this.weatherSystem.getCurrentWeather());
+        const totalDemand = this.zoneManager.getTotalEnergyDemand();
         
-        return Math.round(score);
+        let score = 0;
+        let scoreBreakdown = {};
+        
+        // Energy Efficiency (25 points max)
+        const efficiencyScore = Math.min(25, efficiency * 0.25);
+        score += efficiencyScore;
+        scoreBreakdown.efficiency = {
+            score: Math.round(efficiencyScore),
+            max: 25,
+            description: "How well energy production meets demand"
+        };
+        
+        // Carbon Reduction Impact (20 points max)
+        const carbonScore = Math.min(20, carbonReduction / 500 * 20);
+        score += carbonScore;
+        scoreBreakdown.carbon = {
+            score: Math.round(carbonScore),
+            max: 20,
+            description: `Prevented ${Math.round(carbonReduction)} tons CO₂/year`
+        };
+        
+        // Energy Source Diversity (20 points max)
+        const uniqueSources = Object.keys(energyMix).filter(type => energyMix[type].count > 0).length;
+        const diversityScore = Math.min(20, uniqueSources * 4);
+        score += diversityScore;
+        scoreBreakdown.diversity = {
+            score: Math.round(diversityScore),
+            max: 20,
+            description: `Using ${uniqueSources}/5 renewable energy types`
+        };
+        
+        // Grid Reliability (15 points max)
+        const reliabilityScore = efficiency >= 100 ? 15 : Math.max(0, efficiency - 50) * 0.3;
+        score += reliabilityScore;
+        scoreBreakdown.reliability = {
+            score: Math.round(reliabilityScore),
+            max: 15,
+            description: efficiency >= 100 ? "Fully powered grid" : "Partial power coverage"
+        };
+        
+        // Innovation & Future-Readiness (10 points max)
+        const advancedSources = (energyMix.geothermal?.count || 0) + (energyMix.biomass?.count || 0);
+        const innovationScore = Math.min(10, advancedSources * 2);
+        score += innovationScore;
+        scoreBreakdown.innovation = {
+            score: Math.round(innovationScore),
+            max: 10,
+            description: "Using advanced renewable technologies"
+        };
+        
+        // Community Impact (10 points max)
+        const zoneStats = this.zoneManager.getZoneStats(this.energyManager, this.weatherSystem.getCurrentWeather());
+        const poweredZones = Object.values(zoneStats).filter(zone => zone.efficiency >= 100).length;
+        const totalZones = Object.keys(zoneStats).length;
+        const communityScore = totalZones > 0 ? (poweredZones / totalZones) * 10 : 0;
+        score += communityScore;
+        scoreBreakdown.community = {
+            score: Math.round(communityScore),
+            max: 10,
+            description: `${poweredZones}/${totalZones} zones fully powered`
+        };
+        
+        return {
+            total: Math.round(Math.min(100, score)),
+            breakdown: scoreBreakdown,
+            grade: this.getSustainabilityGrade(score),
+            achievements: this.checkAchievements(scoreBreakdown, energyMix)
+        };
+    }
+
+    getSustainabilityGrade(score) {
+        if (score >= 90) return { letter: 'A+', description: 'Exceptional Sustainability Leader' };
+        if (score >= 80) return { letter: 'A', description: 'Outstanding Green City' };
+        if (score >= 70) return { letter: 'B+', description: 'Very Good Sustainability' };
+        if (score >= 60) return { letter: 'B', description: 'Good Environmental Progress' };
+        if (score >= 50) return { letter: 'C+', description: 'Fair Sustainability Efforts' };
+        if (score >= 40) return { letter: 'C', description: 'Needs Improvement' };
+        return { letter: 'D', description: 'Significant Work Needed' };
+    }
+
+    checkAchievements(scoreBreakdown, energyMix) {
+        const achievements = [];
+        
+        if (scoreBreakdown.efficiency.score >= 25) {
+            achievements.push({ 
+                name: "Perfect Efficiency", 
+                icon: "⚡", 
+                description: "City meets 100% of energy demand" 
+            });
+        }
+        
+        if (scoreBreakdown.diversity.score >= 20) {
+            achievements.push({ 
+                name: "Energy Master", 
+                icon: "🌈", 
+                description: "Using all 5 renewable energy types" 
+            });
+        }
+        
+        if (scoreBreakdown.carbon.score >= 15) {
+            achievements.push({ 
+                name: "Climate Champion", 
+                icon: "🌍", 
+                description: "Significant carbon footprint reduction" 
+            });
+        }
+        
+        if (scoreBreakdown.innovation.score >= 8) {
+            achievements.push({ 
+                name: "Technology Pioneer", 
+                icon: "🚀", 
+                description: "Advanced renewable technology adoption" 
+            });
+        }
+        
+        if (scoreBreakdown.community.score >= 10) {
+            achievements.push({ 
+                name: "Community Hero", 
+                icon: "🏘️", 
+                description: "All city zones fully powered" 
+            });
+        }
+        
+        return achievements;
     }
 
     updateEnergyMetrics(metrics) {

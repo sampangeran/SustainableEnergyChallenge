@@ -178,9 +178,94 @@
                         <span class="metric-label">CO₂ Reduction:</span>
                         <span id="co2-reduction" class="metric-value">0 tons/year</span>
                     </div>
-                    <div class="metric">
-                        <span class="metric-label">Sustainability Score:</span>
-                        <span id="sustainability-score" class="metric-value">0/100</span>
+                </div>
+
+                <div class="dashboard-section sustainability-panel">
+                    <h4>🌱 Sustainability Score</h4>
+                    <div class="sustainability-header">
+                        <div class="score-display">
+                            <span id="sustainability-total" class="score-number">0</span>
+                            <span class="score-max">/100</span>
+                        </div>
+                        <div class="grade-display">
+                            <span id="sustainability-grade" class="grade-letter">D</span>
+                            <span id="sustainability-description" class="grade-description">Getting Started</span>
+                        </div>
+                    </div>
+                    
+                    <div class="score-breakdown">
+                        <div class="score-category" data-category="efficiency">
+                            <div class="category-header">
+                                <span class="category-name">⚡ Energy Efficiency</span>
+                                <span class="category-score"><span id="efficiency-score">0</span>/25</span>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-fill" id="efficiency-fill"></div>
+                            </div>
+                            <div class="category-description" id="efficiency-description">How well energy production meets demand</div>
+                        </div>
+                        
+                        <div class="score-category" data-category="carbon">
+                            <div class="category-header">
+                                <span class="category-name">🌍 Carbon Impact</span>
+                                <span class="category-score"><span id="carbon-score">0</span>/20</span>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-fill" id="carbon-fill"></div>
+                            </div>
+                            <div class="category-description" id="carbon-description">Environmental benefit from renewable energy</div>
+                        </div>
+                        
+                        <div class="score-category" data-category="diversity">
+                            <div class="category-header">
+                                <span class="category-name">🌈 Energy Diversity</span>
+                                <span class="category-score"><span id="diversity-score">0</span>/20</span>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-fill" id="diversity-fill"></div>
+                            </div>
+                            <div class="category-description" id="diversity-description">Variety of renewable energy sources</div>
+                        </div>
+                        
+                        <div class="score-category" data-category="reliability">
+                            <div class="category-header">
+                                <span class="category-name">🔋 Grid Reliability</span>
+                                <span class="category-score"><span id="reliability-score">0</span>/15</span>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-fill" id="reliability-fill"></div>
+                            </div>
+                            <div class="category-description" id="reliability-description">Consistent power supply to all zones</div>
+                        </div>
+                        
+                        <div class="score-category" data-category="innovation">
+                            <div class="category-header">
+                                <span class="category-name">🚀 Innovation</span>
+                                <span class="category-score"><span id="innovation-score">0</span>/10</span>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-fill" id="innovation-fill"></div>
+                            </div>
+                            <div class="category-description" id="innovation-description">Advanced renewable technologies</div>
+                        </div>
+                        
+                        <div class="score-category" data-category="community">
+                            <div class="category-header">
+                                <span class="category-name">🏘️ Community</span>
+                                <span class="category-score"><span id="community-score">0</span>/10</span>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-fill" id="community-fill"></div>
+                            </div>
+                            <div class="category-description" id="community-description">Zones with full power coverage</div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievements-section">
+                        <h5>🏆 Achievements</h5>
+                        <div id="achievements-list" class="achievements-list">
+                            <span class="no-achievements">Build your city to unlock achievements!</span>
+                        </div>
                     </div>
                 </div>
 

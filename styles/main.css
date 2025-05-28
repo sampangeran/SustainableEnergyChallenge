@@ -126,6 +126,11 @@ body {
     color: white;
 }
 
+.btn-danger {
+    background: hsl(var(--danger));
+    color: white;
+}
+
 .btn.active {
     background: hsl(var(--accent-color));
     color: white;

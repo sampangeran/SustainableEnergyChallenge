@@ -299,7 +299,7 @@ class EnergyDashboard {
     }
 
     updateEnergyMetrics(metrics) {
-        // Total Production shows base production without weather effects
+        // Total Production shows base production without weather effects  
         if (this.elements.totalProduction) {
             const baseProduction = this.energyManager.getTotalOutput('sunny');
             this.elements.totalProduction.textContent = `${Math.round(baseProduction)} kW`;
@@ -320,7 +320,10 @@ class EnergyDashboard {
 
         // Current Energy Production shows actual weather-affected production
         if (this.elements.currentProduction) {
-            this.elements.currentProduction.textContent = `${Math.round(metrics.totalProduction)} kW`;
+            const weather = this.weatherSystem.getCurrentWeather();
+            const weatherType = weather?.type || 'sunny';
+            const weatherAffectedProduction = this.energyManager.getTotalOutput(weatherType);
+            this.elements.currentProduction.textContent = `${Math.round(weatherAffectedProduction)} kW`;
             this.addUpdateAnimation(this.elements.currentProduction);
         }
 

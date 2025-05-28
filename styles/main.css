@@ -502,6 +502,14 @@ body {
     border-width: 2px;
 }
 
+.grid-cell.drag-selected {
+    background: rgba(74, 144, 226, 0.3);
+    border: 2px solid #4a90e2;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+    transform: scale(1.02);
+    transition: all 0.2s ease;
+}
+
 .grid-cell.occupied {
     position: relative;
 }

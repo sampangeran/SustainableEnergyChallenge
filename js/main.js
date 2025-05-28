@@ -17,6 +17,11 @@ class RenewableEnergySimulator {
         this.isPaused = false;
         this.simulationSpeed = 1;
         
+        // Drag selection state
+        this.isDragging = false;
+        this.dragStartCell = null;
+        this.selectedCells = new Set();
+        
         this.initialize();
     }
 
@@ -326,9 +331,152 @@ class RenewableEnergySimulator {
         gridContainer.addEventListener('dragleave', (e) => {
             this.dragDropHandler.handleDragLeave(e);
         });
+
+        // Add drag selection events
+        gridContainer.addEventListener('mousedown', (e) => {
+            if (e.button === 0 && !e.target.draggable) { // Left mouse button and not dragging an energy source
+                this.startDragSelection(e);
+            }
+        });
+
+        gridContainer.addEventListener('mousemove', (e) => {
+            if (this.isDragging) {
+                this.updateDragSelection(e);
+            }
+        });
+
+        gridContainer.addEventListener('mouseup', (e) => {
+            if (this.isDragging) {
+                this.endDragSelection(e);
+            }
+        });
+
+        // Global mouse up to handle drag end outside grid
+        document.addEventListener('mouseup', (e) => {
+            if (this.isDragging) {
+                this.endDragSelection(e);
+            }
+        });
+
+        // Prevent context menu during drag
+        gridContainer.addEventListener('contextmenu', (e) => {
+            if (this.isDragging) {
+                e.preventDefault();
+            }
+        });
+    }
+
+    startDragSelection(event) {
+        const cellElement = event.target.closest('.grid-cell');
+        if (!cellElement) return;
+
+        const [row, col] = cellElement.id.split('-').slice(1).map(Number);
+        
+        this.isDragging = true;
+        this.dragStartCell = { row, col };
+        this.selectedCells.clear();
+        this.selectedCells.add(`${row}-${col}`);
+        
+        // Prevent text selection during drag
+        event.preventDefault();
+        
+        this.updateSelectedCellsDisplay();
+    }
+
+    updateDragSelection(event) {
+        if (!this.isDragging || !this.dragStartCell) return;
+
+        const cellElement = event.target.closest('.grid-cell');
+        if (!cellElement) return;
+
+        const [currentRow, currentCol] = cellElement.id.split('-').slice(1).map(Number);
+        
+        // Calculate selection rectangle
+        const startRow = this.dragStartCell.row;
+        const startCol = this.dragStartCell.col;
+        
+        const minRow = Math.min(startRow, currentRow);
+        const maxRow = Math.max(startRow, currentRow);
+        const minCol = Math.min(startCol, currentCol);
+        const maxCol = Math.max(startCol, currentCol);
+        
+        // Clear previous selection
+        this.selectedCells.clear();
+        
+        // Add all cells in rectangle to selection
+        for (let row = minRow; row <= maxRow; row++) {
+            for (let col = minCol; col <= maxCol; col++) {
+                this.selectedCells.add(`${row}-${col}`);
+            }
+        }
+        
+        this.updateSelectedCellsDisplay();
+    }
+
+    endDragSelection(event) {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        
+        // Apply the current mode action to all selected cells
+        const mode = this.zoneManager.getMode();
+        
+        if (mode === 'zone') {
+            this.applyZoneToSelectedCells();
+        } else if (mode === 'energy') {
+            this.applyEnergyToSelectedCells(event);
+        }
+        
+        // Clear selection after action
+        setTimeout(() => {
+            this.clearSelection();
+        }, 100);
+    }
+
+    applyZoneToSelectedCells() {
+        const selectedZoneType = this.zoneManager.getSelectedZoneType();
+        
+        this.selectedCells.forEach(cellKey => {
+            const [row, col] = cellKey.split('-').map(Number);
+            this.handleZoneClick(row, col);
+        });
+    }
+
+    applyEnergyToSelectedCells(event) {
+        // For energy mode, we'll just handle the first cell for now
+        // since placing multiple energy sources requires more complex logic
+        if (this.selectedCells.size > 0) {
+            const firstCell = Array.from(this.selectedCells)[0];
+            const [row, col] = firstCell.split('-').map(Number);
+            this.handleEnergyClick(row, col, event);
+        }
+    }
+
+    updateSelectedCellsDisplay() {
+        // Clear previous selection styling
+        document.querySelectorAll('.grid-cell.drag-selected').forEach(cell => {
+            cell.classList.remove('drag-selected');
+        });
+        
+        // Add selection styling to selected cells
+        this.selectedCells.forEach(cellKey => {
+            const [row, col] = cellKey.split('-').map(Number);
+            const cellElement = document.getElementById(`cell-${row}-${col}`);
+            if (cellElement) {
+                cellElement.classList.add('drag-selected');
+            }
+        });
+    }
+
+    clearSelection() {
+        this.selectedCells.clear();
+        this.updateSelectedCellsDisplay();
     }
 
     handleCellClick(row, col, event) {
+        // Skip if we just finished dragging
+        if (this.isDragging) return;
+        
         const mode = this.zoneManager.getMode();
         
         if (mode === 'zone') {

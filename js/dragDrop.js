@@ -190,16 +190,21 @@ class DragDropHandler {
     }
 
     attemptPlacement(row, col, sourceType) {
+        console.log(`Validating placement of ${sourceType} at ${row},${col}`);
+        
         // Validate placement
         const validation = this.zoneManager.validatePlacement(row, col, sourceType);
+        console.log('Validation result:', validation);
         
         if (!validation.valid) {
+            console.log('Placement failed validation:', validation.reason);
             this.showPlacementError(validation.reason);
             return false;
         }
         
         // Check if cell already has energy source
         if (this.zoneManager.hasEnergySource(row, col)) {
+            console.log('Cell already has energy source');
             this.showPlacementError('Cell already has an energy source');
             return false;
         }
@@ -207,9 +212,12 @@ class DragDropHandler {
         // Get source information
         const source = this.energyManager.getSource(sourceType);
         if (!source) {
+            console.log('Invalid energy source type:', sourceType);
             this.showPlacementError('Invalid energy source type');
             return false;
         }
+        
+        console.log('Placing energy source:', sourceType);
         
         // Place the energy source
         this.energyManager.addInstallation(sourceType);
@@ -217,6 +225,8 @@ class DragDropHandler {
         
         // Update display
         this.updateCellDisplay(row, col);
+        
+        console.log('Energy source placed successfully');
         
         // Show placement feedback
         this.showPlacementSuccess(source, row, col);

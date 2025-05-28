@@ -299,9 +299,9 @@ class EnergyDashboard {
     }
 
     updateEnergyMetrics(metrics) {
-        // Total Production shows base production without weather effects  
+        // Total Production shows base production without weather effects
         if (this.elements.totalProduction) {
-            const baseProduction = this.energyManager.getTotalOutput('sunny');
+            const baseProduction = this.calculateBaseProduction();
             this.elements.totalProduction.textContent = `${Math.round(baseProduction)} kW`;
             this.addUpdateAnimation(this.elements.totalProduction);
         }
@@ -331,7 +331,7 @@ class EnergyDashboard {
         if (this.elements.weatherImpact) {
             const weather = this.weatherSystem.getCurrentWeather();
             const weatherType = weather?.type || 'sunny';
-            const baseProduction = this.energyManager.getTotalOutput('sunny');
+            const baseProduction = this.calculateBaseProduction();
             const currentProduction = this.energyManager.getTotalOutput(weatherType);
             const impact = baseProduction > 0 ? ((currentProduction - baseProduction) / baseProduction) * 100 : 0;
             
@@ -339,6 +339,15 @@ class EnergyDashboard {
             this.elements.weatherImpact.style.color = impact >= 0 ? '#27ae60' : '#e74c3c';
             this.addUpdateAnimation(this.elements.weatherImpact);
         }
+    }
+
+    calculateBaseProduction() {
+        // Calculate true base production without any weather effects
+        let baseProduction = 0;
+        this.energyManager.getAllSources().forEach(source => {
+            baseProduction += source.baseOutput * source.installationCount;
+        });
+        return baseProduction;
     }
 
     updateFinancialMetrics(metrics) {

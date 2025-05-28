@@ -167,6 +167,12 @@ class RenewableEnergySimulator {
         
         // Add click handler for zone mode
         cell.addEventListener('click', (e) => {
+            // Prevent click if we're in the middle of dragging
+            if (this.isDragging || this.dragStartCell) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
             this.handleCellClick(row, col, e);
         });
         
@@ -334,7 +340,8 @@ class RenewableEnergySimulator {
 
         // Add drag selection events
         gridContainer.addEventListener('mousedown', (e) => {
-            if (e.button === 0 && !e.target.draggable) { // Left mouse button and not dragging an energy source
+            if (e.button === 0 && e.target.closest('.grid-cell') && !e.target.closest('.energy-placement')) { 
+                // Left mouse button, on a grid cell, but not on an energy source
                 this.startDragSelection(e);
             }
         });
@@ -372,19 +379,40 @@ class RenewableEnergySimulator {
 
         const [row, col] = cellElement.id.split('-').slice(1).map(Number);
         
-        this.isDragging = true;
+        // Set up drag detection with a small delay
+        this.dragStartTime = Date.now();
+        this.dragStartPosition = { x: event.clientX, y: event.clientY };
         this.dragStartCell = { row, col };
         this.selectedCells.clear();
         this.selectedCells.add(`${row}-${col}`);
         
+        // Small delay before considering it a drag operation
+        setTimeout(() => {
+            if (this.dragStartCell && Date.now() - this.dragStartTime > 50) {
+                this.isDragging = true;
+                this.updateSelectedCellsDisplay();
+            }
+        }, 50);
+        
         // Prevent text selection during drag
         event.preventDefault();
-        
-        this.updateSelectedCellsDisplay();
     }
 
     updateDragSelection(event) {
-        if (!this.isDragging || !this.dragStartCell) return;
+        // Check if we have started dragging and moved enough distance
+        if (!this.dragStartCell) return;
+        
+        const distance = Math.sqrt(
+            Math.pow(event.clientX - this.dragStartPosition.x, 2) + 
+            Math.pow(event.clientY - this.dragStartPosition.y, 2)
+        );
+        
+        // Only start dragging if moved more than 5 pixels
+        if (distance > 5 && !this.isDragging) {
+            this.isDragging = true;
+        }
+        
+        if (!this.isDragging) return;
 
         const cellElement = event.target.closest('.grid-cell');
         if (!cellElement) return;
@@ -414,23 +442,38 @@ class RenewableEnergySimulator {
     }
 
     endDragSelection(event) {
-        if (!this.isDragging) return;
+        const wasDragging = this.isDragging;
+        const hadDragStart = this.dragStartCell !== null;
         
+        // Reset drag state
         this.isDragging = false;
+        this.dragStartCell = null;
+        this.dragStartTime = null;
+        this.dragStartPosition = null;
         
-        // Apply the current mode action to all selected cells
-        const mode = this.zoneManager.getMode();
-        
-        if (mode === 'zone') {
-            this.applyZoneToSelectedCells();
-        } else if (mode === 'energy') {
-            this.applyEnergyToSelectedCells(event);
-        }
-        
-        // Clear selection after action
-        setTimeout(() => {
+        if (wasDragging) {
+            // Apply the current mode action to all selected cells
+            const mode = this.zoneManager.getMode();
+            
+            if (mode === 'zone') {
+                this.applyZoneToSelectedCells();
+            } else if (mode === 'energy') {
+                this.applyEnergyToSelectedCells(event);
+            }
+            
+            // Clear selection after action
+            setTimeout(() => {
+                this.clearSelection();
+            }, 100);
+        } else if (hadDragStart) {
+            // This was a single click, not a drag
+            const cellElement = event.target.closest('.grid-cell');
+            if (cellElement) {
+                const [row, col] = cellElement.id.split('-').slice(1).map(Number);
+                this.handleCellClick(row, col, event);
+            }
             this.clearSelection();
-        }, 100);
+        }
     }
 
     applyZoneToSelectedCells() {

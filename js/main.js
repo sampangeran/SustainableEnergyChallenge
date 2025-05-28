@@ -522,18 +522,16 @@ class RenewableEnergySimulator {
         if (zoneType) {
             cell.classList.add(`zone-${zoneType}`);
             
-            // Check if zone is underpowered (simplified calculation)
+            // Check if zone is underpowered (only for income-generating zones)
             if (this.energyManager && this.weatherSystem && zoneType) {
                 const zone = this.zoneManager.zones.get(zoneType);
                 if (zone && zone.income > 0) { // Only check income-generating zones
-                    const zoneDemand = zone.getTotalEnergyDemand();
                     const totalProduction = this.energyManager.getTotalOutput(this.weatherSystem.getCurrentWeather());
                     const totalDemand = this.zoneManager.getTotalEnergyDemand();
                     
-                    // Simple check: if total production covers total demand, zones are powered
-                    const overallRatio = totalDemand > 0 ? totalProduction / totalDemand : 1;
-                    
-                    if (overallRatio < 1.0) {
+                    // Only show power shortage if there's actual demand and insufficient production
+                    if (totalDemand > 0 && totalProduction < totalDemand) {
+                        const overallRatio = totalProduction / totalDemand;
                         cell.classList.add('underpowered');
                         // Add power deficit indicator
                         const powerIcon = document.createElement('div');

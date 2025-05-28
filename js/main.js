@@ -167,8 +167,8 @@ class RenewableEnergySimulator {
         
         // Add click handler for zone mode
         cell.addEventListener('click', (e) => {
-            // Prevent click if we're in the middle of dragging
-            if (this.isDragging || this.dragStartCell) {
+            // Only prevent click if we're actively dragging
+            if (this.isDragging) {
                 e.preventDefault();
                 e.stopPropagation();
                 return;
@@ -445,14 +445,8 @@ class RenewableEnergySimulator {
         const wasDragging = this.isDragging;
         const hadDragStart = this.dragStartCell !== null;
         
-        // Reset drag state
-        this.isDragging = false;
-        this.dragStartCell = null;
-        this.dragStartTime = null;
-        this.dragStartPosition = null;
-        
         if (wasDragging) {
-            // Apply the current mode action to all selected cells
+            // This was a real drag operation
             const mode = this.zoneManager.getMode();
             
             if (mode === 'zone') {
@@ -466,14 +460,16 @@ class RenewableEnergySimulator {
                 this.clearSelection();
             }, 100);
         } else if (hadDragStart) {
-            // This was a single click, not a drag
-            const cellElement = event.target.closest('.grid-cell');
-            if (cellElement) {
-                const [row, col] = cellElement.id.split('-').slice(1).map(Number);
-                this.handleCellClick(row, col, event);
-            }
+            // This was a single click - handle it through the normal click handler
+            // Don't call handleCellClick here to avoid double processing
             this.clearSelection();
         }
+        
+        // Reset drag state
+        this.isDragging = false;
+        this.dragStartCell = null;
+        this.dragStartTime = null;
+        this.dragStartPosition = null;
     }
 
     applyZoneToSelectedCells() {
@@ -540,9 +536,6 @@ class RenewableEnergySimulator {
     }
 
     handleCellClick(row, col, event) {
-        // Skip if we just finished dragging
-        if (this.isDragging) return;
-        
         const mode = this.zoneManager.getMode();
         
         if (mode === 'zone') {

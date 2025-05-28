@@ -252,8 +252,8 @@ class DragDropHandler {
         this.energyManager.addInstallation(sourceType);
         this.zoneManager.addEnergySource(row, col, sourceType);
         
-        // Update display
-        this.updateCellDisplay(row, col);
+        // Update entire grid display to refresh power indicators
+        this.mainApp.updateGridDisplay();
         
         console.log('Energy source placed successfully');
         

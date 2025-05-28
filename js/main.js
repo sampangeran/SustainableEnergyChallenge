@@ -404,8 +404,8 @@ class RenewableEnergySimulator {
             // Remove from energy manager
             this.energyManager.removeInstallation(sourceType);
             
-            // Update display
-            this.updateCellDisplay(row, col);
+            // Update entire grid display to refresh power indicators
+            this.updateGridDisplay();
             this.dashboard.updateDashboard();
             
             // Show feedback
@@ -496,8 +496,8 @@ class RenewableEnergySimulator {
         this.energyManager.addInstallation(sourceType);
         this.zoneManager.addEnergySource(row, col, sourceType);
         
-        // Update display
-        this.updateCellDisplay(row, col);
+        // Update entire grid display to refresh power indicators
+        this.updateGridDisplay();
         this.dashboard.updateDashboard();
         
         // Show success feedback

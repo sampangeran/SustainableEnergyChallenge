@@ -31,6 +31,7 @@ class EnergyDashboard {
             efficiency: document.getElementById('efficiency'),
             totalCost: document.getElementById('total-cost'),
             annualSavings: document.getElementById('annual-savings'),
+            totalIncome: document.getElementById('total-income'),
             co2Reduction: document.getElementById('co2-reduction'),
             sustainabilityScore: document.getElementById('sustainability-score'),
             energyChart: document.getElementById('energy-chart'),
@@ -307,6 +308,11 @@ class EnergyDashboard {
         if (this.elements.annualSavings) {
             this.elements.annualSavings.textContent = `$${Math.round(metrics.annualSavings).toLocaleString()}`;
             this.addUpdateAnimation(this.elements.annualSavings);
+        }
+
+        if (this.elements.totalIncome) {
+            this.elements.totalIncome.textContent = `$${Math.round(metrics.totalIncome).toLocaleString()}/hr`;
+            this.addUpdateAnimation(this.elements.totalIncome);
         }
     }
 

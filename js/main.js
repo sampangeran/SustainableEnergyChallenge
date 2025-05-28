@@ -379,23 +379,15 @@ class RenewableEnergySimulator {
 
         const [row, col] = cellElement.id.split('-').slice(1).map(Number);
         
-        // Set up drag detection with a small delay
+        // Set up drag detection
         this.dragStartTime = Date.now();
         this.dragStartPosition = { x: event.clientX, y: event.clientY };
         this.dragStartCell = { row, col };
         this.selectedCells.clear();
         this.selectedCells.add(`${row}-${col}`);
         
-        // Small delay before considering it a drag operation
-        setTimeout(() => {
-            if (this.dragStartCell && Date.now() - this.dragStartTime > 50) {
-                this.isDragging = true;
-                this.updateSelectedCellsDisplay();
-            }
-        }, 50);
-        
-        // Prevent text selection during drag
-        event.preventDefault();
+        // Don't prevent default for single clicks - let them through normally
+        // Only prevent text selection if we actually start dragging
     }
 
     updateDragSelection(event) {
@@ -410,6 +402,8 @@ class RenewableEnergySimulator {
         // Only start dragging if moved more than 5 pixels
         if (distance > 5 && !this.isDragging) {
             this.isDragging = true;
+            // Now that we're dragging, prevent default behavior
+            event.preventDefault();
         }
         
         if (!this.isDragging) return;

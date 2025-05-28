@@ -51,6 +51,20 @@ class EnergySource {
                 rainy: 0.9,
                 windy: 1.0,
                 stormy: 0.8
+            },
+            coal: {
+                sunny: 1.0,
+                cloudy: 1.0,
+                rainy: 0.95,
+                windy: 1.0,
+                stormy: 0.9
+            },
+            naturalgas: {
+                sunny: 1.0,
+                cloudy: 1.0,
+                rainy: 0.98,
+                windy: 1.0,
+                stormy: 0.95
             }
         };
         return multipliers[this.type] || {};
@@ -155,6 +169,24 @@ class EnergySourceManager {
             120,
             'Burns organic materials to produce electricity. Weather-independent operation.',
             3.2
+        ));
+
+        this.sources.set('coal', new EnergySource(
+            'coal',
+            'Coal Power Plant',
+            25000,
+            400,
+            'Burns coal to generate electricity. High carbon emissions and environmental impact.',
+            -8.5
+        ));
+
+        this.sources.set('naturalgas', new EnergySource(
+            'naturalgas',
+            'Natural Gas Plant',
+            18000,
+            300,
+            'Burns natural gas for electricity. Lower emissions than coal but still fossil fuel.',
+            -5.2
         ));
     }
 

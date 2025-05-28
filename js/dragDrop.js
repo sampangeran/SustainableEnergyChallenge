@@ -435,7 +435,9 @@ class DragDropHandler {
             wind: 'fas fa-fan',
             hydro: 'fas fa-water',
             geothermal: 'fas fa-mountain',
-            biomass: 'fas fa-seedling'
+            biomass: 'fas fa-seedling',
+            coal: 'fas fa-industry',
+            naturalgas: 'fas fa-fire'
         };
         return iconMap[sourceType] || 'fas fa-bolt';
     }

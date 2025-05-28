@@ -173,6 +173,24 @@ body {
     box-shadow: 0 4px 12px hsl(var(--shadow));
 }
 
+.energy-source.fossil-fuel {
+    border-left: 4px solid #ff6b35;
+    background: linear-gradient(135deg, #fff 0%, #fff5f3 100%);
+}
+
+.energy-source.fossil-fuel .energy-icon {
+    background: linear-gradient(135deg, #ff6b35, #ff8c42);
+    color: white;
+}
+
+.environmental-warning {
+    color: #ff6b35;
+    font-weight: 600;
+    font-size: 0.8em;
+    margin-top: 4px;
+    display: block;
+}
+
 .energy-source:active {
     cursor: grabbing;
 }

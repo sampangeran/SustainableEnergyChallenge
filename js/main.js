@@ -522,25 +522,25 @@ class RenewableEnergySimulator {
         if (zoneType) {
             cell.classList.add(`zone-${zoneType}`);
             
-            // Check if zone is underpowered (but only if we have both managers)
-            if (this.energyManager && this.weatherSystem) {
+            // Check if zone is underpowered (simplified calculation)
+            if (this.energyManager && this.weatherSystem && zoneType) {
                 const zone = this.zoneManager.zones.get(zoneType);
                 if (zone && zone.income > 0) { // Only check income-generating zones
-                    try {
-                        const weather = this.weatherSystem.getCurrentWeather();
-                        const zoneInfo = zone.getZoneInfo(this.energyManager, weather);
-                        if (!zoneInfo.isPowered) {
-                            cell.classList.add('underpowered');
-                            // Add power deficit indicator
-                            const powerIcon = document.createElement('div');
-                            powerIcon.className = 'power-status';
-                            powerIcon.innerHTML = '⚡';
-                            powerIcon.title = `Power shortage: ${Math.round(zoneInfo.powerRatio * 100)}% supplied`;
-                            cell.appendChild(powerIcon);
-                        }
-                    } catch (error) {
-                        // Silently handle errors during initialization
-                        console.log('Zone power check skipped during initialization');
+                    const zoneDemand = zone.getTotalEnergyDemand();
+                    const totalProduction = this.energyManager.getTotalOutput(this.weatherSystem.getCurrentWeather());
+                    const totalDemand = this.zoneManager.getTotalEnergyDemand();
+                    
+                    // Simple check: if total production covers total demand, zones are powered
+                    const overallRatio = totalDemand > 0 ? totalProduction / totalDemand : 1;
+                    
+                    if (overallRatio < 1.0) {
+                        cell.classList.add('underpowered');
+                        // Add power deficit indicator
+                        const powerIcon = document.createElement('div');
+                        powerIcon.className = 'power-status';
+                        powerIcon.innerHTML = '⚡';
+                        powerIcon.title = `Power shortage: ${Math.round(overallRatio * 100)}% supplied`;
+                        cell.appendChild(powerIcon);
                     }
                 }
             }

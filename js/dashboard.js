@@ -123,9 +123,21 @@ class EnergyDashboard {
         // Get zone statistics
         const zoneStats = this.zoneManager.getZoneStats(this.energyManager, weather);
         
-        // Calculate income metrics
-        const totalIncome = this.zoneManager.getTotalIncome(this.energyManager, weather);
-        const incomeBreakdown = this.zoneManager.getIncomeByZoneType(this.energyManager, weather);
+        // Calculate income metrics with power-dependent adjustment
+        const baseIncome = Array.from(this.zoneManager.zones.values())
+            .reduce((total, zone) => total + (zone.cells.size * zone.income), 0);
+        
+        // Apply power ratio to income
+        const powerRatio = totalConsumption > 0 ? Math.min(1, totalProduction / totalConsumption) : 1;
+        const totalIncome = Math.floor(baseIncome * powerRatio);
+        
+        const incomeBreakdown = {};
+        this.zoneManager.zones.forEach((zone, zoneType) => {
+            const zoneBaseIncome = zone.cells.size * zone.income;
+            if (zoneBaseIncome > 0) {
+                incomeBreakdown[zoneType] = Math.floor(zoneBaseIncome * powerRatio);
+            }
+        });
         
         return {
             totalProduction,

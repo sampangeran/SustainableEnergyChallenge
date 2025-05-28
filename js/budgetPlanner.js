@@ -463,16 +463,73 @@ class BudgetPlanner {
         this.updateBudgetDisplay();
     }
 
-    // Additional methods for financing, projections, etc. will be added...
-    
     selectFinancing(option) {
-        // Implementation for financing selection
         console.log(`Selected financing option: ${option}`);
+        // Update the selected financing option
+        Object.keys(this.financingOptions).forEach(key => {
+            const card = document.querySelector(`[data-option="${key}"]`);
+            if (card) {
+                card.classList.remove('selected');
+            }
+        });
+        
+        const selectedCard = document.querySelector(`[data-option="${option}"]`);
+        if (selectedCard) {
+            selectedCard.classList.add('selected');
+        }
+        
+        // Show notification
+        const optionName = this.financingOptions[option].description;
+        this.showBudgetNotification(`Selected: ${optionName}`, 'success');
     }
     
     applyGrant(grantType) {
-        // Implementation for grant application
-        console.log(`Applying for grant: ${grantType}`);
+        const grant = this.availableGrants[grantType];
+        if (!grant || grant.used >= grant.amount) {
+            this.showBudgetNotification('Grant not available or already used', 'error');
+            return;
+        }
+        
+        // Apply the grant
+        const grantAmount = Math.min(grant.amount - grant.used, this.spentAmount);
+        grant.used += grantAmount;
+        this.currentBudget += grantAmount;
+        
+        this.showBudgetNotification(`Applied ${grant.description}: +$${grantAmount.toLocaleString()}`, 'success');
+        this.updateAllTabs();
+    }
+    
+    showBudgetNotification(message, type = 'info') {
+        // Create a simple notification system for the budget planner
+        const notification = document.createElement('div');
+        notification.className = `budget-notification ${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10001;
+            transition: all 0.3s ease;
+            ${type === 'success' ? 'background: hsl(142, 76%, 36%);' : ''}
+            ${type === 'error' ? 'background: hsl(0, 84%, 60%);' : ''}
+            ${type === 'info' ? 'background: hsl(217, 91%, 60%);' : ''}
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
     }
     
     resetBudget() {

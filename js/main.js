@@ -75,11 +75,17 @@ class RenewableEnergySimulator {
             this.weatherSystem
         );
         
+        // Initialize budget planner
+        this.budgetPlanner = new BudgetPlanner(this.energyManager, this.zoneManager);
+        
         // Initialize tutorial system
         this.tutorialSystem = new TutorialSystem(this);
         
         // Initialize storage manager
         this.storageManager = new StorageManager(this);
+        
+        // Make budget planner globally accessible for HTML onclick handlers
+        window.budgetPlanner = this.budgetPlanner;
     }
 
     initializeUI() {
@@ -261,6 +267,13 @@ class RenewableEnergySimulator {
         if (tutorialBtn) {
             tutorialBtn.addEventListener('click', () => {
                 this.tutorialSystem.start();
+            });
+        }
+        
+        const budgetBtn = document.getElementById('budget-btn');
+        if (budgetBtn) {
+            budgetBtn.addEventListener('click', () => {
+                this.budgetPlanner.show();
             });
         }
         

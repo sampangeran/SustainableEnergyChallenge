@@ -336,11 +336,15 @@ class RenewableEnergySimulator {
     // Drag selection functions temporarily removed to fix single click issue
 
     handleCellClick(row, col, event) {
+        console.log(`Cell clicked: ${row}, ${col}`);
         const mode = this.zoneManager.getMode();
+        console.log(`Current mode: ${mode}`);
         
         if (mode === 'zone') {
+            console.log('Handling zone click');
             this.handleZoneClick(row, col);
         } else if (mode === 'energy') {
+            console.log('Handling energy click');
             this.handleEnergyClick(row, col, event);
         }
     }

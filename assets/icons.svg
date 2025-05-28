@@ -1,0 +1,348 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <!-- Renewable Energy Source Icons -->
+  <defs>
+    <!-- Solar Panel Icon -->
+    <g id="solar-panel">
+      <rect x="2" y="6" width="20" height="12" rx="2" fill="currentColor" stroke="currentColor" stroke-width="0.5"/>
+      <line x1="6" y1="10" x2="18" y2="10" stroke="white" stroke-width="0.5"/>
+      <line x1="6" y1="14" x2="18" y2="14" stroke="white" stroke-width="0.5"/>
+      <line x1="10" y1="8" x2="10" y2="16" stroke="white" stroke-width="0.5"/>
+      <line x1="14" y1="8" x2="14" y2="16" stroke="white" stroke-width="0.5"/>
+      <circle cx="12" cy="4" r="2" fill="currentColor"/>
+      <path d="M10 4 L8 2 M14 4 L16 2 M12 2 L12 0 M8 6 L6 4 M16 6 L18 4" stroke="currentColor" stroke-width="1" fill="none"/>
+    </g>
+
+    <!-- Wind Turbine Icon -->
+    <g id="wind-turbine">
+      <line x1="12" y1="8" x2="12" y2="22" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="8" r="1.5" fill="currentColor"/>
+      <!-- Turbine blades -->
+      <path d="M12 8 C8 6, 6 4, 8 2 C10 4, 12 6, 12 8" fill="currentColor"/>
+      <path d="M12 8 C14 4, 16 2, 18 4 C16 6, 14 8, 12 8" fill="currentColor"/>
+      <path d="M12 8 C16 10, 18 12, 16 14 C14 12, 12 10, 12 8" fill="currentColor"/>
+      <!-- Base -->
+      <rect x="10" y="22" width="4" height="2" fill="currentColor"/>
+    </g>
+
+    <!-- Hydro Power Icon -->
+    <g id="hydro-power">
+      <path d="M4 16 Q6 14, 8 16 Q10 18, 12 16 Q14 14, 16 16 Q18 18, 20 16 L20 20 L4 20 Z" fill="currentColor"/>
+      <rect x="8" y="6" width="8" height="10" rx="1" fill="currentColor" stroke="white" stroke-width="0.5"/>
+      <circle cx="12" cy="11" r="2" fill="white"/>
+      <path d="M10 11 L12 9 L14 11 L12 13 Z" fill="currentColor"/>
+      <!-- Water drops -->
+      <path d="M6 8 Q6 6, 7 6 Q8 6, 8 8 Q8 10, 7 10 Q6 10, 6 8" fill="currentColor"/>
+      <path d="M16 10 Q16 8, 17 8 Q18 8, 18 10 Q18 12, 17 12 Q16 12, 16 10" fill="currentColor"/>
+    </g>
+
+    <!-- Geothermal Icon -->
+    <g id="geothermal">
+      <path d="M6 20 L8 18 L10 20 L12 16 L14 20 L16 18 L18 20 L20 22 L4 22 Z" fill="currentColor"/>
+      <rect x="10" y="8" width="4" height="10" fill="currentColor"/>
+      <rect x="9" y="6" width="6" height="4" rx="1" fill="currentColor"/>
+      <!-- Steam/heat lines -->
+      <path d="M8 12 Q7 10, 8 8 M12 12 Q11 10, 12 8 M16 12 Q15 10, 16 8" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <circle cx="12" cy="4" r="1" fill="currentColor"/>
+    </g>
+
+    <!-- Biomass Icon -->
+    <g id="biomass">
+      <path d="M12 22 Q10 20, 12 18 Q14 20, 12 22" fill="currentColor"/>
+      <path d="M12 18 Q10 16, 12 14 Q14 16, 12 18" fill="currentColor"/>
+      <path d="M12 14 Q10 12, 12 10 Q14 12, 12 14" fill="currentColor"/>
+      <circle cx="12" cy="8" r="2" fill="currentColor"/>
+      <!-- Leaves -->
+      <path d="M8 10 Q6 8, 8 6 Q10 8, 8 10" fill="currentColor"/>
+      <path d="M16 10 Q18 8, 16 6 Q14 8, 16 10" fill="currentColor"/>
+      <path d="M6 14 Q4 12, 6 10 Q8 12, 6 14" fill="currentColor"/>
+      <path d="M18 14 Q20 12, 18 10 Q16 12, 18 14" fill="currentColor"/>
+    </g>
+
+    <!-- Weather Icons -->
+    <!-- Sunny Icon -->
+    <g id="weather-sunny">
+      <circle cx="12" cy="12" r="4" fill="currentColor"/>
+      <path d="M12 2 L12 6 M12 18 L12 22 M22 12 L18 12 M6 12 L2 12 M19.07 4.93 L16.24 7.76 M7.76 16.24 L4.93 19.07 M19.07 19.07 L16.24 16.24 M7.76 7.76 L4.93 4.93" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+    <!-- Cloudy Icon -->
+    <g id="weather-cloudy">
+      <path d="M18 10 Q20 8, 22 10 Q22 12, 20 12 L6 12 Q4 12, 4 10 Q4 8, 6 8 Q8 6, 10 8 Q12 6, 14 8 Q16 8, 18 10" fill="currentColor"/>
+      <path d="M16 14 Q18 12, 20 14 Q20 16, 18 16 L8 16 Q6 16, 6 14 Q6 12, 8 12 Q10 10, 12 12 Q14 12, 16 14" fill="currentColor" opacity="0.7"/>
+    </g>
+
+    <!-- Windy Icon -->
+    <g id="weather-windy">
+      <path d="M2 8 L14 8 Q16 8, 16 6 Q16 4, 14 4 Q12 4, 12 6" stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M2 12 L18 12 Q20 12, 20 10 Q20 8, 18 8" stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M2 16 L12 16 Q14 16, 14 18 Q14 20, 12 20 Q10 20, 10 18" stroke="currentColor" stroke-width="2" fill="none"/>
+    </g>
+
+    <!-- Rainy Icon -->
+    <g id="weather-rainy">
+      <path d="M18 10 Q20 8, 22 10 Q22 12, 20 12 L6 12 Q4 12, 4 10 Q4 8, 6 8 Q8 6, 10 8 Q12 6, 14 8 Q16 8, 18 10" fill="currentColor"/>
+      <line x1="8" y1="16" x2="8" y2="20" stroke="currentColor" stroke-width="2"/>
+      <line x1="12" y1="14" x2="12" y2="18" stroke="currentColor" stroke-width="2"/>
+      <line x1="16" y1="16" x2="16" y2="20" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+    <!-- Stormy Icon -->
+    <g id="weather-stormy">
+      <path d="M18 8 Q20 6, 22 8 Q22 10, 20 10 L6 10 Q4 10, 4 8 Q4 6, 6 6 Q8 4, 10 6 Q12 4, 14 6 Q16 6, 18 8" fill="currentColor"/>
+      <path d="M10 12 L14 12 L12 16 L16 16 L12 22 L8 18 L10 18 Z" fill="currentColor"/>
+    </g>
+
+    <!-- Zone Icons -->
+    <!-- Residential Zone -->
+    <g id="zone-residential">
+      <path d="M12 2 L20 10 L20 20 L16 20 L16 14 L8 14 L8 20 L4 20 L4 10 Z" fill="currentColor"/>
+      <rect x="10" y="16" width="2" height="4" fill="white"/>
+      <rect x="6" y="6" width="2" height="2" fill="white"/>
+      <rect x="16" y="6" width="2" height="2" fill="white"/>
+    </g>
+
+    <!-- Commercial Zone -->
+    <g id="zone-commercial">
+      <rect x="4" y="6" width="16" height="16" fill="currentColor"/>
+      <rect x="6" y="8" width="2" height="2" fill="white"/>
+      <rect x="10" y="8" width="2" height="2" fill="white"/>
+      <rect x="14" y="8" width="2" height="2" fill="white"/>
+      <rect x="6" y="12" width="2" height="2" fill="white"/>
+      <rect x="10" y="12" width="2" height="2" fill="white"/>
+      <rect x="14" y="12" width="2" height="2" fill="white"/>
+      <rect x="6" y="16" width="2" height="2" fill="white"/>
+      <rect x="10" y="16" width="2" height="2" fill="white"/>
+      <rect x="14" y="16" width="2" height="2" fill="white"/>
+      <rect x="8" y="20" width="8" height="2" fill="white"/>
+    </g>
+
+    <!-- Industrial Zone -->
+    <g id="zone-industrial">
+      <rect x="6" y="8" width="12" height="14" fill="currentColor"/>
+      <rect x="4" y="12" width="2" height="10" fill="currentColor"/>
+      <rect x="18" y="10" width="2" height="12" fill="currentColor"/>
+      <rect x="8" y="4" width="2" height="6" fill="currentColor"/>
+      <rect x="14" y="2" width="2" height="8" fill="currentColor"/>
+      <!-- Smoke stacks -->
+      <circle cx="9" cy="3" r="1" fill="currentColor" opacity="0.5"/>
+      <circle cx="15" cy="1" r="1" fill="currentColor" opacity="0.5"/>
+      <circle cx="8" cy="1" r="0.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="16" cy="0.5" r="0.5" fill="currentColor" opacity="0.3"/>
+    </g>
+
+    <!-- UI Elements -->
+    <!-- Energy Flow -->
+    <g id="energy-flow">
+      <circle cx="4" cy="12" r="2" fill="currentColor">
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="12" cy="12" r="2" fill="currentColor">
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="20" cy="12" r="2" fill="currentColor">
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Efficiency Meter -->
+    <g id="efficiency-meter">
+      <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+      <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" 
+              stroke-dasharray="31.4" stroke-dashoffset="15.7" transform="rotate(-90 12 12)"/>
+      <circle cx="12" cy="12" r="4" fill="currentColor"/>
+      <text x="12" y="16" text-anchor="middle" font-size="8" fill="white">%</text>
+    </g>
+
+    <!-- Cost Icon -->
+    <g id="cost-icon">
+      <circle cx="12" cy="12" r="8" fill="currentColor"/>
+      <text x="12" y="16" text-anchor="middle" font-size="10" fill="white" font-weight="bold">$</text>
+    </g>
+
+    <!-- Carbon Reduction -->
+    <g id="carbon-reduction">
+      <circle cx="12" cy="12" r="8" fill="currentColor"/>
+      <path d="M8 8 Q12 4, 16 8 Q16 12, 12 16 Q8 12, 8 8" fill="white"/>
+      <text x="12" y="14" text-anchor="middle" font-size="6" fill="currentColor">CO₂</text>
+    </g>
+
+    <!-- Tutorial Icons -->
+    <!-- Tutorial Pointer -->
+    <g id="tutorial-pointer">
+      <path d="M2 2 L2 14 L8 10 L12 16 L16 14 L10 8 L20 8 Z" fill="currentColor"/>
+    </g>
+
+    <!-- Tutorial Light Bulb -->
+    <g id="tutorial-lightbulb">
+      <circle cx="12" cy="10" r="4" fill="currentColor"/>
+      <rect x="10" y="14" width="4" height="4" rx="1" fill="currentColor"/>
+      <rect x="9" y="18" width="6" height="2" rx="1" fill="currentColor"/>
+      <line x1="12" y1="2" x2="12" y2="4" stroke="currentColor" stroke-width="2"/>
+      <line x1="6.34" y1="4.34" x2="7.76" y2="5.76" stroke="currentColor" stroke-width="2"/>
+      <line x1="17.66" y1="4.34" x2="16.24" y2="5.76" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+    <!-- Dashboard Chart -->
+    <g id="dashboard-chart">
+      <rect x="2" y="18" width="4" height="4" fill="currentColor"/>
+      <rect x="7" y="14" width="4" height="8" fill="currentColor"/>
+      <rect x="12" y="10" width="4" height="12" fill="currentColor"/>
+      <rect x="17" y="6" width="4" height="16" fill="currentColor"/>
+    </g>
+
+    <!-- Save Icon -->
+    <g id="save-icon">
+      <rect x="4" y="2" width="16" height="20" rx="2" fill="currentColor"/>
+      <rect x="6" y="4" width="12" height="2" fill="white"/>
+      <rect x="8" y="8" width="8" height="8" fill="white"/>
+      <rect x="14" y="2" width="2" height="6" fill="white"/>
+    </g>
+
+    <!-- Load Icon -->
+    <g id="load-icon">
+      <rect x="4" y="4" width="16" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M8 12 L12 8 L16 12" stroke="currentColor" stroke-width="2" fill="none"/>
+      <line x1="12" y1="8" x2="12" y2="18" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+    <!-- Reset Icon -->
+    <g id="reset-icon">
+      <path d="M4 12 A8 8 0 1 1 12 4" stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M8 8 L4 12 L8 16" stroke="currentColor" stroke-width="2" fill="none"/>
+    </g>
+
+    <!-- Settings Gear -->
+    <g id="settings-gear">
+      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+      <path d="M12 1 L13.09 4.26 L16.64 3.09 L17.91 6.34 L21.64 7.64 L20.36 10.91 L22 14 L18.74 15.09 L19.91 18.64 L16.66 19.91 L15.36 23.64 L12.09 22.36 L10 24 L8.91 20.74 L5.36 21.91 L4.09 18.66 L0.36 17.36 L1.64 14.09 L0 11 L3.26 9.91 L2.09 6.36 L5.34 5.09 L6.64 1.36 L9.91 2.64 Z" fill="currentColor"/>
+      <circle cx="12" cy="12" r="6" fill="none" stroke="white" stroke-width="1"/>
+    </g>
+
+    <!-- Notification Icons -->
+    <!-- Success Check -->
+    <g id="success-check">
+      <circle cx="12" cy="12" r="10" fill="currentColor"/>
+      <path d="M8 12 L11 15 L16 9" stroke="white" stroke-width="2" fill="none"/>
+    </g>
+
+    <!-- Warning Triangle -->
+    <g id="warning-triangle">
+      <path d="M12 2 L22 20 L2 20 Z" fill="currentColor"/>
+      <circle cx="12" cy="17" r="1" fill="white"/>
+      <line x1="12" y1="8" x2="12" y2="14" stroke="white" stroke-width="2"/>
+    </g>
+
+    <!-- Error X -->
+    <g id="error-x">
+      <circle cx="12" cy="12" r="10" fill="currentColor"/>
+      <line x1="8" y1="8" x2="16" y2="16" stroke="white" stroke-width="2"/>
+      <line x1="16" y1="8" x2="8" y2="16" stroke="white" stroke-width="2"/>
+    </g>
+
+    <!-- Info Circle -->
+    <g id="info-circle">
+      <circle cx="12" cy="12" r="10" fill="currentColor"/>
+      <circle cx="12" cy="8" r="1" fill="white"/>
+      <line x1="12" y1="11" x2="12" y2="17" stroke="white" stroke-width="2"/>
+    </g>
+
+    <!-- Drag and Drop Icons -->
+    <!-- Drag Handle -->
+    <g id="drag-handle">
+      <circle cx="6" cy="6" r="2" fill="currentColor"/>
+      <circle cx="18" cy="6" r="2" fill="currentColor"/>
+      <circle cx="6" cy="12" r="2" fill="currentColor"/>
+      <circle cx="18" cy="12" r="2" fill="currentColor"/>
+      <circle cx="6" cy="18" r="2" fill="currentColor"/>
+      <circle cx="18" cy="18" r="2" fill="currentColor"/>
+    </g>
+
+    <!-- Drop Zone -->
+    <g id="drop-zone">
+      <rect x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4,4"/>
+      <circle cx="12" cy="12" r="4" fill="currentColor" opacity="0.3"/>
+      <path d="M8 12 L12 8 L16 12 L12 16 Z" fill="currentColor"/>
+    </g>
+
+    <!-- Plus Icon for Adding -->
+    <g id="plus-icon">
+      <circle cx="12" cy="12" r="8" fill="currentColor"/>
+      <line x1="8" y1="12" x2="16" y2="12" stroke="white" stroke-width="2"/>
+      <line x1="12" y1="8" x2="12" y2="16" stroke="white" stroke-width="2"/>
+    </g>
+
+    <!-- Minus Icon for Removing -->
+    <g id="minus-icon">
+      <circle cx="12" cy="12" r="8" fill="currentColor"/>
+      <line x1="8" y1="12" x2="16" y2="12" stroke="white" stroke-width="2"/>
+    </g>
+
+    <!-- Educational Icons -->
+    <!-- Sustainability Leaf -->
+    <g id="sustainability-leaf">
+      <path d="M12 2 Q18 4, 20 10 Q20 16, 12 22 Q4 16, 4 10 Q6 4, 12 2 Z" fill="currentColor"/>
+      <path d="M12 6 Q8 8, 8 12 Q10 16, 12 18 Q14 16, 16 12 Q16 8, 12 6" fill="white"/>
+      <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="1"/>
+      <path d="M12 10 Q10 10, 10 12 M12 12 Q14 12, 14 14" stroke="currentColor" stroke-width="1" fill="none"/>
+    </g>
+
+    <!-- Globe Earth -->
+    <g id="globe-earth">
+      <circle cx="12" cy="12" r="8" fill="currentColor"/>
+      <path d="M4 12 Q8 8, 12 12 Q16 16, 20 12" stroke="white" stroke-width="1.5" fill="none"/>
+      <path d="M12 4 Q8 8, 12 12 Q16 8, 12 4" stroke="white" stroke-width="1.5" fill="none"/>
+      <path d="M12 20 Q16 16, 12 12 Q8 16, 12 20" stroke="white" stroke-width="1.5" fill="none"/>
+      <circle cx="12" cy="12" r="8" fill="none" stroke="white" stroke-width="1"/>
+    </g>
+
+    <!-- Progress Bar -->
+    <g id="progress-bar">
+      <rect x="2" y="10" width="20" height="4" rx="2" fill="currentColor" opacity="0.3"/>
+      <rect x="2" y="10" width="12" height="4" rx="2" fill="currentColor"/>
+      <circle cx="14" cy="12" r="3" fill="currentColor"/>
+    </g>
+
+    <!-- Arrow Right -->
+    <g id="arrow-right">
+      <path d="M8 4 L16 12 L8 20" stroke="currentColor" stroke-width="2" fill="none"/>
+    </g>
+
+    <!-- Arrow Left -->
+    <g id="arrow-left">
+      <path d="M16 4 L8 12 L16 20" stroke="currentColor" stroke-width="2" fill="none"/>
+    </g>
+
+    <!-- Menu Hamburger -->
+    <g id="menu-hamburger">
+      <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+      <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
+      <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+    <!-- Close X -->
+    <g id="close-x">
+      <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+      <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+    <!-- Search Icon -->
+    <g id="search-icon">
+      <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+    <!-- Filter Icon -->
+    <g id="filter-icon">
+      <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46" fill="currentColor"/>
+    </g>
+
+    <!-- Calendar Icon -->
+    <g id="calendar-icon">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/>
+      <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/>
+      <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+    </g>
+
+  </defs>
+</svg>

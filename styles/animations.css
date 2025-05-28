@@ -1,0 +1,382 @@
+/* Animation Definitions */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px hsl(var(--accent-color) / 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px hsl(var(--accent-color) / 0.8);
+    }
+}
+
+@keyframes energyFlow {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.3;
+    }
+}
+
+@keyframes weatherEffect {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-5px) rotate(5deg);
+    }
+    75% {
+        transform: translateY(5px) rotate(-5deg);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Animation Classes */
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+.animate-spin {
+    animation: spin 2s linear infinite;
+}
+
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-glow {
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+.animate-energy-flow {
+    animation: energyFlow 2s ease-in-out infinite;
+}
+
+.animate-weather {
+    animation: weatherEffect 3s ease-in-out infinite;
+}
+
+/* Energy Source Specific Animations */
+.energy-source[data-type="wind"] .energy-icon i {
+    animation: spin 3s linear infinite;
+}
+
+.energy-source[data-type="solar"] .energy-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.energy-source[data-type="hydro"] .energy-icon {
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.energy-placement[data-type="wind"] {
+    animation: spin 4s linear infinite;
+}
+
+.energy-placement[data-type="solar"] {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.energy-placement[data-type="hydro"] {
+    animation: energyFlow 2s ease-in-out infinite;
+}
+
+.energy-placement[data-type="geothermal"] {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.energy-placement[data-type="biomass"] {
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+/* Weather Animations */
+.weather-sunny .weather-icon {
+    animation: pulse 2s ease-in-out infinite;
+    color: hsl(var(--solar));
+}
+
+.weather-cloudy .weather-icon {
+    animation: bounce 3s ease-in-out infinite;
+    color: hsl(var(--text-secondary));
+}
+
+.weather-windy .weather-icon {
+    animation: weatherEffect 1.5s ease-in-out infinite;
+    color: hsl(var(--wind));
+}
+
+.weather-rainy .weather-icon {
+    animation: bounce 1s ease-in-out infinite;
+    color: hsl(var(--hydro));
+}
+
+.weather-stormy .weather-icon {
+    animation: spin 2s linear infinite;
+    color: hsl(var(--danger));
+}
+
+/* Grid Cell Animations */
+.grid-cell.placing {
+    animation: glow 0.5s ease-in-out;
+}
+
+.grid-cell.powered {
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-cell.powered::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shimmer 2s infinite;
+}
+
+/* Dashboard Animations */
+.metric-value.updating {
+    animation: pulse 0.5s ease-in-out;
+}
+
+.performance-fill {
+    position: relative;
+    overflow: hidden;
+}
+
+.performance-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shimmer 3s infinite;
+}
+
+/* Energy Flow Visualization */
+.energy-flow {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: hsl(var(--accent-color));
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.energy-flow.solar {
+    background: hsl(var(--solar));
+    box-shadow: 0 0 10px hsl(var(--solar));
+}
+
+.energy-flow.wind {
+    background: hsl(var(--wind));
+    box-shadow: 0 0 10px hsl(var(--wind));
+}
+
+.energy-flow.hydro {
+    background: hsl(var(--hydro));
+    box-shadow: 0 0 10px hsl(var(--hydro));
+}
+
+.energy-flow.geothermal {
+    background: hsl(var(--geothermal));
+    box-shadow: 0 0 10px hsl(var(--geothermal));
+}
+
+.energy-flow.biomass {
+    background: hsl(var(--biomass));
+    box-shadow: 0 0 10px hsl(var(--biomass));
+}
+
+/* Tutorial Animations */
+.tutorial-highlight {
+    position: relative;
+    z-index: 1001;
+}
+
+.tutorial-highlight::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 3px solid hsl(var(--accent-color));
+    border-radius: 8px;
+    animation: pulse 1s infinite;
+    z-index: -1;
+}
+
+/* Loading Animations */
+.loading {
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid hsl(var(--border));
+    border-top-color: hsl(var(--primary-color));
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Transition Effects */
+.fade-transition {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.scale-transition {
+    transition: transform 0.3s ease-in-out;
+}
+
+.scale-transition:hover {
+    transform: scale(1.05);
+}
+
+/* Success/Error Animations */
+.success-animation {
+    animation: bounce 0.6s ease-in-out;
+    background: hsl(var(--success) / 0.1);
+    border-color: hsl(var(--success));
+}
+
+.error-animation {
+    animation: shake 0.6s ease-in-out;
+    background: hsl(var(--danger) / 0.1);
+    border-color: hsl(var(--danger));
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Responsive Animation Adjustments */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .animate-pulse,
+    .animate-bounce,
+    .animate-glow {
+        animation-duration: 3s;
+    }
+    
+    .energy-placement[data-type="wind"] {
+        animation-duration: 6s;
+    }
+    
+    .weather-icon {
+        animation-duration: 4s;
+    }
+}

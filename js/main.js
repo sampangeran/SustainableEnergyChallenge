@@ -170,13 +170,38 @@ class RenewableEnergySimulator {
                 this.dragDropHandler.handleDragEnd(e);
             });
             
-            // Add click handler for information
+            // Add click handler for placement mode
             source.addEventListener('click', (e) => {
-                if (e.detail === 2) { // Double click
+                if (e.detail === 1) { // Single click
+                    this.setEnergyPlacementMode(source.dataset.type);
+                } else if (e.detail === 2) { // Double click
                     this.showEnergySourceInfo(source.dataset.type);
                 }
             });
         });
+    }
+
+    setEnergyPlacementMode(sourceType) {
+        // Clear any existing placement mode
+        document.querySelectorAll('.energy-source').forEach(source => {
+            source.classList.remove('selected-for-placement');
+        });
+        
+        // Set new placement mode
+        this.selectedEnergyType = sourceType;
+        const sourceElement = document.querySelector(`[data-type="${sourceType}"]`);
+        if (sourceElement) {
+            sourceElement.classList.add('selected-for-placement');
+        }
+        
+        // Update mode to energy placement
+        this.setMode('energy');
+        this.zoneManager.setMode('energy');
+        
+        // Show notification
+        this.showNotification(`Click on a zone cell to place ${sourceType} panels`, 'info');
+        
+        console.log(`Energy placement mode activated: ${sourceType}`);
     }
 
     initializeModeControls() {
@@ -305,6 +330,9 @@ class RenewableEnergySimulator {
         
         if (hasEnergySource) {
             this.removeEnergySource(row, col);
+        } else if (this.selectedEnergyType) {
+            // Place the selected energy source
+            this.placeEnergySource(row, col, this.selectedEnergyType);
         } else {
             this.showEnergyPlacementOptions(row, col, event);
         }

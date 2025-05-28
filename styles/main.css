@@ -213,6 +213,13 @@ body {
     background: hsl(var(--biomass));
 }
 
+.energy-source.selected-for-placement {
+    border: 3px solid hsl(var(--accent-color));
+    background: hsl(var(--accent-color) / 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(var(--accent-color) / 0.3);
+}
+
 .energy-info h4 {
     margin-bottom: 0.25rem;
     color: hsl(var(--text-primary));

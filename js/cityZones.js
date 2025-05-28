@@ -161,10 +161,22 @@ class CityZone {
 
     getZoneInfo(energyManager, weather) {
         const totalDemand = this.getTotalEnergyDemand();
-        const totalProduction = this.getTotalEnergyProduction(energyManager, weather);
-        const powerRatio = totalDemand > 0 ? totalProduction / totalDemand : 1;
         const baseIncome = this.cells.size * this.income;
-        const actualIncome = this.getTotalIncome(energyManager, weather);
+        
+        // Safely calculate production and income
+        let totalProduction = 0;
+        let actualIncome = baseIncome;
+        let powerRatio = 1;
+        
+        try {
+            totalProduction = this.getTotalEnergyProduction(energyManager, weather);
+            actualIncome = this.getTotalIncome(energyManager, weather);
+            powerRatio = totalDemand > 0 ? totalProduction / totalDemand : 1;
+        } catch (error) {
+            // If energy calculation fails, assume partial power
+            powerRatio = 0.5;
+            actualIncome = Math.floor(baseIncome * 0.5);
+        }
         
         return {
             type: this.type,
@@ -386,7 +398,7 @@ class CityZoneManager {
         
         this.zones.forEach((zone, type) => {
             stats[type] = {
-                ...zone.getZoneInfo(),
+                ...zone.getZoneInfo(energyManager, weather),
                 production: zone.getTotalEnergyProduction(energyManager, weather),
                 balance: zone.getEnergyBalance(energyManager, weather),
                 efficiency: zone.getEfficiencyPercentage(energyManager, weather),

@@ -512,7 +512,9 @@ class RenewableEnergySimulator {
             if (this.energyManager && this.weatherSystem && zoneType) {
                 const zone = this.zoneManager.zones.get(zoneType);
                 if (zone && zone.income > 0) { // Only check income-generating zones
-                    const totalProduction = this.energyManager.getTotalOutput(this.weatherSystem.getCurrentWeather());
+                    const currentWeather = this.weatherSystem.getCurrentWeather();
+                    const weatherType = currentWeather?.type || 'sunny';
+                    const totalProduction = this.energyManager.getTotalOutput(weatherType);
                     const totalDemand = this.zoneManager.getTotalEnergyDemand();
                     
                     // Only show power shortage if there's actual demand and insufficient production
@@ -523,7 +525,7 @@ class RenewableEnergySimulator {
                         const powerIcon = document.createElement('div');
                         powerIcon.className = 'power-status';
                         powerIcon.innerHTML = '⚡';
-                        powerIcon.title = `Power shortage: ${Math.round(overallRatio * 100)}% supplied`;
+                        powerIcon.title = `Power shortage: ${Math.round(overallRatio * 100)}% supplied (${currentWeather?.name || 'Sunny'} weather)`;
                         cell.appendChild(powerIcon);
                     }
                 }
@@ -586,6 +588,9 @@ class RenewableEnergySimulator {
     handleWeatherChange(weatherData) {
         this.updateWeatherDisplay();
         this.dashboard.updateDashboard();
+        
+        // Update grid display to reflect weather-affected power shortages
+        this.updateGridDisplay();
         
         // Show weather change notification
         const weather = weatherData.current;

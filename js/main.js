@@ -167,12 +167,6 @@ class RenewableEnergySimulator {
         
         // Add click handler for zone mode
         cell.addEventListener('click', (e) => {
-            // Only prevent click if we're actively dragging
-            if (this.isDragging) {
-                e.preventDefault();
-                e.stopPropagation();
-                return;
-            }
             this.handleCellClick(row, col, e);
         });
         
@@ -338,39 +332,8 @@ class RenewableEnergySimulator {
             this.dragDropHandler.handleDragLeave(e);
         });
 
-        // Add drag selection events - only start on mousemove, not mousedown
-        gridContainer.addEventListener('mousedown', (e) => {
-            if (e.button === 0 && e.target.closest('.grid-cell') && !e.target.closest('.energy-placement')) { 
-                // Just prepare for potential drag, don't start yet
-                this.prepareDragSelection(e);
-            }
-        });
-
-        gridContainer.addEventListener('mousemove', (e) => {
-            if (this.isDragging) {
-                this.updateDragSelection(e);
-            }
-        });
-
-        gridContainer.addEventListener('mouseup', (e) => {
-            if (this.isDragging) {
-                this.endDragSelection(e);
-            }
-        });
-
-        // Global mouse up to handle drag end outside grid
-        document.addEventListener('mouseup', (e) => {
-            if (this.isDragging) {
-                this.endDragSelection(e);
-            }
-        });
-
-        // Prevent context menu during drag
-        gridContainer.addEventListener('contextmenu', (e) => {
-            if (this.isDragging) {
-                e.preventDefault();
-            }
-        });
+        // Temporarily disable drag selection to fix single clicks
+        // TODO: Re-implement drag selection properly later
     }
 
     prepareDragSelection(event) {

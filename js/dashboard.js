@@ -98,8 +98,8 @@ class EnergyDashboard {
 
     calculateMetrics(weather) {
         const energyManagerProduction = this.energyManager.getTotalOutput(weather);
-        const zoneEnergyProduction = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
-        const totalProduction = energyManagerProduction + zoneEnergyProduction;
+        // For now, don't double-count energy production from zones
+        const totalProduction = energyManagerProduction;
         const totalConsumption = this.zoneManager.getTotalEnergyDemand();
         const totalCost = this.energyManager.getTotalCost();
         const totalInstallations = this.energyManager.getTotalInstallations();

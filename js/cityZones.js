@@ -31,20 +31,25 @@ class CityZone {
         const baseIncome = this.cells.size * this.income;
         if (baseIncome === 0) return 0;
         
-        // Calculate income reduction based on energy deficit
-        const energyBalance = this.getEnergyBalance(energyManager, weather);
-        const totalDemand = this.getTotalEnergyDemand();
-        
-        if (totalDemand === 0) return baseIncome; // No energy demand = full income
-        
-        if (energyBalance >= 0) {
-            // Full power = full income
-            return baseIncome;
-        } else {
-            // Insufficient power = reduced income proportionally
-            const production = this.getTotalEnergyProduction(energyManager, weather);
-            const powerRatio = production / totalDemand;
-            return Math.max(0, baseIncome * powerRatio);
+        // Safely calculate income with error handling
+        try {
+            const energyBalance = this.getEnergyBalance(energyManager, weather);
+            const totalDemand = this.getTotalEnergyDemand();
+            
+            if (totalDemand === 0) return baseIncome; // No energy demand = full income
+            
+            if (energyBalance >= 0) {
+                // Full power = full income
+                return baseIncome;
+            } else {
+                // Insufficient power = reduced income proportionally
+                const production = this.getTotalEnergyProduction(energyManager, weather);
+                const powerRatio = Math.max(0.1, production / totalDemand); // Minimum 10% income
+                return Math.floor(baseIncome * powerRatio);
+            }
+        } catch (error) {
+            // If energy calculation fails, return reduced income
+            return Math.floor(baseIncome * 0.5);
         }
     }
 
@@ -60,25 +65,42 @@ class CityZone {
     }
 
     getTotalEnergyProduction(energyManager, weather) {
+        // Return 0 if no energy manager or weather provided
         if (!energyManager || !weather) return 0;
         
         let totalProduction = 0;
         
-        try {
-            this.energySources.forEach((sources, cellId) => {
-                sources.forEach(sourceType => {
-                    const source = energyManager.getSource(sourceType);
-                    if (source) {
-                        const baseOutput = source.getCurrentOutput(weather);
-                        const terrainBonus = this.getTerrainBonus(sourceType);
-                        totalProduction += (baseOutput * terrainBonus);
-                    }
-                });
+        // Get base energy output values (simplified calculation)
+        const energyOutputs = {
+            solar: 50,
+            wind: 45,
+            hydro: 60,
+            geothermal: 55,
+            biomass: 40,
+            coal: 80,
+            naturalgas: 70
+        };
+        
+        // Apply weather effects
+        const weatherEffects = {
+            sunny: { solar: 1.3, wind: 0.8, hydro: 0.9, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
+            cloudy: { solar: 0.7, wind: 0.9, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
+            windy: { solar: 0.8, wind: 1.4, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
+            rainy: { solar: 0.5, wind: 1.2, hydro: 1.5, geothermal: 1.0, biomass: 0.8, coal: 1.0, naturalgas: 1.0 },
+            snowy: { solar: 0.3, wind: 1.1, hydro: 0.7, geothermal: 1.0, biomass: 0.6, coal: 1.0, naturalgas: 1.0 }
+        };
+        
+        const weatherType = weather.type || 'sunny';
+        const currentWeatherEffects = weatherEffects[weatherType] || weatherEffects.sunny;
+        
+        this.energySources.forEach((sources, cellId) => {
+            sources.forEach(sourceType => {
+                const baseOutput = energyOutputs[sourceType] || 0;
+                const weatherMultiplier = currentWeatherEffects[sourceType] || 1.0;
+                const terrainBonus = this.getTerrainBonus(sourceType);
+                totalProduction += (baseOutput * weatherMultiplier * terrainBonus);
             });
-        } catch (error) {
-            console.log('Energy production calculation error:', error);
-            return 0;
-        }
+        });
         
         return totalProduction;
     }
@@ -116,6 +138,10 @@ class CityZone {
     }
 
     getEnergyBalance(energyManager, weather) {
+        if (!energyManager || !weather) {
+            return -this.getTotalEnergyDemand(); // Assume no power if no manager
+        }
+        
         const production = this.getTotalEnergyProduction(energyManager, weather);
         const demand = this.getTotalEnergyDemand();
         return production - demand;
@@ -390,8 +416,13 @@ class CityZoneManager {
 
     getOptimalPlacements(sourceType, energyManager, weather) {
         const recommendations = [];
-        const source = energyManager.getSource(sourceType);
         
+        // Check if energyManager is available
+        if (!energyManager || typeof energyManager.getSource !== 'function') {
+            return recommendations;
+        }
+        
+        const source = energyManager.getSource(sourceType);
         if (!source) return recommendations;
         
         // Check each zone for optimal placement

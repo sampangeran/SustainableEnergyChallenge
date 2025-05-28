@@ -127,8 +127,14 @@ body {
 }
 
 .btn-danger {
-    background: hsl(var(--danger));
-    color: white;
+    background: #e74c3c !important;
+    color: white !important;
+}
+
+.btn-danger:hover {
+    background: #c0392b !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(var(--shadow));
 }
 
 .btn.active {

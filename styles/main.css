@@ -495,7 +495,7 @@ body {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 9999;
     left: 0;
     top: 0;
     width: 100%;
@@ -512,6 +512,7 @@ body {
     width: 90%;
     max-width: 800px;
     position: relative;
+    z-index: 10000;
     box-shadow: 0 10px 40px hsl(var(--shadow));
     max-height: 80vh;
     overflow-y: auto;

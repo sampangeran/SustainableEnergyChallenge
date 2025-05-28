@@ -95,9 +95,17 @@ class DragDropHandler {
         // Add dragging class
         this.draggedElement.classList.add('dragging');
         
-        // Set drag data
-        event.dataTransfer.setData('text/plain', this.draggedSourceType);
-        event.dataTransfer.effectAllowed = 'copy';
+        // Set drag data with fallback
+        if (event.dataTransfer) {
+            event.dataTransfer.setData('text/plain', this.draggedSourceType);
+            event.dataTransfer.setData('application/json', JSON.stringify({
+                type: this.draggedSourceType
+            }));
+            event.dataTransfer.effectAllowed = 'copy';
+        }
+        
+        // Store in global variable as backup
+        window.currentDraggedType = this.draggedSourceType;
         
         // Create drag preview
         this.createDragPreview(event);
@@ -164,13 +172,34 @@ class DragDropHandler {
 
     handleDrop(event) {
         event.preventDefault();
+        console.log('Drop event triggered!');
         
         const cell = event.target.closest('.grid-cell');
-        if (!cell) return;
+        if (!cell) {
+            console.log('No grid cell found for drop');
+            return;
+        }
         
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
-        const sourceType = this.draggedSourceType || event.dataTransfer.getData('text/plain');
+        
+        // Try multiple ways to get the source type
+        let sourceType = this.draggedSourceType;
+        if (!sourceType && event.dataTransfer) {
+            sourceType = event.dataTransfer.getData('text/plain');
+        }
+        if (!sourceType && event.dataTransfer) {
+            try {
+                const jsonData = event.dataTransfer.getData('application/json');
+                if (jsonData) {
+                    const parsed = JSON.parse(jsonData);
+                    sourceType = parsed.type;
+                }
+            } catch (e) {}
+        }
+        if (!sourceType) {
+            sourceType = window.currentDraggedType;
+        }
         
         console.log(`Attempting to drop ${sourceType} at ${row},${col}`);
         

@@ -486,13 +486,8 @@ class RenewableEnergySimulator {
     }
 
     applyEnergyToSelectedCells(event) {
-        // Get the currently active energy source type from placement mode
-        const energyPlacementButtons = document.querySelectorAll('.energy-source.active');
-        let activeEnergyType = null;
-        
-        if (energyPlacementButtons.length > 0) {
-            activeEnergyType = energyPlacementButtons[0].dataset.type;
-        }
+        // Use the stored selected energy type from placement mode
+        const activeEnergyType = this.selectedEnergyType;
         
         if (activeEnergyType) {
             // Place the active energy source type on all valid selected cells

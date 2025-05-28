@@ -162,36 +162,11 @@ class RenewableEnergySimulator {
         cell.dataset.col = col;
         cell.id = `cell-${row}-${col}`;
         
-        // Simplified event handlers
-        cell.addEventListener('click', (e) => {
-            alert(`Cell ${row}, ${col} clicked!`); // Use alert to bypass console issues
-            this.handleCellClick(row, col, e);
-        });
-        
-        // Add context menu for advanced options
-        cell.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            this.showCellContextMenu(row, col, e);
-        });
-        
-        // Add drag and drop event listeners to each cell
-        cell.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            this.dragDropHandler.handleDragOver(e);
-        });
-        
-        cell.addEventListener('drop', (e) => {
-            e.preventDefault();
-            this.dragDropHandler.handleDrop(e);
-        });
-        
-        cell.addEventListener('dragenter', (e) => {
-            e.preventDefault();
-        });
-        
-        cell.addEventListener('dragleave', (e) => {
-            this.dragDropHandler.handleDragLeave(e);
-        });
+        // Use the simplest possible click handler
+        cell.onclick = () => {
+            alert(`Clicked cell ${row}, ${col}`);
+            this.handleCellClick(row, col, null);
+        };
         
         return cell;
     }

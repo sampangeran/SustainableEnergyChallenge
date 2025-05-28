@@ -4,12 +4,13 @@
  */
 
 class CityZone {
-    constructor(type, name, energyDemand, description, population = 0) {
+    constructor(type, name, energyDemand, description, population = 0, income = 0) {
         this.type = type;
         this.name = name;
         this.energyDemand = energyDemand; // kW per cell
         this.description = description;
         this.population = population;
+        this.income = income; // $ per cell per hour
         this.cells = new Set(); // Grid cells belonging to this zone
         this.energySources = new Map(); // Energy sources in this zone
     }
@@ -24,6 +25,10 @@ class CityZone {
 
     getTotalEnergyDemand() {
         return this.cells.size * this.energyDemand;
+    }
+
+    getTotalIncome() {
+        return this.cells.size * this.income;
     }
 
     addEnergySource(cellId, sourceType) {
@@ -134,7 +139,8 @@ class CityZoneManager {
             'Residential Zone',
             50, // 50 kW per cell
             'Housing areas with moderate energy consumption for lighting, heating, and appliances.',
-            100 // 100 people per cell
+            100, // 100 people per cell
+            120 // $120 per cell per hour (taxes, utilities, fees)
         ));
 
         this.zones.set('commercial', new CityZone(
@@ -142,7 +148,8 @@ class CityZoneManager {
             'Commercial Zone',
             100, // 100 kW per cell
             'Business districts with offices, shops, and services requiring steady power.',
-            50 // 50 workers per cell
+            50, // 50 workers per cell
+            250 // $250 per cell per hour (business taxes, licenses, permits)
         ));
 
         this.zones.set('industrial', new CityZone(
@@ -150,7 +157,8 @@ class CityZoneManager {
             'Industrial Zone',
             200, // 200 kW per cell
             'Manufacturing and heavy industry with high energy demands for machinery.',
-            25 // 25 workers per cell
+            25, // 25 workers per cell
+            400 // $400 per cell per hour (industrial taxes, export revenue)
         ));
 
         // Add specialized terrain zones that boost renewable energy efficiency
@@ -285,6 +293,22 @@ class CityZoneManager {
     getTotalEnergyProduction(energyManager, weather) {
         return Array.from(this.zones.values())
             .reduce((total, zone) => total + zone.getTotalEnergyProduction(energyManager, weather), 0);
+    }
+
+    getTotalIncome() {
+        return Array.from(this.zones.values())
+            .reduce((total, zone) => total + zone.getTotalIncome(), 0);
+    }
+
+    getIncomeByZoneType() {
+        const incomeBreakdown = {};
+        this.zones.forEach((zone, zoneType) => {
+            const income = zone.getTotalIncome();
+            if (income > 0) {
+                incomeBreakdown[zoneType] = income;
+            }
+        });
+        return incomeBreakdown;
     }
 
     getOverallEfficiency(energyManager, weather) {

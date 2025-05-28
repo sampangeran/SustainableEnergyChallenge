@@ -120,6 +120,10 @@ class EnergyDashboard {
         // Get zone statistics
         const zoneStats = this.zoneManager.getZoneStats(this.energyManager, weather);
         
+        // Calculate income metrics
+        const totalIncome = this.zoneManager.getTotalIncome();
+        const incomeBreakdown = this.zoneManager.getIncomeByZoneType();
+        
         return {
             totalProduction,
             totalConsumption,
@@ -130,6 +134,8 @@ class EnergyDashboard {
             sustainabilityData,
             energyMix,
             zoneStats,
+            totalIncome,
+            incomeBreakdown,
             weather,
             timestamp: Date.now()
         };

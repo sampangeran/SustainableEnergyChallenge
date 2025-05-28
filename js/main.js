@@ -289,8 +289,6 @@ class RenewableEnergySimulator {
 
     setupHeaderControls() {
         const tutorialBtn = document.getElementById('tutorial-btn');
-        const saveBtn = document.getElementById('save-btn');
-        const loadBtn = document.getElementById('load-btn');
         const resetBtn = document.getElementById('reset-btn');
         
         if (tutorialBtn) {
@@ -303,18 +301,6 @@ class RenewableEnergySimulator {
         if (budgetBtn) {
             budgetBtn.addEventListener('click', () => {
                 this.budgetPlanner.show();
-            });
-        }
-        
-        if (saveBtn) {
-            saveBtn.addEventListener('click', () => {
-                this.saveState();
-            });
-        }
-        
-        if (loadBtn) {
-            loadBtn.addEventListener('click', () => {
-                this.loadState();
             });
         }
         

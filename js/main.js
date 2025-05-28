@@ -162,19 +162,9 @@ class RenewableEnergySimulator {
         cell.dataset.col = col;
         cell.id = `cell-${row}-${col}`;
         
-        // Test if the cell is even receiving events
-        cell.addEventListener('mouseenter', (e) => {
-            console.log(`Mouse entered cell ${row}, ${col}`);
-            cell.style.backgroundColor = 'red'; // Visual debug
-        });
-        
-        cell.addEventListener('mouseleave', (e) => {
-            console.log(`Mouse left cell ${row}, ${col}`);
-            cell.style.backgroundColor = ''; // Reset color
-        });
-        
+        // Simplified event handlers
         cell.addEventListener('click', (e) => {
-            console.log(`Click event fired on cell ${row}, ${col}`);
+            alert(`Cell ${row}, ${col} clicked!`); // Use alert to bypass console issues
             this.handleCellClick(row, col, e);
         });
         

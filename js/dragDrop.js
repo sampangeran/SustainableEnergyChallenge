@@ -170,7 +170,7 @@ class DragDropHandler {
         
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
-        const sourceType = event.dataTransfer.getData('text/plain');
+        const sourceType = this.draggedSourceType || event.dataTransfer.getData('text/plain');
         
         console.log(`Attempting to drop ${sourceType} at ${row},${col}`);
         

@@ -338,11 +338,11 @@ class RenewableEnergySimulator {
             this.dragDropHandler.handleDragLeave(e);
         });
 
-        // Add drag selection events
+        // Add drag selection events - only start on mousemove, not mousedown
         gridContainer.addEventListener('mousedown', (e) => {
             if (e.button === 0 && e.target.closest('.grid-cell') && !e.target.closest('.energy-placement')) { 
-                // Left mouse button, on a grid cell, but not on an energy source
-                this.startDragSelection(e);
+                // Just prepare for potential drag, don't start yet
+                this.prepareDragSelection(e);
             }
         });
 
@@ -373,26 +373,42 @@ class RenewableEnergySimulator {
         });
     }
 
-    startDragSelection(event) {
+    prepareDragSelection(event) {
         const cellElement = event.target.closest('.grid-cell');
         if (!cellElement) return;
 
         const [row, col] = cellElement.id.split('-').slice(1).map(Number);
         
-        // Set up drag detection
+        // Just store the starting position, don't interfere with clicks
         this.dragStartTime = Date.now();
         this.dragStartPosition = { x: event.clientX, y: event.clientY };
         this.dragStartCell = { row, col };
-        this.selectedCells.clear();
-        this.selectedCells.add(`${row}-${col}`);
         
-        // Don't prevent default for single clicks - let them through normally
-        // Only prevent text selection if we actually start dragging
+        // Don't add to selectedCells yet - wait for actual drag
+    }
+
+    startDragSelection(event) {
+        if (!this.dragStartCell) return;
+        
+        // Now we're actually starting to drag
+        this.selectedCells.clear();
+        this.selectedCells.add(`${this.dragStartCell.row}-${this.dragStartCell.col}`);
+        this.isDragging = true;
+        
+        // Prevent text selection during drag
+        event.preventDefault();
+        
+        this.updateSelectedCellsDisplay();
     }
 
     updateDragSelection(event) {
-        // Check if we have started dragging and moved enough distance
-        if (!this.dragStartCell) return;
+        // Check if we have a potential drag start
+        if (!this.dragStartCell || this.isDragging) {
+            if (this.isDragging) {
+                this.continueCurrentDrag(event);
+            }
+            return;
+        }
         
         const distance = Math.sqrt(
             Math.pow(event.clientX - this.dragStartPosition.x, 2) + 
@@ -400,14 +416,13 @@ class RenewableEnergySimulator {
         );
         
         // Only start dragging if moved more than 5 pixels
-        if (distance > 5 && !this.isDragging) {
-            this.isDragging = true;
-            // Now that we're dragging, prevent default behavior
-            event.preventDefault();
+        if (distance > 5) {
+            this.startDragSelection(event);
+            this.continueCurrentDrag(event);
         }
-        
-        if (!this.isDragging) return;
+    }
 
+    continueCurrentDrag(event) {
         const cellElement = event.target.closest('.grid-cell');
         if (!cellElement) return;
 
@@ -437,7 +452,6 @@ class RenewableEnergySimulator {
 
     endDragSelection(event) {
         const wasDragging = this.isDragging;
-        const hadDragStart = this.dragStartCell !== null;
         
         if (wasDragging) {
             // This was a real drag operation
@@ -453,17 +467,16 @@ class RenewableEnergySimulator {
             setTimeout(() => {
                 this.clearSelection();
             }, 100);
-        } else if (hadDragStart) {
-            // This was a single click - handle it through the normal click handler
-            // Don't call handleCellClick here to avoid double processing
-            this.clearSelection();
         }
         
-        // Reset drag state
+        // Reset drag state - this allows normal clicks to work
         this.isDragging = false;
         this.dragStartCell = null;
         this.dragStartTime = null;
         this.dragStartPosition = null;
+        
+        // Clear any selection highlights
+        this.clearSelection();
     }
 
     applyZoneToSelectedCells() {

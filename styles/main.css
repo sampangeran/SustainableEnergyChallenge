@@ -601,6 +601,15 @@ body {
     color: hsl(var(--text-primary));
 }
 
+.weather-impact {
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
 /* Performance Bar */
 .performance-bar {
     position: relative;

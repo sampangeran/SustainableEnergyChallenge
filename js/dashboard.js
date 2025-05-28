@@ -27,6 +27,8 @@ class EnergyDashboard {
         // Cache DOM elements for performance
         this.elements = {
             totalProduction: document.getElementById('total-production'),
+            currentProduction: document.getElementById('current-production'),
+            weatherImpact: document.getElementById('weather-impact'),
             totalConsumption: document.getElementById('total-consumption'),
             efficiency: document.getElementById('efficiency'),
             totalCost: document.getElementById('total-cost'),
@@ -312,6 +314,27 @@ class EnergyDashboard {
             this.elements.efficiency.textContent = efficiencyText;
             this.elements.efficiency.style.color = this.getEfficiencyColor(metrics.efficiency);
             this.addUpdateAnimation(this.elements.efficiency);
+        }
+
+        // Update current energy production with weather effects
+        if (this.elements.currentProduction) {
+            const weather = this.weatherSystem.getCurrentWeather();
+            const weatherType = weather?.type || 'sunny';
+            this.elements.currentProduction.textContent = `${Math.round(metrics.totalProduction)} kW`;
+            this.addUpdateAnimation(this.elements.currentProduction);
+        }
+
+        // Update weather impact indicator
+        if (this.elements.weatherImpact) {
+            const weather = this.weatherSystem.getCurrentWeather();
+            const weatherType = weather?.type || 'sunny';
+            const baseProduction = this.energyManager.getTotalOutput('sunny');
+            const currentProduction = this.energyManager.getTotalOutput(weatherType);
+            const impact = baseProduction > 0 ? ((currentProduction - baseProduction) / baseProduction) * 100 : 0;
+            
+            this.elements.weatherImpact.textContent = impact >= 0 ? `+${Math.round(impact)}%` : `${Math.round(impact)}%`;
+            this.elements.weatherImpact.style.color = impact >= 0 ? '#27ae60' : '#e74c3c';
+            this.addUpdateAnimation(this.elements.weatherImpact);
         }
     }
 

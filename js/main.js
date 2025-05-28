@@ -521,6 +521,22 @@ class RenewableEnergySimulator {
         // Add zone class
         if (zoneType) {
             cell.classList.add(`zone-${zoneType}`);
+            
+            // Check if zone is underpowered
+            const zone = this.zoneManager.zones.get(zoneType);
+            if (zone && zone.income > 0) { // Only check income-generating zones
+                const weather = this.weatherSystem.getCurrentWeather();
+                const zoneInfo = zone.getZoneInfo(this.energyManager, weather);
+                if (!zoneInfo.isPowered) {
+                    cell.classList.add('underpowered');
+                    // Add power deficit indicator
+                    const powerIcon = document.createElement('div');
+                    powerIcon.className = 'power-status';
+                    powerIcon.innerHTML = '⚡';
+                    powerIcon.title = `Power shortage: ${Math.round(zoneInfo.powerRatio * 100)}% supplied`;
+                    cell.appendChild(powerIcon);
+                }
+            }
         }
         
         // Add energy source if present
@@ -536,7 +552,9 @@ class RenewableEnergySimulator {
                 wind: 'fas fa-fan',
                 hydro: 'fas fa-water',
                 geothermal: 'fas fa-mountain',
-                biomass: 'fas fa-seedling'
+                biomass: 'fas fa-seedling',
+                coal: 'fas fa-industry',
+                naturalgas: 'fas fa-fire'
             };
             
             energyIcon.innerHTML = `<i class="${iconMap[energySource] || 'fas fa-bolt'}"></i>`;

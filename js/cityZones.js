@@ -27,8 +27,25 @@ class CityZone {
         return this.cells.size * this.energyDemand;
     }
 
-    getTotalIncome() {
-        return this.cells.size * this.income;
+    getTotalIncome(energyManager, weather) {
+        const baseIncome = this.cells.size * this.income;
+        if (baseIncome === 0) return 0;
+        
+        // Calculate income reduction based on energy deficit
+        const energyBalance = this.getEnergyBalance(energyManager, weather);
+        const totalDemand = this.getTotalEnergyDemand();
+        
+        if (totalDemand === 0) return baseIncome; // No energy demand = full income
+        
+        if (energyBalance >= 0) {
+            // Full power = full income
+            return baseIncome;
+        } else {
+            // Insufficient power = reduced income proportionally
+            const production = this.getTotalEnergyProduction(energyManager, weather);
+            const powerRatio = production / totalDemand;
+            return Math.max(0, baseIncome * powerRatio);
+        }
     }
 
     addEnergySource(cellId, sourceType) {
@@ -109,15 +126,27 @@ class CityZone {
         return Math.min(100, (production / demand) * 100);
     }
 
-    getZoneInfo() {
+    getZoneInfo(energyManager, weather) {
+        const totalDemand = this.getTotalEnergyDemand();
+        const totalProduction = this.getTotalEnergyProduction(energyManager, weather);
+        const powerRatio = totalDemand > 0 ? totalProduction / totalDemand : 1;
+        const baseIncome = this.cells.size * this.income;
+        const actualIncome = this.getTotalIncome(energyManager, weather);
+        
         return {
             type: this.type,
             name: this.name,
             cellCount: this.cells.size,
             energyDemand: this.energyDemand,
-            totalDemand: this.getTotalEnergyDemand(),
+            totalDemand,
+            totalProduction,
+            powerRatio,
             description: this.description,
-            population: this.population * this.cells.size
+            population: this.population * this.cells.size,
+            baseIncome,
+            actualIncome,
+            incomeReduction: baseIncome - actualIncome,
+            isPowered: powerRatio >= 1.0
         };
     }
 }
@@ -295,15 +324,15 @@ class CityZoneManager {
             .reduce((total, zone) => total + zone.getTotalEnergyProduction(energyManager, weather), 0);
     }
 
-    getTotalIncome() {
+    getTotalIncome(energyManager, weather) {
         return Array.from(this.zones.values())
-            .reduce((total, zone) => total + zone.getTotalIncome(), 0);
+            .reduce((total, zone) => total + zone.getTotalIncome(energyManager, weather), 0);
     }
 
-    getIncomeByZoneType() {
+    getIncomeByZoneType(energyManager, weather) {
         const incomeBreakdown = {};
         this.zones.forEach((zone, zoneType) => {
-            const income = zone.getTotalIncome();
+            const income = zone.getTotalIncome(energyManager, weather);
             if (income > 0) {
                 incomeBreakdown[zoneType] = income;
             }

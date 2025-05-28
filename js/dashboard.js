@@ -122,8 +122,8 @@ class EnergyDashboard {
         const zoneStats = this.zoneManager.getZoneStats(this.energyManager, weather);
         
         // Calculate income metrics
-        const totalIncome = this.zoneManager.getTotalIncome();
-        const incomeBreakdown = this.zoneManager.getIncomeByZoneType();
+        const totalIncome = this.zoneManager.getTotalIncome(this.energyManager, weather);
+        const incomeBreakdown = this.zoneManager.getIncomeByZoneType(this.energyManager, weather);
         
         return {
             totalProduction,

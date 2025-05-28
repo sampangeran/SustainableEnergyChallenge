@@ -136,6 +136,25 @@ class RenewableEnergySimulator {
             this.showCellContextMenu(row, col, e);
         });
         
+        // Add drag and drop event listeners to each cell
+        cell.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            this.dragDropHandler.handleDragOver(e);
+        });
+        
+        cell.addEventListener('drop', (e) => {
+            e.preventDefault();
+            this.dragDropHandler.handleDrop(e);
+        });
+        
+        cell.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+        });
+        
+        cell.addEventListener('dragleave', (e) => {
+            this.dragDropHandler.handleDragLeave(e);
+        });
+        
         return cell;
     }
 

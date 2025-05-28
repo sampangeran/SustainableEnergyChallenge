@@ -115,6 +115,9 @@ class RenewableEnergySimulator {
         gridContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
         gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
         
+        // Generate pre-defined terrain layout
+        this.generateTerrainLayout(rows, cols);
+        
         // Generate grid cells
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
@@ -122,6 +125,29 @@ class RenewableEnergySimulator {
                 gridContainer.appendChild(cell);
             }
         }
+    }
+
+    generateTerrainLayout(rows, cols) {
+        // Create a realistic terrain layout with fixed specialized zones
+        const terrainPlacements = [
+            // Forest areas (top-left region)
+            { type: 'forest', positions: [[0, 0], [0, 1], [1, 0], [1, 1], [0, 2], [2, 0]] },
+            // Mountain area (top-right corner)
+            { type: 'mountain', positions: [[0, 8], [0, 9], [1, 8], [1, 9]] },
+            // River running through middle
+            { type: 'river', positions: [[3, 2], [3, 3], [3, 4], [4, 4], [4, 5], [4, 6], [5, 6]] },
+            // Beach area (bottom-right)
+            { type: 'beach', positions: [[6, 7], [6, 8], [6, 9], [7, 7], [7, 8], [7, 9]] }
+        ];
+
+        // Apply terrain to grid
+        terrainPlacements.forEach(terrain => {
+            terrain.positions.forEach(([row, col]) => {
+                if (row < rows && col < cols) {
+                    this.zoneManager.setCellZone(row, col, terrain.type);
+                }
+            });
+        });
     }
 
     createGridCell(row, col) {
@@ -326,6 +352,20 @@ class RenewableEnergySimulator {
     handleZoneClick(row, col) {
         const selectedZoneType = this.zoneManager.getSelectedZoneType();
         const currentZone = this.zoneManager.getCellZone(row, col);
+        
+        // Check if this is a protected terrain zone
+        const protectedTerrains = ['forest', 'mountain', 'beach', 'river'];
+        if (protectedTerrains.includes(currentZone)) {
+            this.showNotification('Terrain zones cannot be changed - they represent fixed geographical features', 'warning');
+            return;
+        }
+        
+        // Only allow placing residential, commercial, and industrial zones
+        const allowedZones = ['residential', 'commercial', 'industrial'];
+        if (!allowedZones.includes(selectedZoneType)) {
+            this.showNotification('You can only place residential, commercial, and industrial zones', 'warning');
+            return;
+        }
         
         // Toggle zone assignment
         if (currentZone === selectedZoneType) {

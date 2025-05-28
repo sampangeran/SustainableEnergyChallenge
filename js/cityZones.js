@@ -44,12 +44,46 @@ class CityZone {
             sources.forEach(sourceType => {
                 const source = energyManager.getSource(sourceType);
                 if (source) {
-                    totalProduction += source.getCurrentOutput(weather);
+                    const baseOutput = source.getCurrentOutput(weather);
+                    const terrainBonus = this.getTerrainBonus(sourceType);
+                    totalProduction += (baseOutput * terrainBonus);
                 }
             });
         });
         
         return totalProduction;
+    }
+
+    getTerrainBonus(sourceType) {
+        // Define terrain bonuses for different energy sources
+        const terrainBonuses = {
+            forest: {
+                biomass: 1.4, // 40% boost
+                solar: 0.9,   // 10% penalty (trees block sunlight)
+                wind: 0.95    // 5% penalty (trees reduce wind)
+            },
+            mountain: {
+                geothermal: 1.5, // 50% boost
+                wind: 1.3,       // 30% boost (higher elevation)
+                solar: 1.1,      // 10% boost (less atmosphere)
+                hydro: 0.8       // 20% penalty (less water flow)
+            },
+            beach: {
+                wind: 1.35,   // 35% boost (coastal winds)
+                solar: 1.25,  // 25% boost (reflection from water)
+                hydro: 0.7    // 30% penalty (salt water issues)
+            },
+            river: {
+                hydro: 1.6,      // 60% boost
+                biomass: 1.2,    // 20% boost (fertile soil)
+                geothermal: 0.9  // 10% penalty (water cooling)
+            }
+        };
+
+        const zoneBonuses = terrainBonuses[this.type];
+        if (!zoneBonuses) return 1.0; // No bonus for regular zones
+        
+        return zoneBonuses[sourceType] || 1.0; // Default to no bonus if not specified
     }
 
     getEnergyBalance(energyManager, weather) {
@@ -117,6 +151,39 @@ class CityZoneManager {
             200, // 200 kW per cell
             'Manufacturing and heavy industry with high energy demands for machinery.',
             25 // 25 workers per cell
+        ));
+
+        // Add specialized terrain zones that boost renewable energy efficiency
+        this.zones.set('forest', new CityZone(
+            'forest',
+            'Forest',
+            0, // No energy demand
+            'Dense woodland area - boosts biomass energy efficiency by 40%',
+            0 // No population
+        ));
+
+        this.zones.set('mountain', new CityZone(
+            'mountain',
+            'Mountain',
+            0, // No energy demand
+            'Rocky terrain - boosts geothermal (+50%) and wind (+30%) efficiency',
+            0 // No population
+        ));
+
+        this.zones.set('beach', new CityZone(
+            'beach',
+            'Beach',
+            0, // No energy demand
+            'Coastal area - boosts wind (+35%) and solar (+25%) efficiency',
+            0 // No population
+        ));
+
+        this.zones.set('river', new CityZone(
+            'river',
+            'River',
+            0, // No energy demand
+            'Water source - boosts hydro energy efficiency by 60%',
+            0 // No population
         ));
     }
 

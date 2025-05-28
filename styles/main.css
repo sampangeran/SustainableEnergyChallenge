@@ -290,6 +290,22 @@ body {
     background: hsl(var(--industrial));
 }
 
+.zone-color.forest {
+    background: linear-gradient(135deg, #2d5016, #4a7c59);
+}
+
+.zone-color.mountain {
+    background: linear-gradient(135deg, #6b5b73, #8b7d82);
+}
+
+.zone-color.beach {
+    background: linear-gradient(135deg, #f7dc6f, #85c1e9);
+}
+
+.zone-color.river {
+    background: linear-gradient(135deg, #5dade2, #85c1e9);
+}
+
 /* City Container */
 .city-container {
     background: hsl(var(--surface));
@@ -376,6 +392,26 @@ body {
 
 .grid-cell.zone-industrial {
     background: hsl(var(--industrial));
+}
+
+.grid-cell.zone-forest {
+    background: linear-gradient(135deg, #2d5016, #4a7c59);
+    color: white;
+}
+
+.grid-cell.zone-mountain {
+    background: linear-gradient(135deg, #6b5b73, #8b7d82);
+    color: white;
+}
+
+.grid-cell.zone-beach {
+    background: linear-gradient(135deg, #f7dc6f, #85c1e9);
+    color: #333;
+}
+
+.grid-cell.zone-river {
+    background: linear-gradient(135deg, #5dade2, #85c1e9);
+    color: white;
 }
 
 .grid-cell.drop-target {

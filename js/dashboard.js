@@ -97,9 +97,11 @@ class EnergyDashboard {
     }
 
     calculateMetrics(weather) {
-        const energyManagerProduction = this.energyManager.getTotalOutput(weather);
-        // For now, don't double-count energy production from zones
-        const totalProduction = energyManagerProduction;
+        // Ensure we're using the current weather type consistently
+        const currentWeatherType = weather?.type || weather || 'sunny';
+        const energyManagerProduction = this.energyManager.getTotalOutput(currentWeatherType);
+        const zoneEnergyProduction = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
+        const totalProduction = energyManagerProduction + zoneEnergyProduction;
         const totalConsumption = this.zoneManager.getTotalEnergyDemand();
         const totalCost = this.energyManager.getTotalCost();
         const totalInstallations = this.energyManager.getTotalInstallations();

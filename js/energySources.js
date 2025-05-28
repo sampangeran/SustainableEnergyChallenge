@@ -71,7 +71,9 @@ class EnergySource {
     }
 
     getCurrentOutput(weather) {
-        const multiplier = this.weatherMultipliers[weather] || 1.0;
+        const weatherType = weather?.type || weather || 'sunny';
+        const multipliers = this.getWeatherMultipliers();
+        const multiplier = multipliers[weatherType] || 1.0;
         return this.baseOutput * multiplier;
     }
 

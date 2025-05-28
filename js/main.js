@@ -162,8 +162,18 @@ class RenewableEnergySimulator {
         cell.dataset.col = col;
         cell.id = `cell-${row}-${col}`;
         
-        // Add click handler for zone mode
+        // Add multiple event handlers to debug what's happening
+        cell.addEventListener('mousedown', (e) => {
+            console.log(`MouseDown on cell ${row}, ${col}`);
+        });
+        
+        cell.addEventListener('mouseup', (e) => {
+            console.log(`MouseUp on cell ${row}, ${col}`);
+        });
+        
         cell.addEventListener('click', (e) => {
+            console.log(`Click event fired on cell ${row}, ${col}`);
+            e.stopPropagation();
             this.handleCellClick(row, col, e);
         });
         

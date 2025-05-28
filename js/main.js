@@ -125,6 +125,9 @@ class RenewableEnergySimulator {
                 gridContainer.appendChild(cell);
             }
         }
+        
+        // Update display to show terrain zones
+        this.updateGridDisplay();
     }
 
     generateTerrainLayout(rows, cols) {

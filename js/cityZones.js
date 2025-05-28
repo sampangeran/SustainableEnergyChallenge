@@ -421,7 +421,12 @@ class CityZoneManager {
             },
             industrial: {
                 // Industrial zones are generally compatible with all sources
-            }
+            },
+            // Specialized terrain zones are compatible with all energy sources
+            forest: {},
+            mountain: {},
+            beach: {},
+            river: {}
         };
         
         const zoneRestrictions = restrictions[zoneType] || {};

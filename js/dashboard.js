@@ -310,10 +310,77 @@ class EnergyDashboard {
             this.addUpdateAnimation(this.elements.co2Reduction);
         }
 
-        if (this.elements.sustainabilityScore) {
-            this.elements.sustainabilityScore.textContent = `${metrics.sustainabilityScore}/100`;
-            this.elements.sustainabilityScore.style.color = this.getSustainabilityColor(metrics.sustainabilityScore);
-            this.addUpdateAnimation(this.elements.sustainabilityScore);
+        // Update detailed sustainability panel
+        this.updateSustainabilityPanel(metrics.sustainabilityData);
+    }
+
+    updateSustainabilityPanel(sustainabilityData) {
+        // Update total score and grade
+        const totalElement = document.getElementById('sustainability-total');
+        const gradeElement = document.getElementById('sustainability-grade');
+        const descriptionElement = document.getElementById('sustainability-description');
+        
+        if (totalElement) {
+            totalElement.textContent = sustainabilityData.total;
+            totalElement.style.color = this.getSustainabilityColor(sustainabilityData.total);
+            this.addUpdateAnimation(totalElement);
+        }
+        
+        if (gradeElement) {
+            gradeElement.textContent = sustainabilityData.grade.letter;
+            gradeElement.style.color = this.getSustainabilityColor(sustainabilityData.total);
+        }
+        
+        if (descriptionElement) {
+            descriptionElement.textContent = sustainabilityData.grade.description;
+        }
+        
+        // Update category scores and progress bars
+        Object.entries(sustainabilityData.breakdown).forEach(([category, data]) => {
+            const scoreElement = document.getElementById(`${category}-score`);
+            const fillElement = document.getElementById(`${category}-fill`);
+            const descElement = document.getElementById(`${category}-description`);
+            
+            if (scoreElement) {
+                scoreElement.textContent = data.score;
+                this.addUpdateAnimation(scoreElement);
+            }
+            
+            if (fillElement) {
+                const percentage = (data.score / data.max) * 100;
+                fillElement.style.width = `${percentage}%`;
+            }
+            
+            if (descElement) {
+                descElement.textContent = data.description;
+            }
+        });
+        
+        // Update achievements
+        this.updateAchievements(sustainabilityData.achievements);
+    }
+
+    updateAchievements(achievements) {
+        const achievementsList = document.getElementById('achievements-list');
+        if (!achievementsList) return;
+        
+        achievementsList.innerHTML = '';
+        
+        if (achievements.length === 0) {
+            achievementsList.innerHTML = '<span class="no-achievements">Build your city to unlock achievements!</span>';
+        } else {
+            achievements.forEach(achievement => {
+                const achievementElement = document.createElement('div');
+                achievementElement.className = 'achievement';
+                achievementElement.innerHTML = `
+                    <span class="achievement-icon">${achievement.icon}</span>
+                    <div class="achievement-content">
+                        <span class="achievement-name">${achievement.name}</span>
+                        <span class="achievement-description">${achievement.description}</span>
+                    </div>
+                `;
+                achievementsList.appendChild(achievementElement);
+            });
         }
     }
 

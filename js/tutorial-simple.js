@@ -337,8 +337,16 @@ class SimpleTutorial {
         }
         
         console.log(`Tutorial: Found element to highlight:`, element);
+        console.log(`Tutorial: Element dimensions:`, element.getBoundingClientRect());
         
         const rect = element.getBoundingClientRect();
+        
+        // Check if element has zero dimensions
+        if (rect.width === 0 || rect.height === 0) {
+            console.warn(`Tutorial: Element has zero dimensions - width: ${rect.width}, height: ${rect.height}`);
+            this.centerPanel();
+            return;
+        }
         const padding = 8;
         
         // Create spotlight effect by cutting out highlighted area from overlay

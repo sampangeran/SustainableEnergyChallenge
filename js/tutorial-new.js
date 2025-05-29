@@ -493,11 +493,14 @@ class TutorialSystem {
     highlightElement(selector) {
         this.clearHighlights();
         
+        console.log(`Tutorial: Attempting to highlight: ${selector}`);
         const element = document.querySelector(selector);
         if (element) {
+            console.log(`Tutorial: Element found, adding highlight:`, element);
             element.classList.add('tutorial-highlight');
             this.positionPanelNearElement(element);
         } else {
+            console.log(`Tutorial: Element not found for selector: ${selector}`);
             this.centerPanel();
         }
     }

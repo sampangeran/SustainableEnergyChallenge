@@ -371,20 +371,35 @@ class RenewableEnergySimulator {
         
         // Click handler for single cell selection
         this.boundGridClickHandler = (event) => {
+            console.log('Click handler triggered');
             // Skip if we just finished a drag selection
             if (this.justFinishedDrag) {
+                console.log('Skipping click - just finished drag');
                 this.justFinishedDrag = false;
                 return;
             }
             
+            // Skip if we're currently dragging
+            if (this.isDragging || this.isSelecting) {
+                console.log('Skipping click - currently dragging');
+                return;
+            }
+            
             const cell = event.target.closest('.grid-cell');
-            if (!cell) return;
+            if (!cell) {
+                console.log('No cell found for click');
+                return;
+            }
             
             const row = parseInt(cell.dataset.row);
             const col = parseInt(cell.dataset.col);
             
-            if (isNaN(row) || isNaN(col)) return;
+            if (isNaN(row) || isNaN(col)) {
+                console.log('Invalid coordinates for click');
+                return;
+            }
             
+            console.log(`Processing single click on ${row}, ${col}`);
             this.handleCellClick(row, col, event);
         };
         

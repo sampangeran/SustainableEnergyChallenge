@@ -544,7 +544,7 @@ class TutorialSystem {
             <div class="exit-modal-body">
                 <div class="exit-icon">⚠️</div>
                 <p>Are you sure you want to exit the tutorial?</p>
-                <p class="exit-subtitle">Your progress will not be saved.</p>
+                <p class="exit-subtitle">You can open the tutorial anytime by clicking Tutorial Button</p>
             </div>
             <div class="exit-modal-footer">
                 <button class="exit-btn exit-btn-cancel" id="exitCancel">Stay in Tutorial</button>

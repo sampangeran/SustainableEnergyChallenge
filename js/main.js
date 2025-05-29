@@ -49,8 +49,12 @@ class RenewableEnergySimulator {
             console.log('Step 4: Loading saved state...');
             await this.loadSavedState();
             
+            // Initialize budget system
+            console.log('Step 5: Initializing budget system...');
+            this.budgetManager.initialize();
+            
             // Start systems
-            console.log('Step 5: Starting systems...');
+            console.log('Step 6: Starting systems...');
             this.startSystems();
             
             this.isInitialized = true;
@@ -102,6 +106,17 @@ class RenewableEnergySimulator {
         this.budgetManager.addEventListener((budgetData) => {
             this.handleBudgetChange(budgetData);
         });
+    }
+
+    // Handle budget changes and update income
+    handleBudgetChange(budgetData) {
+        // Update monthly income based on current zones
+        this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
+        
+        // Update dashboard if available
+        if (this.dashboard) {
+            this.dashboard.updateDashboard();
+        }
     }
 
     initializeUI() {
@@ -638,12 +653,31 @@ class RenewableEnergySimulator {
                 const validationResult = this.zoneManager.validatePlacement(row, col, selectedEnergyType);
                 
                 if (validationResult.valid === true) {
-                    // Place the energy source
-                    this.zoneManager.addEnergySource(row, col, selectedEnergyType);
-                    this.energyManager.addInstallation(selectedEnergyType);
-                    this.updateCellDisplay(row, col);
-                    placedCount++;
-                    console.log(`Placed ${selectedEnergyType} at ${row}, ${col}`);
+                    // Check budget before placement
+                    if (this.budgetManager.canAfford(selectedEnergyType)) {
+                        // Purchase and place the energy source
+                        if (this.budgetManager.purchaseEnergySource(selectedEnergyType)) {
+                            this.zoneManager.addEnergySource(row, col, selectedEnergyType);
+                            this.energyManager.addInstallation(selectedEnergyType);
+                            this.updateCellDisplay(row, col);
+                            placedCount++;
+                            console.log(`Placed ${selectedEnergyType} at ${row}, ${col}`);
+                        } else {
+                            skippedCount++;
+                            const errorMessage = 'Insufficient funds';
+                            if (!errors.includes(errorMessage)) {
+                                errors.push(errorMessage);
+                            }
+                            console.log(`Skipped ${row}, ${col}: ${errorMessage}`);
+                        }
+                    } else {
+                        skippedCount++;
+                        const errorMessage = 'Insufficient funds';
+                        if (!errors.includes(errorMessage)) {
+                            errors.push(errorMessage);
+                        }
+                        console.log(`Skipped ${row}, ${col}: ${errorMessage}`);
+                    }
                 } else {
                     skippedCount++;
                     const errorMessage = validationResult.reason || 'Invalid placement';
@@ -778,12 +812,17 @@ class RenewableEnergySimulator {
             // Remove from energy manager
             this.energyManager.removeInstallation(sourceType);
             
+            // Process refund
+            this.budgetManager.sellEnergySource(sourceType);
+            
             // Update entire grid display to refresh power indicators
             this.updateGridDisplay();
             this.dashboard.updateDashboard();
             
-            // Show feedback
-            this.showNotification(`Removed ${sourceType} energy source`, 'info');
+            // Show feedback with refund info
+            const source = this.energyManager.getSource(sourceType);
+            const refund = Math.round(source.baseCost * 0.7);
+            this.showNotification(`Removed ${source.name} (Refund: $${refund.toLocaleString()})`, 'info');
         }
     }
 
@@ -863,6 +902,18 @@ class RenewableEnergySimulator {
         
         if (!validation.valid) {
             this.showNotification(validation.reason, 'error');
+            return false;
+        }
+        
+        // Check budget before placement
+        if (!this.budgetManager.canAfford(sourceType)) {
+            this.showNotification('Insufficient funds for this energy source', 'error');
+            return false;
+        }
+        
+        // Purchase energy source
+        if (!this.budgetManager.purchaseEnergySource(sourceType)) {
+            this.showNotification('Purchase failed - insufficient funds', 'error');
             return false;
         }
         

@@ -89,7 +89,8 @@ class RenewableEnergySimulator {
             this.weatherSystem
         );
         
-        // Budget planner removed
+        // Initialize budget manager
+        this.budgetManager = new BudgetManager();
         
         // Initialize tutorial system
         this.tutorialSystem = new TutorialSystem(this);
@@ -97,7 +98,10 @@ class RenewableEnergySimulator {
         // Initialize storage manager
         this.storageManager = new StorageManager(this);
         
-        // Budget planner references removed
+        // Set up budget manager event listeners
+        this.budgetManager.addEventListener((budgetData) => {
+            this.handleBudgetChange(budgetData);
+        });
     }
 
     initializeUI() {

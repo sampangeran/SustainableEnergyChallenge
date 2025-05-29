@@ -1330,3 +1330,256 @@ body {
     margin-bottom: 1rem;
     color: hsl(var(--info));
 }
+
+/* Budget Panel styles */
+.budget-panel {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.budget-panel h3 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.budget-panel h3::before {
+    content: "💰";
+    font-size: 1.1em;
+}
+
+.budget-info {
+    margin-bottom: 15px;
+}
+
+.budget-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.budget-item:last-child {
+    border-bottom: none;
+}
+
+.budget-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.budget-value {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.budget-value.healthy {
+    color: #27ae60;
+}
+
+.budget-value.warning {
+    color: #f39c12;
+}
+
+.budget-value.low {
+    color: #e67e22;
+}
+
+.budget-value.critical {
+    color: #e74c3c;
+    animation: pulse 2s infinite;
+}
+
+.budget-value.spent {
+    color: #e74c3c;
+}
+
+.budget-value.income {
+    color: #27ae60;
+}
+
+.budget-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.budget-controls button {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+/* Budget Details Modal */
+.budget-details-modal {
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.budget-summary {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.transactions h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.transaction-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+
+.transaction-item.expense {
+    border-left: 4px solid #e74c3c;
+}
+
+.transaction-item.revenue {
+    border-left: 4px solid #27ae60;
+}
+
+.transaction-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-name {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.transaction-date {
+    font-size: 0.8em;
+    color: #7f8c8d;
+}
+
+.transaction-amount.expense {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.transaction-amount.revenue {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.no-transactions {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Add Funds Modal */
+.add-funds-modal {
+    max-width: 500px;
+}
+
+.funding-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.funding-btn {
+    padding: 15px;
+    border: 2px solid #3498db;
+    background: white;
+    color: #3498db;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.funding-btn:hover {
+    background: #3498db;
+    color: white;
+}
+
+.custom-amount {
+    border-top: 1px solid #e9ecef;
+    padding-top: 20px;
+}
+
+.custom-amount label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.custom-amount input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.custom-amount button {
+    width: 100%;
+    padding: 12px;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}

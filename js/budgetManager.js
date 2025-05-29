@@ -166,24 +166,6 @@ class BudgetManager {
 
         const weather = weatherSystem.getCurrentWeather();
         this.incomePerTurn = zoneManager.getTotalIncome(energyManager, weather);
-        
-        // Debug logging to help identify the income calculation issue
-        console.log('=== INCOME DEBUG ===');
-        console.log('Total calculated income:', this.incomePerTurn);
-        console.log('Current weather:', weather?.type || 'unknown');
-        
-        // Check each zone's income individually
-        zoneManager.zones.forEach((zone, zoneType) => {
-            if (zone.income > 0) {
-                const zoneIncome = zone.getTotalIncome(energyManager, weather);
-                const zoneProduction = zone.getTotalEnergyProduction(energyManager, weather);
-                const zoneDemand = zone.getTotalEnergyDemand();
-                const energyBalance = zone.getEnergyBalance(energyManager, weather);
-                console.log(`${zoneType}: cells=${zone.cells.size}, production=${zoneProduction}, demand=${zoneDemand}, balance=${energyBalance}, income=${zoneIncome}`);
-            }
-        });
-        console.log('===================');
-        
         this.updateBudgetDisplay();
     }
 

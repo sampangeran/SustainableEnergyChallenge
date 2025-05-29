@@ -414,9 +414,10 @@ class SimpleTutorial {
     }
 
     clearHighlights() {
-        // Reset overlay clip path
+        // Remove overlay completely
         if (this.overlay) {
-            this.overlay.style.clipPath = '';
+            this.overlay.remove();
+            this.overlay = null;
         }
         
         if (this.highlightedElement) {

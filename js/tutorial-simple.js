@@ -216,7 +216,7 @@ class SimpleTutorial {
     }
 
     createTutorialInterface() {
-        // Create overlay
+        // Create overlay with spotlight cutout
         this.overlay = document.createElement('div');
         this.overlay.className = 'tutorial-overlay';
         this.overlay.style.cssText = `
@@ -227,6 +227,7 @@ class SimpleTutorial {
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
             z-index: 999998;
+            pointer-events: auto;
         `;
         
         // Create panel
@@ -336,38 +337,59 @@ class SimpleTutorial {
         
         console.log(`Tutorial: Found element to highlight:`, element);
         
-        // Create a highlight overlay div instead of modifying the element directly
-        const highlightOverlay = document.createElement('div');
-        highlightOverlay.className = 'tutorial-highlight-overlay';
-        
         const rect = element.getBoundingClientRect();
-        highlightOverlay.style.cssText = `
+        const padding = 8;
+        
+        // Create spotlight effect by cutting out highlighted area from overlay
+        const clipPath = `polygon(
+            0% 0%, 
+            0% 100%, 
+            ${rect.left - padding}px 100%, 
+            ${rect.left - padding}px ${rect.top - padding}px, 
+            ${rect.right + padding}px ${rect.top - padding}px, 
+            ${rect.right + padding}px ${rect.bottom + padding}px, 
+            ${rect.left - padding}px ${rect.bottom + padding}px, 
+            ${rect.left - padding}px 100%, 
+            100% 100%, 
+            100% 0%
+        )`;
+        
+        this.overlay.style.clipPath = clipPath;
+        
+        // Create glowing border around the highlighted element
+        const highlightBorder = document.createElement('div');
+        highlightBorder.className = 'tutorial-highlight-border';
+        highlightBorder.style.cssText = `
             position: fixed;
-            top: ${rect.top - 6}px;
-            left: ${rect.left - 6}px;
-            width: ${rect.width + 12}px;
-            height: ${rect.height + 12}px;
-            border: 4px solid #f39c12;
+            top: ${rect.top - padding}px;
+            left: ${rect.left - padding}px;
+            width: ${rect.width + (padding * 2)}px;
+            height: ${rect.height + (padding * 2)}px;
+            border: 3px solid #f39c12;
             border-radius: 8px;
-            box-shadow: 0 0 20px rgba(243, 156, 18, 0.8), inset 0 0 20px rgba(243, 156, 18, 0.2);
-            background: rgba(243, 156, 18, 0.1);
-            z-index: 999997;
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.8);
+            z-index: 999999;
             pointer-events: none;
             animation: tutorialPulse 2s infinite ease-in-out;
         `;
         
-        document.body.appendChild(highlightOverlay);
-        this.highlightedElement = highlightOverlay;
+        document.body.appendChild(highlightBorder);
+        this.highlightedElement = highlightBorder;
         
-        // Also bump the original element's z-index
+        // Bump original element z-index
         element.style.position = 'relative';
-        element.style.zIndex = '999996';
+        element.style.zIndex = '999997';
         this.originalElement = element;
         
         this.positionPanelNearElement(element);
     }
 
     clearHighlights() {
+        // Reset overlay clip path
+        if (this.overlay) {
+            this.overlay.style.clipPath = '';
+        }
+        
         if (this.highlightedElement) {
             this.highlightedElement.remove();
             this.highlightedElement = null;

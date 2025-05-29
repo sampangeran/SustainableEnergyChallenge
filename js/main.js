@@ -633,7 +633,7 @@ class RenewableEnergySimulator {
                 // Check if placement is valid
                 const validationResult = this.zoneManager.validatePlacement(row, col, selectedEnergyType);
                 
-                if (validationResult === true) {
+                if (validationResult.valid === true) {
                     // Place the energy source
                     this.zoneManager.addEnergySource(row, col, selectedEnergyType);
                     this.energyManager.addInstallation(selectedEnergyType);
@@ -642,7 +642,7 @@ class RenewableEnergySimulator {
                     console.log(`Placed ${selectedEnergyType} at ${row}, ${col}`);
                 } else {
                     skippedCount++;
-                    const errorMessage = typeof validationResult === 'string' ? validationResult : 'Invalid placement';
+                    const errorMessage = validationResult.reason || 'Invalid placement';
                     if (!errors.includes(errorMessage)) {
                         errors.push(errorMessage);
                     }

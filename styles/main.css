@@ -567,11 +567,28 @@ body {
 }
 
 #zone-selector {
-    padding: 0.5rem;
-    border: 1px solid hsl(var(--border));
+    padding: 0.5rem 1rem;
+    border: 2px solid hsl(var(--border));
     border-radius: 6px;
     background: hsl(var(--surface));
     color: hsl(var(--text-primary));
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-width: 140px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px hsl(var(--shadow));
+}
+
+#zone-selector:hover {
+    border-color: hsl(var(--primary-color));
+    box-shadow: 0 4px 8px hsl(var(--shadow));
+}
+
+#zone-selector:focus {
+    outline: none;
+    border-color: hsl(var(--primary-color));
+    box-shadow: 0 0 0 3px hsl(var(--primary-color) / 0.2);
 }
 
 /* Dashboard */

@@ -574,28 +574,96 @@ class RenewableEnergySimulator {
     showBulkActionMenu() {
         console.log('showBulkActionMenu called');
         const selectedArray = Array.from(this.selectedCells);
-        console.log(`Auto-assigning ${selectedArray.length} cells to selected zone type`);
+        const currentMode = this.zoneManager.getMode();
+        console.log(`Current mode: ${currentMode}`);
         
-        // Get the currently selected zone type from the zone selector
-        const selectedZoneType = this.zoneManager.getSelectedZoneType();
-        console.log(`Current zone type selected: ${selectedZoneType}`);
-        
-        if (selectedZoneType && selectedZoneType !== 'none') {
-            // Automatically assign selected cells to the current zone type
-            this.bulkSetZone(selectedZoneType);
+        if (currentMode === 'energy') {
+            // Handle energy source placement for multiple cells
+            console.log(`Auto-placing energy sources on ${selectedArray.length} cells`);
+            this.bulkPlaceEnergySource();
         } else {
-            // Fallback to prompt if no zone is selected
-            const choice = prompt(`You have selected ${selectedArray.length} cells.\n\nChoose zone type:\n1 - Residential\n2 - Commercial\n3 - Industrial\n\nEnter 1, 2, or 3:`);
+            // Handle zone assignment for multiple cells
+            console.log(`Auto-assigning ${selectedArray.length} cells to selected zone type`);
             
-            if (choice === '1') {
-                this.bulkSetZone('residential');
-            } else if (choice === '2') {
-                this.bulkSetZone('commercial');
-            } else if (choice === '3') {
-                this.bulkSetZone('industrial');
+            // Get the currently selected zone type from the zone selector
+            const selectedZoneType = this.zoneManager.getSelectedZoneType();
+            console.log(`Current zone type selected: ${selectedZoneType}`);
+            
+            if (selectedZoneType && selectedZoneType !== 'none') {
+                // Automatically assign selected cells to the current zone type
+                this.bulkSetZone(selectedZoneType);
             } else {
-                this.clearCellSelections();
+                // Fallback to prompt if no zone is selected
+                const choice = prompt(`You have selected ${selectedArray.length} cells.\n\nChoose zone type:\n1 - Residential\n2 - Commercial\n3 - Industrial\n\nEnter 1, 2, or 3:`);
+                
+                if (choice === '1') {
+                    this.bulkSetZone('residential');
+                } else if (choice === '2') {
+                    this.bulkSetZone('commercial');
+                } else if (choice === '3') {
+                    this.bulkSetZone('industrial');
+                } else {
+                    this.clearCellSelections();
+                }
             }
+        }
+    }
+    
+    bulkPlaceEnergySource() {
+        // Get the currently selected energy source type
+        const selectedEnergyType = this.currentEnergyPlacementType;
+        console.log(`Current energy type selected: ${selectedEnergyType}`);
+        
+        if (!selectedEnergyType) {
+            this.showNotification('Please select an energy source type first', 'warning');
+            this.clearCellSelections();
+            return;
+        }
+        
+        const cellCount = this.selectedCells.size;
+        let placedCount = 0;
+        let skippedCount = 0;
+        let errors = [];
+        
+        // Place energy sources on all selected cells
+        this.selectedCells.forEach(cellKey => {
+            const [row, col] = cellKey.split('-').map(Number);
+            
+            try {
+                // Check if placement is valid
+                const validationResult = this.zoneManager.validatePlacement(row, col, selectedEnergyType);
+                
+                if (validationResult === true) {
+                    // Place the energy source
+                    this.zoneManager.addEnergySource(row, col, selectedEnergyType);
+                    this.energyManager.addInstallation(selectedEnergyType);
+                    this.updateCellDisplay(row, col);
+                    placedCount++;
+                    console.log(`Placed ${selectedEnergyType} at ${row}, ${col}`);
+                } else {
+                    skippedCount++;
+                    if (!errors.includes(validationResult)) {
+                        errors.push(validationResult);
+                    }
+                    console.log(`Skipped ${row}, ${col}: ${validationResult}`);
+                }
+            } catch (error) {
+                skippedCount++;
+                console.log(`Error placing energy source at ${row}, ${col}: ${error.message}`);
+            }
+        });
+        
+        // Clear selection
+        this.clearCellSelections();
+        
+        // Show appropriate notification
+        if (placedCount > 0 && skippedCount > 0) {
+            this.showNotification(`Placed ${placedCount} ${selectedEnergyType} sources (${skippedCount} cells skipped)`, 'success');
+        } else if (placedCount > 0) {
+            this.showNotification(`Placed ${placedCount} ${selectedEnergyType} sources`, 'success');
+        } else if (skippedCount > 0) {
+            const reason = errors.length > 0 ? errors[0] : 'Invalid placement';
+            this.showNotification(`Cannot place energy sources: ${reason}`, 'warning');
         }
     }
     

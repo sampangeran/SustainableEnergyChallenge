@@ -586,18 +586,21 @@ class RenewableEnergySimulator {
         const menu = document.createElement('div');
         menu.className = 'bulk-action-menu';
         menu.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border: 2px solid #007bff;
-            border-radius: 8px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            min-width: 250px;
-            font-family: Arial, sans-serif;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            background: white !important;
+            border: 2px solid #007bff !important;
+            border-radius: 8px !important;
+            padding: 16px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            z-index: 9999 !important;
+            min-width: 250px !important;
+            font-family: Arial, sans-serif !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         `;
         
         menu.innerHTML = `
@@ -619,6 +622,15 @@ class RenewableEnergySimulator {
         `;
         
         document.body.appendChild(menu);
+        console.log('Bulk action menu added to DOM');
+        
+        // Force the menu to be visible
+        setTimeout(() => {
+            menu.style.display = 'block';
+            menu.style.visibility = 'visible';
+            menu.style.opacity = '1';
+            console.log('Bulk action menu visibility forced');
+        }, 50);
         
         // Auto-remove menu after 10 seconds or on click outside
         setTimeout(() => {

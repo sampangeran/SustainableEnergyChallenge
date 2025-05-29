@@ -99,6 +99,7 @@ class CityZone {
         
         // Apply weather effects (synchronized with weatherSystem.js)
         const weatherEffects = {
+            neutral: { solar: 1.0, wind: 1.0, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
             sunny: { solar: 1.2, wind: 0.8, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
             cloudy: { solar: 0.6, wind: 1.0, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
             windy: { solar: 1.0, wind: 1.4, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },

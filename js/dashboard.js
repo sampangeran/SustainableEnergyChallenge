@@ -319,10 +319,10 @@ class EnergyDashboard {
             this.addUpdateAnimation(this.elements.efficiency);
         }
 
-        // Current Energy Production shows base production including terrain bonuses but without weather effects
+        // Base Production shows terrain bonuses with no weather effects
         if (this.elements.currentProduction) {
-            const baseWeather = { type: 'sunny' }; // Use sunny weather to get base production with terrain bonuses
-            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, baseWeather);
+            const neutralWeather = { type: 'neutral' }; // Use neutral weather for true baseline
+            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, neutralWeather);
             this.elements.currentProduction.textContent = `${Math.round(baseProductionWithTerrain)} kW`;
             this.addUpdateAnimation(this.elements.currentProduction);
         }

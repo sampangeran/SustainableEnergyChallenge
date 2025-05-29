@@ -24,6 +24,7 @@ class RenewableEnergySimulator {
         this.currentSelectionArea = null;
         this.dragStartTimer = null;
         this.isDragging = false;
+        this.justFinishedDrag = false;
         
         this.initialize();
     }
@@ -379,7 +380,11 @@ class RenewableEnergySimulator {
         
         // Click handler for single cell selection
         this.boundGridClickHandler = (event) => {
-            if (this.isSelecting) return; // Don't handle clicks during drag selection
+            // Skip if we just finished a drag selection
+            if (this.justFinishedDrag) {
+                this.justFinishedDrag = false;
+                return;
+            }
             
             const cell = event.target.closest('.grid-cell');
             if (!cell) return;
@@ -449,6 +454,7 @@ class RenewableEnergySimulator {
         // Prevent text selection during drag
         event.preventDefault();
         
+        console.log(`Starting drag selection at ${row}, ${col}`);
         this.isSelecting = true;
         this.startCell = { row, col };
         this.selectedCells.clear();
@@ -460,7 +466,7 @@ class RenewableEnergySimulator {
         this.selectedCells.add(`${row}-${col}`);
         this.highlightSelectedCells();
         
-        console.log(`Started drag selection at ${row}, ${col}`);
+        console.log(`Drag selection started successfully`);
     }
     
     updateDragSelection(row, col) {
@@ -487,6 +493,7 @@ class RenewableEnergySimulator {
     
     endDragSelection() {
         this.isSelecting = false;
+        this.justFinishedDrag = true;
         
         if (this.selectedCells.size > 1) {
             console.log(`Selected ${this.selectedCells.size} cells for bulk action`);
@@ -500,6 +507,11 @@ class RenewableEnergySimulator {
         }
         
         this.startCell = null;
+        
+        // Reset the drag flag after a short delay
+        setTimeout(() => {
+            this.justFinishedDrag = false;
+        }, 100);
     }
     
     clearCellSelections() {

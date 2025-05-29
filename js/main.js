@@ -583,7 +583,6 @@ class RenewableEnergySimulator {
         if (selectedZoneType && selectedZoneType !== 'none') {
             // Automatically assign selected cells to the current zone type
             this.bulkSetZone(selectedZoneType);
-            this.showNotification(`${selectedArray.length} cells set to ${selectedZoneType}`, 'success');
         } else {
             // Fallback to prompt if no zone is selected
             const choice = prompt(`You have selected ${selectedArray.length} cells.\n\nChoose zone type:\n1 - Residential\n2 - Commercial\n3 - Industrial\n\nEnter 1, 2, or 3:`);
@@ -601,6 +600,9 @@ class RenewableEnergySimulator {
     }
     
     bulkSetZone(zoneType) {
+        // Store count before clearing
+        const cellCount = this.selectedCells.size;
+        
         // Apply zone type to all selected cells
         this.selectedCells.forEach(cellKey => {
             const [row, col] = cellKey.split('-').map(Number);
@@ -613,7 +615,7 @@ class RenewableEnergySimulator {
         const menu = document.querySelector('.bulk-action-menu');
         if (menu && menu.parentNode) menu.parentNode.removeChild(menu);
         
-        this.showNotification(`Set ${this.selectedCells.size} cells to ${zoneType} zone`, 'success');
+        this.showNotification(`Set ${cellCount} cells to ${zoneType} zone`, 'success');
     }
 
     handleCellClick(row, col, event) {

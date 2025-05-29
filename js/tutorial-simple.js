@@ -271,6 +271,19 @@ class SimpleTutorial {
         
         document.body.appendChild(this.overlay);
         document.body.appendChild(this.panel);
+        
+        // Add animation CSS if not already added
+        if (!document.querySelector('#tutorial-animations')) {
+            const style = document.createElement('style');
+            style.id = 'tutorial-animations';
+            style.textContent = `
+                @keyframes tutorialPulse {
+                    0%, 100% { opacity: 1; transform: scale(1); }
+                    50% { opacity: 0.8; transform: scale(1.02); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
     }
 
     removeTutorialInterface() {
@@ -313,37 +326,56 @@ class SimpleTutorial {
     highlightElement(selector) {
         this.clearHighlights();
         
+        console.log(`Tutorial: Trying to highlight selector: ${selector}`);
         const element = document.querySelector(selector);
         if (!element) {
+            console.warn(`Tutorial: Element not found for selector: ${selector}`);
             this.centerPanel();
             return;
         }
         
-        // Add highlight styling directly (yellow glow like original)
-        element.style.position = 'relative';
-        element.style.zIndex = '100000';
-        element.style.outline = '4px solid #f39c12';
-        element.style.outlineOffset = '2px';
-        element.style.boxShadow = '0 0 20px rgba(243, 156, 18, 0.8), inset 0 0 20px rgba(243, 156, 18, 0.2)';
-        element.style.borderRadius = '8px';
-        element.style.backgroundColor = 'rgba(243, 156, 18, 0.1)';
-        element.dataset.tutorialHighlight = 'true';
+        console.log(`Tutorial: Found element to highlight:`, element);
         
-        this.highlightedElement = element;
+        // Create a highlight overlay div instead of modifying the element directly
+        const highlightOverlay = document.createElement('div');
+        highlightOverlay.className = 'tutorial-highlight-overlay';
+        
+        const rect = element.getBoundingClientRect();
+        highlightOverlay.style.cssText = `
+            position: fixed;
+            top: ${rect.top - 6}px;
+            left: ${rect.left - 6}px;
+            width: ${rect.width + 12}px;
+            height: ${rect.height + 12}px;
+            border: 4px solid #f39c12;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.8), inset 0 0 20px rgba(243, 156, 18, 0.2);
+            background: rgba(243, 156, 18, 0.1);
+            z-index: 999997;
+            pointer-events: none;
+            animation: tutorialPulse 2s infinite ease-in-out;
+        `;
+        
+        document.body.appendChild(highlightOverlay);
+        this.highlightedElement = highlightOverlay;
+        
+        // Also bump the original element's z-index
+        element.style.position = 'relative';
+        element.style.zIndex = '999996';
+        this.originalElement = element;
+        
         this.positionPanelNearElement(element);
     }
 
     clearHighlights() {
         if (this.highlightedElement) {
-            this.highlightedElement.style.position = '';
-            this.highlightedElement.style.zIndex = '';
-            this.highlightedElement.style.outline = '';
-            this.highlightedElement.style.outlineOffset = '';
-            this.highlightedElement.style.boxShadow = '';
-            this.highlightedElement.style.borderRadius = '';
-            this.highlightedElement.style.backgroundColor = '';
-            delete this.highlightedElement.dataset.tutorialHighlight;
+            this.highlightedElement.remove();
             this.highlightedElement = null;
+        }
+        if (this.originalElement) {
+            this.originalElement.style.position = '';
+            this.originalElement.style.zIndex = '';
+            this.originalElement = null;
         }
     }
 

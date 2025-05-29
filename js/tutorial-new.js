@@ -397,32 +397,43 @@ class TutorialSystem {
     }
 
     createTutorialModal() {
-        const modal = document.createElement('div');
-        modal.className = 'tutorial-modal';
-        modal.innerHTML = `
-            <div class="tutorial-overlay" id="tutorialOverlay"></div>
-            <div class="tutorial-content-wrapper">
-                <div class="tutorial-header">
-                    <h2 id="tutorialTitle">Tutorial</h2>
-                    <button class="tutorial-close" id="tutorialClose">&times;</button>
-                </div>
-                <div class="tutorial-body" id="tutorialBody">
-                    <!-- Content will be inserted here -->
-                </div>
-                <div class="tutorial-footer">
-                    <button class="tutorial-btn tutorial-btn-secondary" id="tutorialPrev">Previous</button>
-                    <span class="tutorial-progress" id="tutorialProgress">1 / 10</span>
-                    <button class="tutorial-btn tutorial-btn-primary" id="tutorialNext">Next</button>
-                    <button class="tutorial-btn tutorial-btn-danger" id="tutorialExit">Exit Tutorial</button>
-                </div>
+        // Create spotlight overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'tutorialSpotlightOverlay';
+        overlay.className = 'tutorial-spotlight-overlay';
+        
+        // Create floating tutorial panel
+        const panel = document.createElement('div');
+        panel.id = 'tutorialPanel';
+        panel.className = 'tutorial-spotlight-panel';
+        panel.innerHTML = `
+            <div class="tutorial-header">
+                <h2 id="tutorialTitle">Tutorial</h2>
+                <button class="tutorial-close" id="tutorialClose">&times;</button>
+            </div>
+            <div class="tutorial-body" id="tutorialBody">
+                <!-- Content will be inserted here -->
+            </div>
+            <div class="tutorial-footer">
+                <button class="tutorial-btn tutorial-btn-secondary" id="tutorialPrev">Previous</button>
+                <span class="tutorial-progress" id="tutorialProgress">1 / 10</span>
+                <button class="tutorial-btn tutorial-btn-primary" id="tutorialNext">Next</button>
+                <button class="tutorial-btn tutorial-btn-danger" id="tutorialExit">Exit Tutorial</button>
             </div>
         `;
         
-        document.body.appendChild(modal);
-        this.modal = modal;
+        document.body.appendChild(overlay);
+        document.body.appendChild(panel);
+        
+        this.overlay = overlay;
+        this.modal = panel;
     }
 
     hideTutorialModal() {
+        if (this.overlay) {
+            this.overlay.remove();
+            this.overlay = null;
+        }
         if (this.modal) {
             this.modal.remove();
             this.modal = null;
@@ -479,7 +490,60 @@ class TutorialSystem {
         const element = document.querySelector(selector);
         if (element) {
             element.classList.add('tutorial-highlight');
+            this.positionPanelNearElement(element);
+        } else {
+            this.centerPanel();
         }
+    }
+    
+    positionPanelNearElement(element) {
+        if (!this.modal) return;
+        
+        const rect = element.getBoundingClientRect();
+        const panel = this.modal;
+        const panelWidth = 400;
+        const panelHeight = 500;
+        const margin = 20;
+        
+        // Calculate available space
+        const spaceRight = window.innerWidth - rect.right;
+        const spaceLeft = rect.left;
+        const spaceTop = rect.top;
+        const spaceBottom = window.innerHeight - rect.bottom;
+        
+        let left, top;
+        
+        // Prefer positioning to the right, then left, then top/bottom
+        if (spaceRight >= panelWidth + margin) {
+            left = rect.right + margin;
+            top = Math.max(margin, rect.top - (panelHeight - rect.height) / 2);
+        } else if (spaceLeft >= panelWidth + margin) {
+            left = rect.left - panelWidth - margin;
+            top = Math.max(margin, rect.top - (panelHeight - rect.height) / 2);
+        } else if (spaceBottom >= panelHeight + margin) {
+            left = Math.max(margin, rect.left - (panelWidth - rect.width) / 2);
+            top = rect.bottom + margin;
+        } else {
+            left = Math.max(margin, rect.left - (panelWidth - rect.width) / 2);
+            top = rect.top - panelHeight - margin;
+        }
+        
+        // Ensure panel stays within viewport
+        left = Math.min(left, window.innerWidth - panelWidth - margin);
+        left = Math.max(left, margin);
+        top = Math.min(top, window.innerHeight - panelHeight - margin);
+        top = Math.max(top, margin);
+        
+        panel.style.left = `${left}px`;
+        panel.style.top = `${top}px`;
+    }
+    
+    centerPanel() {
+        if (!this.modal) return;
+        
+        this.modal.style.left = '50%';
+        this.modal.style.top = '50%';
+        this.modal.style.transform = 'translate(-50%, -50%)';
     }
 
     clearHighlights() {
@@ -584,38 +648,30 @@ class TutorialSystem {
     injectTutorialStyles() {
         const styles = `
             <style id="tutorial-styles">
-                .tutorial-modal {
+                .tutorial-spotlight-overlay {
                     position: fixed;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    z-index: 10000;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    background: rgba(0, 0, 0, 0.7);
+                    z-index: 9999;
+                    pointer-events: none;
                 }
                 
-                .tutorial-overlay {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.5);
-                }
-                
-                .tutorial-content-wrapper {
-                    position: relative;
+                .tutorial-spotlight-panel {
+                    position: fixed;
                     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
                     border-radius: 16px;
-                    max-width: 650px;
-                    max-height: 85vh;
-                    width: 90%;
-                    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+                    width: 400px;
+                    max-height: 600px;
+                    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    z-index: 10001;
                     display: flex;
                     flex-direction: column;
-                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    animation: tutorialSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    pointer-events: auto;
                 }
                 
                 .tutorial-header {
@@ -800,9 +856,11 @@ class TutorialSystem {
                 
                 .tutorial-highlight {
                     position: relative;
-                    z-index: 9999;
-                    box-shadow: 0 0 0 4px #f39c12, 0 0 20px rgba(243, 156, 18, 0.3);
-                    border-radius: 4px;
+                    z-index: 10000;
+                    box-shadow: 0 0 0 4px #007bff, 0 0 25px rgba(0, 123, 255, 0.6);
+                    border-radius: 8px;
+                    background: rgba(255, 255, 255, 0.05);
+                    animation: tutorialPulse 2.5s infinite ease-in-out;
                 }
                 
                 .tutorial-exit-overlay {

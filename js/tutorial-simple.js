@@ -407,6 +407,21 @@ class SimpleTutorial {
     positionPanelNearElement(element) {
         if (!this.panel || !element) return;
         
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // On mobile, position panel at bottom of screen
+            this.panel.style.position = 'fixed';
+            this.panel.style.left = '10px';
+            this.panel.style.right = '10px';
+            this.panel.style.bottom = '20px';
+            this.panel.style.top = 'auto';
+            this.panel.style.maxWidth = 'none';
+            this.panel.style.width = 'auto';
+            this.panel.style.transform = 'none';
+            return;
+        }
+        
         const rect = element.getBoundingClientRect();
         const panelWidth = 400;
         const panelHeight = this.panel.offsetHeight || 300;

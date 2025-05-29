@@ -965,19 +965,19 @@ class RenewableEnergySimulator {
                 const zone = this.zoneManager.zones.get(zoneType);
                 if (zone && zone.income > 0) { // Only check income-generating zones
                     const currentWeather = this.weatherSystem.getCurrentWeather();
-                    const weatherType = currentWeather?.type || 'sunny';
-                    const totalProduction = this.energyManager.getTotalOutput(weatherType);
-                    const totalDemand = this.zoneManager.getTotalEnergyDemand();
                     
-                    // Only show power shortage if there's actual demand and insufficient production
-                    if (totalDemand > 0 && totalProduction < totalDemand) {
-                        const overallRatio = totalProduction / totalDemand;
+                    // Check zone-specific power efficiency instead of city-wide totals
+                    const zoneBalance = zone.getEnergyBalance(this.energyManager, currentWeather);
+                    const zoneEfficiency = zone.getEfficiencyPercentage(this.energyManager, currentWeather);
+                    
+                    // Only show power shortage if this specific zone is underpowered
+                    if (zoneBalance < 0 && zone.cells.size > 0) {
                         cell.classList.add('underpowered');
                         // Add power deficit indicator
                         const powerIcon = document.createElement('div');
                         powerIcon.className = 'power-status';
                         powerIcon.innerHTML = '⚡';
-                        powerIcon.title = `Power shortage: ${Math.round(overallRatio * 100)}% supplied (${currentWeather?.name || 'Sunny'} weather)`;
+                        powerIcon.title = `Zone underpowered: ${Math.round(zoneEfficiency)}% efficiency (${currentWeather?.name || 'Sunny'} weather)`;
                         cell.appendChild(powerIcon);
                     }
                 }

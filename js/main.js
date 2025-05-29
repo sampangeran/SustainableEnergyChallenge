@@ -1272,19 +1272,35 @@ class RenewableEnergySimulator {
     }
 
     showNotification(message, type = 'info') {
+        // Get or create notification container
+        let container = document.getElementById('notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-container';
+            container.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                max-width: 320px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            `;
+            document.body.appendChild(container);
+        }
+        
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
             padding: 12px 20px;
             border-radius: 6px;
             color: white;
             font-weight: 500;
-            z-index: 10000;
-            max-width: 300px;
-            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-out;
+            word-wrap: break-word;
         `;
         
         // Set background color based on type
@@ -1298,19 +1314,30 @@ class RenewableEnergySimulator {
         notification.style.background = colors[type] || colors.info;
         notification.textContent = message;
         
-        document.body.appendChild(notification);
+        // Add to container
+        container.appendChild(notification);
         
-        // Auto remove after 3 seconds
+        // Animate in
+        requestAnimationFrame(() => {
+            notification.style.transform = 'translateX(0)';
+        });
+        
+        // Auto remove after 4 seconds
         setTimeout(() => {
             if (notification.parentNode) {
-                notification.style.animation = 'fadeOut 0.3s ease-out';
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
                 setTimeout(() => {
                     if (notification.parentNode) {
-                        document.body.removeChild(notification);
+                        container.removeChild(notification);
+                        // Remove container if empty
+                        if (container.children.length === 0) {
+                            document.body.removeChild(container);
+                        }
                     }
                 }, 300);
             }
-        }, 3000);
+        }, 4000);
     }
 
     showError(message) {

@@ -97,13 +97,13 @@ class CityZone {
             naturalgas: 300  // Matches energySources.js: 300kW
         };
         
-        // Apply weather effects
+        // Apply weather effects (synchronized with weatherSystem.js)
         const weatherEffects = {
-            sunny: { solar: 1.3, wind: 0.8, hydro: 0.9, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
-            cloudy: { solar: 0.7, wind: 0.9, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
-            windy: { solar: 0.8, wind: 1.4, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
-            rainy: { solar: 0.5, wind: 1.2, hydro: 1.5, geothermal: 1.0, biomass: 0.8, coal: 1.0, naturalgas: 1.0 },
-            snowy: { solar: 0.3, wind: 1.1, hydro: 0.7, geothermal: 1.0, biomass: 0.6, coal: 1.0, naturalgas: 1.0 }
+            sunny: { solar: 1.2, wind: 0.8, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
+            cloudy: { solar: 0.6, wind: 1.0, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
+            windy: { solar: 1.0, wind: 1.4, hydro: 1.0, geothermal: 1.0, biomass: 1.0, coal: 1.0, naturalgas: 1.0 },
+            rainy: { solar: 0.4, wind: 0.9, hydro: 1.3, geothermal: 1.0, biomass: 0.9, coal: 1.0, naturalgas: 1.0 },
+            stormy: { solar: 0.3, wind: 1.6, hydro: 1.1, geothermal: 1.0, biomass: 0.8, coal: 1.0, naturalgas: 1.0 }
         };
         
         const weatherType = weather.type || 'sunny';

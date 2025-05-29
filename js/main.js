@@ -574,19 +574,29 @@ class RenewableEnergySimulator {
     showBulkActionMenu() {
         console.log('showBulkActionMenu called');
         const selectedArray = Array.from(this.selectedCells);
-        console.log(`Creating bulk action menu for ${selectedArray.length} cells`);
+        console.log(`Auto-assigning ${selectedArray.length} cells to selected zone type`);
         
-        // Use a simple prompt dialog for now to ensure it works
-        const choice = prompt(`You have selected ${selectedArray.length} cells.\n\nChoose zone type:\n1 - Residential\n2 - Commercial\n3 - Industrial\n\nEnter 1, 2, or 3:`);
+        // Get the currently selected zone type from the zone selector
+        const selectedZoneType = this.zoneManager.getSelectedZoneType();
+        console.log(`Current zone type selected: ${selectedZoneType}`);
         
-        if (choice === '1') {
-            this.bulkSetZone('residential');
-        } else if (choice === '2') {
-            this.bulkSetZone('commercial');
-        } else if (choice === '3') {
-            this.bulkSetZone('industrial');
+        if (selectedZoneType && selectedZoneType !== 'none') {
+            // Automatically assign selected cells to the current zone type
+            this.bulkSetZone(selectedZoneType);
+            this.showNotification(`${selectedArray.length} cells set to ${selectedZoneType}`, 'success');
         } else {
-            this.clearCellSelections();
+            // Fallback to prompt if no zone is selected
+            const choice = prompt(`You have selected ${selectedArray.length} cells.\n\nChoose zone type:\n1 - Residential\n2 - Commercial\n3 - Industrial\n\nEnter 1, 2, or 3:`);
+            
+            if (choice === '1') {
+                this.bulkSetZone('residential');
+            } else if (choice === '2') {
+                this.bulkSetZone('commercial');
+            } else if (choice === '3') {
+                this.bulkSetZone('industrial');
+            } else {
+                this.clearCellSelections();
+            }
         }
     }
     

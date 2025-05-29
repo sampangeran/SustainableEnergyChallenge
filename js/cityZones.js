@@ -91,10 +91,10 @@ class CityZone {
             solar: 100,      // Matches "Output: 100kW" in interface
             wind: 150,       // Matches "Output: 150kW" in interface
             hydro: 200,      // Matches "Output: 200kW" in interface
-            geothermal: 180, // Matches "Output: 180kW" in interface
-            biomass: 120,    // Matches "Output: 120kW" in interface
-            coal: 400,       // Matches "Output: 400kW" from energySources.js
-            naturalgas: 300  // Matches "Output: 300kW" from energySources.js
+            geothermal: 120, // Matches "Output: 120kW" in interface
+            biomass: 80,     // Matches "Output: 80kW" in interface
+            coal: 300,       // Matches "Output: 300kW" from energySources.js
+            naturalgas: 250  // Matches "Output: 250kW" from energySources.js
         };
         
         // Apply weather effects

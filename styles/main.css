@@ -612,6 +612,27 @@ body {
     border: 1px solid rgba(39, 174, 96, 0.2);
 }
 
+/* City Zone Legend Styling */
+.energy-requirement {
+    color: #e67e22;
+    font-weight: 600;
+    background: rgba(230, 126, 34, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid rgba(230, 126, 34, 0.2);
+}
+
+.income-value {
+    color: #3498db;
+    font-weight: 600;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
 /* Dashboard */
 .dashboard {
     background: hsl(var(--surface));

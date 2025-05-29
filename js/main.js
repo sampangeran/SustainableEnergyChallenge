@@ -513,6 +513,7 @@ class RenewableEnergySimulator {
     }
     
     endDragSelection() {
+        console.log(`Ending drag selection with ${this.selectedCells.size} cells selected`);
         this.isSelecting = false;
         this.justFinishedDrag = true;
         
@@ -524,7 +525,10 @@ class RenewableEnergySimulator {
             const cellKey = Array.from(this.selectedCells)[0];
             const [row, col] = cellKey.split('-').map(Number);
             this.clearCellSelections();
-            this.handleCellClick(row, col, { target: document.getElementById(`cell-${row}-${col}`) });
+            // Allow single click to work normally after short delay
+            setTimeout(() => {
+                this.handleCellClick(row, col, { target: document.getElementById(`cell-${row}-${col}`) });
+            }, 50);
         }
         
         this.startCell = null;
@@ -532,7 +536,8 @@ class RenewableEnergySimulator {
         // Reset the drag flag after a short delay
         setTimeout(() => {
             this.justFinishedDrag = false;
-        }, 100);
+            console.log('Drag flag reset - single clicks enabled');
+        }, 300);
     }
     
     clearCellSelections() {
@@ -544,8 +549,14 @@ class RenewableEnergySimulator {
     }
     
     highlightSelectedCells() {
-        // First clear existing highlights
-        this.clearCellSelections();
+        console.log(`Highlighting ${this.selectedCells.size} selected cells`);
+        
+        // Remove highlights from all cells first
+        document.querySelectorAll('.grid-cell').forEach(cell => {
+            cell.classList.remove('selected');
+            cell.style.border = '';
+            cell.style.backgroundColor = '';
+        });
         
         // Add selection highlight to selected cells
         this.selectedCells.forEach(cellKey => {
@@ -553,6 +564,9 @@ class RenewableEnergySimulator {
             const cell = document.getElementById(`cell-${row}-${col}`);
             if (cell) {
                 cell.classList.add('selected');
+                cell.style.border = '3px solid #007bff';
+                cell.style.backgroundColor = 'rgba(0, 123, 255, 0.1)';
+                console.log(`Highlighted cell ${row}, ${col}`);
             }
         });
     }

@@ -560,10 +560,31 @@ class CityZoneManager {
     }
 
     reset() {
+        // Preserve terrain zones (forest, mountain, beach, river) while clearing user zones
+        const terrainTypes = ['forest', 'mountain', 'beach', 'river'];
+        const terrainCells = new Map();
+        
+        // Save terrain cells before clearing
+        this.gridCells.forEach((zoneType, cellId) => {
+            if (terrainTypes.includes(zoneType)) {
+                terrainCells.set(cellId, zoneType);
+            }
+        });
+        
+        // Clear all grid cells and zone data
         this.gridCells.clear();
         this.zones.forEach(zone => {
             zone.cells.clear();
             zone.energySources.clear();
+        });
+        
+        // Restore terrain cells
+        terrainCells.forEach((zoneType, cellId) => {
+            this.gridCells.set(cellId, zoneType);
+            const zone = this.zones.get(zoneType);
+            if (zone) {
+                zone.addCell(cellId);
+            }
         });
     }
 

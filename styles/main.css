@@ -1629,3 +1629,26 @@ body {
     margin: 0 !important;
     padding: 0 !important;
 }
+
+/* Footer Styling */
+.app-footer {
+    background: hsl(var(--text-primary));
+    color: hsl(var(--surface));
+    padding: 16px 0;
+    margin-top: auto;
+    text-align: center;
+    border-top: 1px solid hsl(var(--border));
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.app-footer p {
+    margin: 0;
+    font-size: 14px;
+    color: hsl(var(--text-secondary));
+    opacity: 0.8;
+}

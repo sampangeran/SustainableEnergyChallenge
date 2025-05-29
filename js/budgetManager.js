@@ -244,77 +244,53 @@ class BudgetManager {
 
     // Show budget details modal
     showBudgetDetails() {
-        const modal = document.createElement('div');
-        modal.className = 'modal-overlay';
-        modal.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+        // Simple alert-based display for now
+        const details = `
+BUDGET DETAILS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💰 BUDGET SUMMARY:
+• Initial Budget: $${this.formatMoney(this.initialBudget)}
+• Current Budget: $${this.formatMoney(this.currentBudget)}
+• Total Spent: $${this.formatMoney(this.totalSpent)}
+• Monthly Income: $${this.formatMoney(this.incomePerTurn)}
+
+📊 BUDGET STATUS: ${this.getBudgetStatusText()}
+
+📝 RECENT TRANSACTIONS:
+${this.getTransactionSummary()}
         `;
-        modal.innerHTML = `
-            <div class="modal budget-details-modal" style="
-                background: white;
-                border-radius: 8px;
-                padding: 20px;
-                max-width: 600px;
-                max-height: 80vh;
-                overflow-y: auto;
-                position: relative;
-            ">
-                <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3 style="margin: 0;">Budget Details</h3>
-                    <button class="modal-close" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
-                </div>
-                <div class="modal-content">
-                    <div class="budget-summary" style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
-                            <span>Initial Budget:</span>
-                            <span>$${this.formatMoney(this.initialBudget)}</span>
-                        </div>
-                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
-                            <span>Current Budget:</span>
-                            <span class="${this.getBudgetStatusClass()}">$${this.formatMoney(this.currentBudget)}</span>
-                        </div>
-                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
-                            <span>Total Spent:</span>
-                            <span>$${this.formatMoney(this.totalSpent)}</span>
-                        </div>
-                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0;">
-                            <span>Monthly Income:</span>
-                            <span>$${this.formatMoney(this.incomePerTurn)}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="transactions">
-                        <h4>Recent Transactions</h4>
-                        <div class="transaction-list">
-                            ${this.generateTransactionHistory()}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+        
+        alert(details);
+    }
 
-        document.body.appendChild(modal);
+    // Get budget status as text
+    getBudgetStatusText() {
+        const budgetPercentage = (this.currentBudget / this.initialBudget) * 100;
+        
+        if (budgetPercentage < 10) return 'CRITICAL - Very Low Funds';
+        if (budgetPercentage < 25) return 'LOW - Limited Funds';
+        if (budgetPercentage < 50) return 'WARNING - Moderate Funds';
+        return 'HEALTHY - Good Financial Status';
+    }
 
-        // Close modal handlers
-        const closeBtn = modal.querySelector('.modal-close');
-        closeBtn.addEventListener('click', () => {
-            document.body.removeChild(modal);
-        });
+    // Get transaction summary for simple display
+    getTransactionSummary() {
+        const allTransactions = [
+            ...this.expenses.map(e => ({...e, type: 'expense'})),
+            ...this.revenue.map(r => ({...r, type: 'revenue'}))
+        ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 5);
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                document.body.removeChild(modal);
-            }
-        });
+        if (allTransactions.length === 0) {
+            return '• No transactions yet';
+        }
+
+        return allTransactions.map(t => {
+            const amount = t.cost || t.revenue;
+            const sign = t.type === 'expense' ? '-' : '+';
+            const date = new Date(t.timestamp).toLocaleDateString();
+            return `• ${sign}$${this.formatMoney(amount)} - ${t.item} (${date})`;
+        }).join('\n');
     }
 
     // Generate transaction history HTML

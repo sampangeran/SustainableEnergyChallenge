@@ -611,7 +611,7 @@ class RenewableEnergySimulator {
     
     bulkPlaceEnergySource() {
         // Get the currently selected energy source type
-        const selectedEnergyType = this.currentEnergyPlacementType;
+        const selectedEnergyType = this.selectedEnergyType;
         console.log(`Current energy type selected: ${selectedEnergyType}`);
         
         if (!selectedEnergyType) {

@@ -1632,12 +1632,12 @@ body {
 
 /* Footer Styling */
 .app-footer {
-    background: hsl(var(--text-primary));
-    color: hsl(var(--surface));
+    background: hsl(var(--primary-color));
+    color: white;
     padding: 16px 0;
     margin-top: auto;
     text-align: center;
-    border-top: 1px solid hsl(var(--border));
+    box-shadow: 0 -2px 10px hsl(var(--shadow));
 }
 
 .footer-content {
@@ -1649,6 +1649,6 @@ body {
 .app-footer p {
     margin: 0;
     font-size: 14px;
-    color: hsl(var(--text-secondary));
-    opacity: 0.8;
+    color: white;
+    opacity: 0.9;
 }

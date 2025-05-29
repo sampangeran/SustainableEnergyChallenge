@@ -51,27 +51,25 @@ class TutorialSystem {
                         <h3>💰 Managing Your City Budget</h3>
                         <p>You start with <strong>$250,000</strong> to build your city. Here's how money works:</p>
                         
-                        <div class="budget-explanation">
-                            <h4>💸 Expenses:</h4>
-                            <ul>
-                                <li>Energy sources cost money to build</li>
-                                <li>You get 70% refund when removing energy sources</li>
-                            </ul>
-                            
-                            <h4>💵 Income (Monthly):</h4>
-                            <ul>
-                                <li><strong>Residential:</strong> $120/month (when powered)</li>
-                                <li><strong>Commercial:</strong> $250/month (when powered)</li>
-                                <li><strong>Industrial:</strong> $400/month (when powered)</li>
-                            </ul>
-                            
-                            <h4>🔋 Power Requirements:</h4>
-                            <ul>
-                                <li>Zones only generate income if they have enough power</li>
-                                <li>Energy is shared across the entire city grid</li>
-                                <li>Unpowered zones get red borders and warning icons</li>
-                            </ul>
-                        </div>
+                        <h4>💸 Expenses:</h4>
+                        <ul>
+                            <li>Energy sources cost money to build</li>
+                            <li>You get 70% refund when removing energy sources</li>
+                        </ul>
+                        
+                        <h4>💵 Income (Monthly):</h4>
+                        <ul>
+                            <li><strong>Residential:</strong> $120/month (when powered)</li>
+                            <li><strong>Commercial:</strong> $250/month (when powered)</li>
+                            <li><strong>Industrial:</strong> $400/month (when powered)</li>
+                        </ul>
+                        
+                        <h4>🔋 Power Requirements:</h4>
+                        <ul>
+                            <li>Zones only generate income if they have enough power</li>
+                            <li>Energy is shared across the entire city grid</li>
+                            <li>Unpowered zones get red borders and warning icons</li>
+                        </ul>
                         
                         <p><strong>Tip:</strong> Click the budget amount to see detailed financial information!</p>
                     </div>
@@ -130,22 +128,20 @@ class TutorialSystem {
                         <h3>⚡ Energy Source Types & Costs</h3>
                         <p>Choose from 7 different energy sources, each with unique characteristics:</p>
                         
-                        <div class="energy-explanation">
-                            <h4>🌱 Renewable Energy:</h4>
-                            <ul>
-                                <li><strong>Solar:</strong> $15,000 • 100kW • Works best in sunny weather</li>
-                                <li><strong>Wind:</strong> $20,000 • 150kW • Enhanced by windy weather</li>
-                                <li><strong>Hydro:</strong> $25,000 • 200kW • +60% bonus near rivers</li>
-                                <li><strong>Geothermal:</strong> $30,000 • 120kW • +50% bonus in mountains</li>
-                                <li><strong>Biomass:</strong> $18,000 • 80kW • +40% bonus in forests</li>
-                            </ul>
-                            
-                            <h4>🏭 Fossil Fuels:</h4>
-                            <ul>
-                                <li><strong>Coal:</strong> $35,000 • 300kW • High pollution</li>
-                                <li><strong>Natural Gas:</strong> $28,000 • 250kW • Lower emissions than coal</li>
-                            </ul>
-                        </div>
+                        <h4>🌱 Renewable Energy:</h4>
+                        <ul>
+                            <li><strong>Solar:</strong> $15,000 • 100kW • Works best in sunny weather</li>
+                            <li><strong>Wind:</strong> $20,000 • 150kW • Enhanced by windy weather</li>
+                            <li><strong>Hydro:</strong> $25,000 • 200kW • +60% bonus near rivers</li>
+                            <li><strong>Geothermal:</strong> $30,000 • 120kW • +50% bonus in mountains</li>
+                            <li><strong>Biomass:</strong> $18,000 • 80kW • +40% bonus in forests</li>
+                        </ul>
+                        
+                        <h4>🏭 Fossil Fuels:</h4>
+                        <ul>
+                            <li><strong>Coal:</strong> $35,000 • 300kW • High pollution</li>
+                            <li><strong>Natural Gas:</strong> $28,000 • 250kW • Lower emissions than coal</li>
+                        </ul>
                         
                         <p><strong>Advanced Placement:</strong> Drag to select multiple cells, then auto-place energy sources!</p>
                     </div>
@@ -160,14 +156,12 @@ class TutorialSystem {
                         <h3>🗻 Terrain Features & Efficiency Bonuses</h3>
                         <p>The city has specialized terrain that provides efficiency bonuses for certain energy sources:</p>
                         
-                        <div class="terrain-explanation">
-                            <ul>
-                                <li><strong>🌲 Forest Areas:</strong> +40% biomass efficiency</li>
-                                <li><strong>🏔️ Mountain Areas:</strong> +50% geothermal, +30% wind efficiency</li>
-                                <li><strong>🏖️ Beach Areas:</strong> +35% wind, +25% solar efficiency</li>
-                                <li><strong>🌊 River Areas:</strong> +60% hydro efficiency</li>
-                            </ul>
-                        </div>
+                        <ul>
+                            <li><strong>🌲 Forest Areas:</strong> +40% biomass efficiency</li>
+                            <li><strong>🏔️ Mountain Areas:</strong> +50% geothermal, +30% wind efficiency</li>
+                            <li><strong>🏖️ Beach Areas:</strong> +35% wind, +25% solar efficiency</li>
+                            <li><strong>🌊 River Areas:</strong> +60% hydro efficiency</li>
+                        </ul>
                         
                         <p><strong>Strategy Tips:</strong></p>
                         <ul>
@@ -188,14 +182,12 @@ class TutorialSystem {
                         <h3>🌤️ Dynamic Weather Effects</h3>
                         <p>Weather conditions change every 30-60 seconds and affect energy production:</p>
                         
-                        <div class="weather-explanation">
-                            <ul>
-                                <li><strong>☀️ Sunny:</strong> Solar +20%, others normal</li>
-                                <li><strong>☁️ Cloudy:</strong> Solar -30%, others normal</li>
-                                <li><strong>🌧️ Rainy:</strong> Solar -50%, Hydro +30%</li>
-                                <li><strong>💨 Windy:</strong> Wind +40%, Solar -10%</li>
-                            </ul>
-                        </div>
+                        <ul>
+                            <li><strong>☀️ Sunny:</strong> Solar +20%, others normal</li>
+                            <li><strong>☁️ Cloudy:</strong> Solar -30%, others normal</li>
+                            <li><strong>🌧️ Rainy:</strong> Solar -50%, Hydro +30%</li>
+                            <li><strong>💨 Windy:</strong> Wind +40%, Solar -10%</li>
+                        </ul>
                         
                         <p><strong>Advanced Features:</strong></p>
                         <ul>
@@ -216,23 +208,21 @@ class TutorialSystem {
                         <h3>📊 Real-Time Performance Dashboard</h3>
                         <p>The dashboard provides comprehensive city performance metrics:</p>
                         
-                        <div class="dashboard-explanation">
-                            <h4>📈 Key Metrics:</h4>
-                            <ul>
-                                <li><strong>Energy Production:</strong> Total kW generated vs demanded</li>
-                                <li><strong>Efficiency:</strong> How well your city meets energy needs</li>
-                                <li><strong>Carbon Reduction:</strong> Environmental impact tracking</li>
-                                <li><strong>Sustainability Score:</strong> Overall city performance grade</li>
-                            </ul>
-                            
-                            <h4>💡 Performance Insights:</h4>
-                            <ul>
-                                <li>Energy mix breakdown showing source diversity</li>
-                                <li>Zone-by-zone performance analysis</li>
-                                <li>Financial projections and trends</li>
-                                <li>Achievement system for milestones</li>
-                            </ul>
-                        </div>
+                        <h4>📈 Key Metrics:</h4>
+                        <ul>
+                            <li><strong>Energy Production:</strong> Total kW generated vs demanded</li>
+                            <li><strong>Efficiency:</strong> How well your city meets energy needs</li>
+                            <li><strong>Carbon Reduction:</strong> Environmental impact tracking</li>
+                            <li><strong>Sustainability Score:</strong> Overall city performance grade</li>
+                        </ul>
+                        
+                        <h4>💡 Performance Insights:</h4>
+                        <ul>
+                            <li>Energy mix breakdown showing source diversity</li>
+                            <li>Zone-by-zone performance analysis</li>
+                            <li>Financial projections and trends</li>
+                            <li>Achievement system for milestones</li>
+                        </ul>
                         
                         <p><strong>Use the dashboard to:</strong> Track progress, identify problems, and optimize your city design!</p>
                     </div>

@@ -576,73 +576,18 @@ class RenewableEnergySimulator {
         const selectedArray = Array.from(this.selectedCells);
         console.log(`Creating bulk action menu for ${selectedArray.length} cells`);
         
-        // Remove any existing menu
-        const existingMenu = document.querySelector('.bulk-action-menu');
-        if (existingMenu) {
-            existingMenu.remove();
+        // Use a simple prompt dialog for now to ensure it works
+        const choice = prompt(`You have selected ${selectedArray.length} cells.\n\nChoose zone type:\n1 - Residential\n2 - Commercial\n3 - Industrial\n\nEnter 1, 2, or 3:`);
+        
+        if (choice === '1') {
+            this.bulkSetZone('residential');
+        } else if (choice === '2') {
+            this.bulkSetZone('commercial');
+        } else if (choice === '3') {
+            this.bulkSetZone('industrial');
+        } else {
+            this.clearCellSelections();
         }
-        
-        // Create menu
-        const menu = document.createElement('div');
-        menu.className = 'bulk-action-menu';
-        menu.style.cssText = `
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            background: white !important;
-            border: 2px solid #007bff !important;
-            border-radius: 8px !important;
-            padding: 16px !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
-            z-index: 9999 !important;
-            min-width: 250px !important;
-            font-family: Arial, sans-serif !important;
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        `;
-        
-        menu.innerHTML = `
-            <div style="font-weight: bold; margin-bottom: 12px; text-align: center; color: #333;">
-                ${selectedArray.length} cells selected
-            </div>
-            <button class="btn btn-primary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.bulkSetZone('residential')">
-                Set as Residential
-            </button>
-            <button class="btn btn-primary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.bulkSetZone('commercial')">
-                Set as Commercial
-            </button>
-            <button class="btn btn-primary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.bulkSetZone('industrial')">
-                Set as Industrial
-            </button>
-            <button class="btn btn-secondary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.clearCellSelections()">
-                Cancel
-            </button>
-        `;
-        
-        document.body.appendChild(menu);
-        console.log('Bulk action menu added to DOM');
-        
-        // Force the menu to be visible
-        setTimeout(() => {
-            menu.style.display = 'block';
-            menu.style.visibility = 'visible';
-            menu.style.opacity = '1';
-            console.log('Bulk action menu visibility forced');
-        }, 50);
-        
-        // Auto-remove menu after 10 seconds or on click outside
-        setTimeout(() => {
-            if (menu.parentNode) menu.parentNode.removeChild(menu);
-        }, 10000);
-        
-        document.addEventListener('click', function removeMenu(e) {
-            if (!menu.contains(e.target)) {
-                if (menu.parentNode) menu.parentNode.removeChild(menu);
-                document.removeEventListener('click', removeMenu);
-            }
-        });
     }
     
     bulkSetZone(zoneType) {

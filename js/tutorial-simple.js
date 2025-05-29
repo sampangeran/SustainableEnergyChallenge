@@ -1,0 +1,375 @@
+/**
+ * Simple Tutorial System - Rebuilt for Reliability
+ * Provides interactive educational guidance with working spotlight highlighting
+ */
+
+class SimpleTutorial {
+    constructor(mainApp) {
+        this.mainApp = mainApp;
+        this.isActive = false;
+        this.currentStep = 0;
+        this.overlay = null;
+        this.panel = null;
+        this.highlightedElement = null;
+        
+        this.initializeTutorialSteps();
+        this.setupEventListeners();
+    }
+
+    initializeTutorialSteps() {
+        this.tutorialSteps = [
+            {
+                title: "Welcome to Sustainable City Challenge",
+                content: `
+                    <h3>🌱 Welcome to Your Energy Journey!</h3>
+                    <p>You're about to design a sustainable city using renewable energy sources. This simulation teaches real-world energy planning through hands-on experience.</p>
+                    
+                    <h4>What You'll Learn:</h4>
+                    <ul>
+                        <li><strong>Energy Planning:</strong> Strategic placement of renewable sources</li>
+                        <li><strong>Budget Management:</strong> Balancing costs with energy needs</li>
+                        <li><strong>Environmental Impact:</strong> Understanding sustainability metrics</li>
+                        <li><strong>Weather Effects:</strong> How conditions affect energy production</li>
+                    </ul>
+                    
+                    <p><strong>Ready to build the future?</strong></p>
+                `,
+                highlight: ".header"
+            },
+            {
+                title: "Understanding the Grid Layout",
+                content: `
+                    <h3>🏙️ Your City Grid</h3>
+                    <p>The grid represents your city with different terrain types that affect energy production:</p>
+                    
+                    <ul>
+                        <li><strong>🏔️ Mountains:</strong> Perfect for geothermal and wind power</li>
+                        <li><strong>🏖️ Beach:</strong> Excellent for wind and solar energy</li>
+                        <li><strong>🌊 Rivers:</strong> Ideal for hydroelectric power</li>
+                        <li><strong>🌲 Forests:</strong> Great for biomass energy production</li>
+                    </ul>
+                    
+                    <p>Empty gray cells can be developed into city zones that need power to generate income.</p>
+                `,
+                highlight: "#city-grid"
+            },
+            {
+                title: "Energy Source Options",
+                content: `
+                    <h3>⚡ Renewable Energy Sources</h3>
+                    <p>Choose from various energy technologies, each with unique characteristics:</p>
+                    
+                    <ul>
+                        <li><strong>☀️ Solar:</strong> $8,000 - Clean, weather-dependent</li>
+                        <li><strong>💨 Wind:</strong> $10,000 - Powerful in windy conditions</li>
+                        <li><strong>🌊 Hydro:</strong> $12,000 - Reliable water power</li>
+                        <li><strong>🌋 Geothermal:</strong> $15,000 - Consistent underground energy</li>
+                        <li><strong>🌱 Biomass:</strong> $10,000 - Organic waste to energy</li>
+                    </ul>
+                    
+                    <p>You can drag these onto the grid or use Energy Mode for placement.</p>
+                `,
+                highlight: ".energy-sources"
+            },
+            {
+                title: "Budget and Financial Management",
+                content: `
+                    <h3>💰 Managing Your City Budget</h3>
+                    <p>Start with $250,000 to build your sustainable city. Smart planning is essential:</p>
+                    
+                    <ul>
+                        <li><strong>Energy Costs:</strong> Each source requires upfront investment</li>
+                        <li><strong>Monthly Income:</strong> Powered zones generate revenue</li>
+                        <li><strong>Efficiency Bonus:</strong> Well-designed cities earn more</li>
+                        <li><strong>Refunds:</strong> Get 70% back when removing sources</li>
+                    </ul>
+                    
+                    <p>Click the budget panel to see detailed financial information and transaction history.</p>
+                `,
+                highlight: ".budget-display"
+            },
+            {
+                title: "Weather System Impact",
+                content: `
+                    <h3>🌤️ Dynamic Weather Effects</h3>
+                    <p>Weather conditions change every few minutes and affect energy production:</p>
+                    
+                    <ul>
+                        <li><strong>☀️ Sunny:</strong> +20% solar, normal wind/hydro</li>
+                        <li><strong>☁️ Cloudy:</strong> -50% solar, +10% hydro</li>
+                        <li><strong>🌧️ Rainy:</strong> -70% solar, +30% hydro</li>
+                        <li><strong>💨 Windy:</strong> +40% wind, -10% solar</li>
+                    </ul>
+                    
+                    <p>Diversify your energy sources to maintain stable power during all weather conditions.</p>
+                `,
+                highlight: ".weather-display"
+            },
+            {
+                title: "Performance Dashboard",
+                content: `
+                    <h3>📊 Real-time Performance Tracking</h3>
+                    <p>Monitor your city's performance with comprehensive metrics:</p>
+                    
+                    <ul>
+                        <li><strong>Energy Production:</strong> Current output vs demand</li>
+                        <li><strong>Grid Efficiency:</strong> How well you meet power needs</li>
+                        <li><strong>Sustainability Score:</strong> Environmental impact rating</li>
+                        <li><strong>Financial Performance:</strong> Income and expense tracking</li>
+                    </ul>
+                    
+                    <p>Aim for high efficiency and sustainability scores to maximize your city's success.</p>
+                `,
+                highlight: ".dashboard"
+            },
+            {
+                title: "Creating City Zones",
+                content: `
+                    <h3>🏘️ Build Your First Zone</h3>
+                    <p>Now let's create a residential area:</p>
+                    
+                    <ol>
+                        <li>Make sure "Zone Mode" is selected (orange button)</li>
+                        <li>Choose "Residential" from the dropdown menu</li>
+                        <li>Click on any empty grid cell to create the zone</li>
+                    </ol>
+                    
+                    <p>Zones only generate income when they have sufficient power supply. Unpowered zones show red warning indicators.</p>
+                `,
+                highlight: ".grid-controls"
+            },
+            {
+                title: "You're Ready to Build!",
+                content: `
+                    <h3>🎯 Start Your Sustainable City!</h3>
+                    <p>You now have all the knowledge needed to create an amazing renewable energy city!</p>
+                    
+                    <h4>Success Tips:</h4>
+                    <ul>
+                        <li><strong>Use terrain bonuses:</strong> Place energy sources strategically</li>
+                        <li><strong>Diversify energy:</strong> Mix sources for weather resilience</li>
+                        <li><strong>Monitor performance:</strong> Keep efficiency high</li>
+                        <li><strong>Manage budget:</strong> Balance investments with income</li>
+                    </ul>
+                    
+                    <p><strong>Challenge:</strong> Can you build a 100% renewable city that's profitable and efficient?</p>
+                `,
+                highlight: ".header"
+            }
+        ];
+    }
+
+    setupEventListeners() {
+        // No special event listeners needed for this simple version
+    }
+
+    start() {
+        if (this.isActive) return;
+        
+        this.isActive = true;
+        this.currentStep = 0;
+        this.createTutorialInterface();
+        this.showCurrentStep();
+    }
+
+    stop() {
+        if (!this.isActive) return;
+        
+        this.isActive = false;
+        this.clearHighlights();
+        this.removeTutorialInterface();
+    }
+
+    nextStep() {
+        if (this.currentStep < this.tutorialSteps.length - 1) {
+            this.currentStep++;
+            this.showCurrentStep();
+        }
+    }
+
+    previousStep() {
+        if (this.currentStep > 0) {
+            this.currentStep--;
+            this.showCurrentStep();
+        }
+    }
+
+    showCurrentStep() {
+        const step = this.tutorialSteps[this.currentStep];
+        if (!step) return;
+        
+        this.updateContent(step);
+        this.updateNavigation();
+        
+        if (step.highlight) {
+            this.highlightElement(step.highlight);
+        }
+    }
+
+    createTutorialInterface() {
+        // Create overlay
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'tutorial-overlay';
+        this.overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+        `;
+        
+        // Create panel
+        this.panel = document.createElement('div');
+        this.panel.className = 'tutorial-panel';
+        this.panel.style.cssText = `
+            position: fixed;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        `;
+        
+        this.panel.innerHTML = `
+            <div class="tutorial-header">
+                <h2 style="margin: 0 0 16px 0; color: #333; font-size: 20px;"></h2>
+                <button class="tutorial-close" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+            </div>
+            <div class="tutorial-content" style="margin-bottom: 20px; line-height: 1.6; color: #555;"></div>
+            <div class="tutorial-navigation" style="display: flex; justify-content: space-between; align-items: center;">
+                <button class="tutorial-prev" style="padding: 8px 16px; background: #f0f0f0; border: none; border-radius: 6px; cursor: pointer;">Previous</button>
+                <span class="tutorial-progress" style="color: #888; font-size: 14px;"></span>
+                <button class="tutorial-next" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">Next</button>
+            </div>
+        `;
+        
+        // Add event listeners
+        this.panel.querySelector('.tutorial-close').addEventListener('click', () => this.stop());
+        this.panel.querySelector('.tutorial-prev').addEventListener('click', () => this.previousStep());
+        this.panel.querySelector('.tutorial-next').addEventListener('click', () => this.nextStep());
+        this.overlay.addEventListener('click', () => this.stop());
+        
+        document.body.appendChild(this.overlay);
+        document.body.appendChild(this.panel);
+    }
+
+    removeTutorialInterface() {
+        if (this.overlay) {
+            this.overlay.remove();
+            this.overlay = null;
+        }
+        if (this.panel) {
+            this.panel.remove();
+            this.panel = null;
+        }
+    }
+
+    updateContent(step) {
+        if (!this.panel) return;
+        
+        this.panel.querySelector('h2').textContent = step.title;
+        this.panel.querySelector('.tutorial-content').innerHTML = step.content;
+    }
+
+    updateNavigation() {
+        if (!this.panel) return;
+        
+        const prevBtn = this.panel.querySelector('.tutorial-prev');
+        const nextBtn = this.panel.querySelector('.tutorial-next');
+        const progress = this.panel.querySelector('.tutorial-progress');
+        
+        prevBtn.disabled = this.currentStep === 0;
+        prevBtn.style.opacity = this.currentStep === 0 ? '0.5' : '1';
+        
+        if (this.currentStep === this.tutorialSteps.length - 1) {
+            nextBtn.textContent = 'Finish';
+            nextBtn.onclick = () => this.stop();
+        } else {
+            nextBtn.textContent = 'Next';
+            nextBtn.onclick = () => this.nextStep();
+        }
+        
+        progress.textContent = `${this.currentStep + 1} of ${this.tutorialSteps.length}`;
+    }
+
+    highlightElement(selector) {
+        this.clearHighlights();
+        
+        const element = document.querySelector(selector);
+        if (!element) {
+            this.centerPanel();
+            return;
+        }
+        
+        // Add highlight styling directly
+        element.style.position = 'relative';
+        element.style.zIndex = '10000';
+        element.style.boxShadow = '0 0 0 4px #007bff, 0 0 25px rgba(0, 123, 255, 0.6)';
+        element.style.borderRadius = '8px';
+        element.style.background = 'rgba(255, 255, 255, 0.05)';
+        element.dataset.tutorialHighlight = 'true';
+        
+        this.highlightedElement = element;
+        this.positionPanelNearElement(element);
+    }
+
+    clearHighlights() {
+        if (this.highlightedElement) {
+            this.highlightedElement.style.position = '';
+            this.highlightedElement.style.zIndex = '';
+            this.highlightedElement.style.boxShadow = '';
+            this.highlightedElement.style.borderRadius = '';
+            this.highlightedElement.style.background = '';
+            delete this.highlightedElement.dataset.tutorialHighlight;
+            this.highlightedElement = null;
+        }
+    }
+
+    positionPanelNearElement(element) {
+        if (!this.panel || !element) return;
+        
+        const rect = element.getBoundingClientRect();
+        const panelWidth = 400;
+        const panelHeight = this.panel.offsetHeight || 300;
+        const margin = 20;
+        
+        let left = rect.right + margin;
+        let top = rect.top;
+        
+        // Adjust if panel goes off screen
+        if (left + panelWidth > window.innerWidth) {
+            left = rect.left - panelWidth - margin;
+        }
+        if (left < margin) {
+            left = margin;
+            top = rect.bottom + margin;
+        }
+        if (top + panelHeight > window.innerHeight) {
+            top = window.innerHeight - panelHeight - margin;
+        }
+        if (top < margin) {
+            top = margin;
+        }
+        
+        this.panel.style.left = `${left}px`;
+        this.panel.style.top = `${top}px`;
+        this.panel.style.transform = 'none';
+    }
+
+    centerPanel() {
+        if (!this.panel) return;
+        
+        this.panel.style.left = '50%';
+        this.panel.style.top = '50%';
+        this.panel.style.transform = 'translate(-50%, -50%)';
+    }
+}
+
+// Initialize the tutorial system
+window.tutorialSystem = null;

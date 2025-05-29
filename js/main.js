@@ -97,7 +97,7 @@ class RenewableEnergySimulator {
         this.budgetManager = new BudgetManager();
         
         // Initialize tutorial system
-        this.tutorialSystem = new TutorialSystem(this);
+        this.tutorialSystem = new SimpleTutorial(this);
         
         // Initialize storage manager
         this.storageManager = new StorageManager(this);

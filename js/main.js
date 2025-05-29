@@ -135,10 +135,35 @@ class RenewableEnergySimulator {
         // Generate pre-defined terrain layout
         this.generateTerrainLayout(rows, cols);
         
-        // Generate grid cells
+        // Generate grid cells with working click handlers
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-                const cell = this.createGridCell(row, col);
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.dataset.row = row;
+                cell.dataset.col = col;
+                cell.id = `cell-${row}-${col}`;
+                
+                // Apply terrain first
+                const terrainGrid = this.terrainLayout;
+                if (terrainGrid && terrainGrid[row] && terrainGrid[row][col]) {
+                    const terrainType = terrainGrid[row][col];
+                    this.zoneManager.setCellZone(row, col, terrainType);
+                    cell.classList.add(`zone-${terrainType}`);
+                }
+                
+                // Add multiple event handlers to ensure clicks work
+                const clickHandler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log(`Cell ${row}, ${col} clicked via handler`);
+                    this.handleCellClick(row, col, e);
+                };
+                
+                cell.addEventListener('click', clickHandler);
+                cell.addEventListener('mouseup', clickHandler);
+                cell.onclick = clickHandler;
+                
                 gridContainer.appendChild(cell);
             }
         }

@@ -391,7 +391,7 @@ class CityZoneManager {
         const cityWideDemand = this.getTotalEnergyDemand();
         
         // Temporary debug
-        console.log(`City-wide: Production=${cityWideProduction}kW, Demand=${cityWideDemand}kW, Ratio=${cityWideProduction/cityWideDemand}`);
+        console.log(`City-wide: Production=${cityWideProduction}kW, Demand=${cityWideDemand}kW, Ratio=${(cityWideProduction/cityWideDemand).toFixed(2)}`);
         
         return Array.from(this.zones.values())
             .reduce((total, zone) => total + zone.getTotalIncome(energyManager, weather, cityWideProduction, cityWideDemand), 0);

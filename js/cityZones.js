@@ -86,15 +86,15 @@ class CityZone {
         
         let totalProduction = 0;
         
-        // Get base energy output values (simplified calculation)
+        // Get base energy output values (match the interface display)
         const energyOutputs = {
-            solar: 50,
-            wind: 45,
-            hydro: 60,
-            geothermal: 55,
-            biomass: 40,
-            coal: 80,
-            naturalgas: 70
+            solar: 100,      // Matches "Output: 100kW" in interface
+            wind: 150,       // Matches "Output: 150kW" in interface
+            hydro: 200,      // Matches "Output: 200kW" in interface
+            geothermal: 180, // Matches "Output: 180kW" in interface
+            biomass: 120,    // Matches "Output: 120kW" in interface
+            coal: 400,       // Matches "Output: 400kW" from energySources.js
+            naturalgas: 300  // Matches "Output: 300kW" from energySources.js
         };
         
         // Apply weather effects

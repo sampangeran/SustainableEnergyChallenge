@@ -321,10 +321,12 @@ class SimpleTutorial {
         
         // Add highlight styling directly (yellow glow like original)
         element.style.position = 'relative';
-        element.style.zIndex = '10000';
-        element.style.boxShadow = '0 0 0 4px #f39c12, 0 0 20px rgba(243, 156, 18, 0.5)';
+        element.style.zIndex = '100000';
+        element.style.outline = '4px solid #f39c12';
+        element.style.outlineOffset = '2px';
+        element.style.boxShadow = '0 0 20px rgba(243, 156, 18, 0.8), inset 0 0 20px rgba(243, 156, 18, 0.2)';
         element.style.borderRadius = '8px';
-        element.style.background = 'rgba(243, 156, 18, 0.1)';
+        element.style.backgroundColor = 'rgba(243, 156, 18, 0.1)';
         element.dataset.tutorialHighlight = 'true';
         
         this.highlightedElement = element;
@@ -335,9 +337,11 @@ class SimpleTutorial {
         if (this.highlightedElement) {
             this.highlightedElement.style.position = '';
             this.highlightedElement.style.zIndex = '';
+            this.highlightedElement.style.outline = '';
+            this.highlightedElement.style.outlineOffset = '';
             this.highlightedElement.style.boxShadow = '';
             this.highlightedElement.style.borderRadius = '';
-            this.highlightedElement.style.background = '';
+            this.highlightedElement.style.backgroundColor = '';
             delete this.highlightedElement.dataset.tutorialHighlight;
             this.highlightedElement = null;
         }

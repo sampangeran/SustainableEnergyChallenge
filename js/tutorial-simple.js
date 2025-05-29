@@ -364,15 +364,21 @@ class SimpleTutorial {
         `;
         
         // Create spotlight effect by cutting out highlighted area from overlay
+        // Handle off-screen elements by clamping coordinates
+        const topClamp = Math.max(rect.top - padding, 0);
+        const leftClamp = Math.max(rect.left - padding, 0);
+        const rightClamp = Math.min(rect.right + padding, window.innerWidth);
+        const bottomClamp = Math.min(rect.bottom + padding, window.innerHeight);
+        
         const clipPath = `polygon(
             0% 0%, 
             0% 100%, 
-            ${rect.left - padding}px 100%, 
-            ${rect.left - padding}px ${rect.top - padding}px, 
-            ${rect.right + padding}px ${rect.top - padding}px, 
-            ${rect.right + padding}px ${rect.bottom + padding}px, 
-            ${rect.left - padding}px ${rect.bottom + padding}px, 
-            ${rect.left - padding}px 100%, 
+            ${leftClamp}px 100%, 
+            ${leftClamp}px ${topClamp}px, 
+            ${rightClamp}px ${topClamp}px, 
+            ${rightClamp}px ${bottomClamp}px, 
+            ${leftClamp}px ${bottomClamp}px, 
+            ${leftClamp}px 100%, 
             100% 100%, 
             100% 0%
         )`;

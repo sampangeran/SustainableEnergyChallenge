@@ -291,7 +291,7 @@ class TutorialSystem {
                         </div>
                     </div>
                 `,
-                highlight: ".mode-controls",
+                highlight: ".grid-controls",
                 action: "waitForZoneCreation"
             },
             {

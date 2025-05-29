@@ -299,11 +299,11 @@ class EnergyDashboard {
     }
 
     updateEnergyMetrics(metrics) {
-        // Total Production shows base production including terrain bonuses but without weather effects
+        // Total Production shows actual weather-affected production with terrain bonuses
         if (this.elements.totalProduction) {
-            const weather = { type: 'sunny' }; // Use sunny weather to get base production with terrain bonuses
-            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
-            this.elements.totalProduction.textContent = `${Math.round(baseProductionWithTerrain)} kW`;
+            const weather = this.weatherSystem.getCurrentWeather();
+            const weatherAffectedProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
+            this.elements.totalProduction.textContent = `${Math.round(weatherAffectedProductionWithTerrain)} kW`;
             this.addUpdateAnimation(this.elements.totalProduction);
         }
 
@@ -319,11 +319,11 @@ class EnergyDashboard {
             this.addUpdateAnimation(this.elements.efficiency);
         }
 
-        // Current Energy Production shows actual weather-affected production with terrain bonuses
+        // Current Energy Production shows base production including terrain bonuses but without weather effects
         if (this.elements.currentProduction) {
-            const weather = this.weatherSystem.getCurrentWeather();
-            const weatherAffectedProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
-            this.elements.currentProduction.textContent = `${Math.round(weatherAffectedProductionWithTerrain)} kW`;
+            const baseWeather = { type: 'sunny' }; // Use sunny weather to get base production with terrain bonuses
+            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, baseWeather);
+            this.elements.currentProduction.textContent = `${Math.round(baseProductionWithTerrain)} kW`;
             this.addUpdateAnimation(this.elements.currentProduction);
         }
 

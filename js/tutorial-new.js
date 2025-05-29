@@ -21,7 +21,7 @@ class TutorialSystem {
     initializeTutorialSteps() {
         this.tutorialSteps = [
             {
-                title: "Welcome to Renewable Energy City Simulator!",
+                title: "Welcome to Sustainable City Challenge!",
                 content: `
                     <div class="tutorial-content">
                         <h3>🌱 Learn to Build a Sustainable City!</h3>

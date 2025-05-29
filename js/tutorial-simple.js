@@ -235,30 +235,30 @@ class SimpleTutorial {
         this.panel.className = 'tutorial-panel';
         this.panel.style.cssText = `
             position: fixed;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #2c3e50;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 8px 25px rgba(0, 0, 0, 0.08);
             z-index: 999999;
-            max-width: 450px;
-            max-height: 80vh;
+            max-width: 480px;
+            max-height: 85vh;
             overflow-y: auto;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         `;
         
         this.panel.innerHTML = `
             <div class="tutorial-header">
-                <h2 style="margin: 0 0 16px 0; color: white; font-size: 22px; font-weight: 600;"></h2>
-                <button class="tutorial-close" style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; font-size: 20px; cursor: pointer; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
+                <h2 style="margin: 0 0 20px 0; color: #2c3e50; font-size: 24px; font-weight: 700; line-height: 1.3;"></h2>
+                <button class="tutorial-close" style="position: absolute; top: 20px; right: 20px; background: #f8f9fa; border: 1px solid #dee2e6; font-size: 18px; cursor: pointer; color: #6c757d; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">×</button>
             </div>
-            <div class="tutorial-content" style="margin-bottom: 24px; line-height: 1.7; color: rgba(255,255,255,0.95); font-size: 14px;"></div>
-            <div class="tutorial-navigation" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-                <button class="tutorial-prev" style="padding: 10px 20px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Previous</button>
-                <span class="tutorial-progress" style="color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 500;"></span>
-                <button class="tutorial-next" style="padding: 10px 20px; background: rgba(255,255,255,0.9); color: #333; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">Next</button>
+            <div class="tutorial-content" style="margin-bottom: 28px; line-height: 1.65; color: #495057; font-size: 15px;"></div>
+            <div class="tutorial-navigation" style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 12px;">
+                <button class="tutorial-prev" style="padding: 12px 24px; background: #e9ecef; color: #495057; border: 1px solid #dee2e6; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.2s; font-size: 14px;">Previous</button>
+                <span class="tutorial-progress" style="color: #6c757d; font-size: 14px; font-weight: 600; padding: 8px 16px; background: rgba(108, 117, 125, 0.1); border-radius: 20px;"></span>
+                <button class="tutorial-next" style="padding: 12px 24px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.2s; font-size: 14px; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);">Next</button>
             </div>
         `;
         
@@ -279,8 +279,80 @@ class SimpleTutorial {
             style.id = 'tutorial-animations';
             style.textContent = `
                 @keyframes tutorialPulse {
-                    0%, 100% { opacity: 1; transform: scale(1); }
-                    50% { opacity: 0.8; transform: scale(1.02); }
+                    0%, 100% { 
+                        box-shadow: 0 0 20px rgba(0, 123, 255, 0.6), 0 0 40px rgba(0, 123, 255, 0.3); 
+                        transform: scale(1);
+                    }
+                    50% { 
+                        box-shadow: 0 0 30px rgba(0, 123, 255, 0.8), 0 0 60px rgba(0, 123, 255, 0.5); 
+                        transform: scale(1.015);
+                    }
+                }
+                
+                @keyframes tutorialFadeIn {
+                    from { 
+                        opacity: 0; 
+                        transform: translateY(20px) scale(0.95); 
+                    }
+                    to { 
+                        opacity: 1; 
+                        transform: translateY(0) scale(1); 
+                    }
+                }
+                
+                .tutorial-panel {
+                    animation: tutorialFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+                
+                .tutorial-prev:hover {
+                    background: #dee2e6 !important;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+                }
+                
+                .tutorial-next:hover {
+                    background: linear-gradient(135deg, #0056b3 0%, #004085 100%) !important;
+                    transform: translateY(-1px);
+                    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4) !important;
+                }
+                
+                .tutorial-close:hover {
+                    background: #e9ecef !important;
+                    transform: scale(1.1);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+                }
+                
+                .tutorial-content h3 {
+                    color: #2c3e50 !important;
+                    font-weight: 700 !important;
+                    margin: 16px 0 12px 0 !important;
+                    font-size: 18px !important;
+                }
+                
+                .tutorial-content h4 {
+                    color: #495057 !important;
+                    font-weight: 600 !important;
+                    margin: 14px 0 8px 0 !important;
+                    font-size: 16px !important;
+                }
+                
+                .tutorial-content ul, .tutorial-content ol {
+                    margin: 12px 0 !important;
+                    padding-left: 20px !important;
+                }
+                
+                .tutorial-content li {
+                    margin: 8px 0 !important;
+                    color: #495057 !important;
+                }
+                
+                .tutorial-content strong {
+                    color: #2c3e50 !important;
+                    font-weight: 600 !important;
+                }
+                
+                .tutorial-content p {
+                    margin: 12px 0 !important;
                 }
             `;
             document.head.appendChild(style);
@@ -397,9 +469,9 @@ class SimpleTutorial {
             left: ${rect.left - padding}px;
             width: ${rect.width + (padding * 2)}px;
             height: ${rect.height + (padding * 2)}px;
-            border: 3px solid #f39c12;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(243, 156, 18, 0.8);
+            border: 3px solid #007bff;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.6), 0 0 40px rgba(0, 123, 255, 0.3);
             z-index: 999995;
             pointer-events: none;
             animation: tutorialPulse 2s infinite ease-in-out;

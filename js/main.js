@@ -119,6 +119,7 @@ class RenewableEnergySimulator {
             console.error('Grid container not found in generateCityGrid');
             return;
         }
+        console.log('Grid container found successfully');
 
         const { rows, cols } = this.zoneManager.getGridDimensions();
         console.log(`Grid dimensions: ${rows}x${cols}`);

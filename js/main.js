@@ -572,45 +572,48 @@ class RenewableEnergySimulator {
     }
     
     showBulkActionMenu() {
-        // Create a context menu for bulk actions
+        console.log('showBulkActionMenu called');
         const selectedArray = Array.from(this.selectedCells);
-        const firstCell = selectedArray[0].split('-').map(Number);
-        const firstCellElement = document.getElementById(`cell-${firstCell[0]}-${firstCell[1]}`);
+        console.log(`Creating bulk action menu for ${selectedArray.length} cells`);
         
-        if (!firstCellElement) return;
-        
-        const rect = firstCellElement.getBoundingClientRect();
+        // Remove any existing menu
+        const existingMenu = document.querySelector('.bulk-action-menu');
+        if (existingMenu) {
+            existingMenu.remove();
+        }
         
         // Create menu
         const menu = document.createElement('div');
         menu.className = 'bulk-action-menu';
         menu.style.cssText = `
             position: fixed;
-            top: ${rect.bottom + 10}px;
-            left: ${rect.left}px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: white;
-            border: 1px solid #ddd;
+            border: 2px solid #007bff;
             border-radius: 8px;
-            padding: 8px;
+            padding: 16px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 1000;
-            min-width: 200px;
+            min-width: 250px;
+            font-family: Arial, sans-serif;
         `;
         
         menu.innerHTML = `
-            <div style="font-weight: bold; margin-bottom: 8px;">
+            <div style="font-weight: bold; margin-bottom: 12px; text-align: center; color: #333;">
                 ${selectedArray.length} cells selected
             </div>
-            <button class="btn btn-primary" style="width: 100%; margin: 2px 0;" onclick="simulator.bulkSetZone('residential')">
+            <button class="btn btn-primary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.bulkSetZone('residential')">
                 Set as Residential
             </button>
-            <button class="btn btn-primary" style="width: 100%; margin: 2px 0;" onclick="simulator.bulkSetZone('commercial')">
+            <button class="btn btn-primary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.bulkSetZone('commercial')">
                 Set as Commercial
             </button>
-            <button class="btn btn-primary" style="width: 100%; margin: 2px 0;" onclick="simulator.bulkSetZone('industrial')">
+            <button class="btn btn-primary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.bulkSetZone('industrial')">
                 Set as Industrial
             </button>
-            <button class="btn btn-secondary" style="width: 100%; margin: 2px 0;" onclick="simulator.clearCellSelections()">
+            <button class="btn btn-secondary" style="width: 100%; margin: 4px 0; padding: 8px;" onclick="window.renewableEnergySimulator.clearCellSelections()">
                 Cancel
             </button>
         `;

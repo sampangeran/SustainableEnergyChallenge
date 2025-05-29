@@ -642,10 +642,11 @@ class RenewableEnergySimulator {
                     console.log(`Placed ${selectedEnergyType} at ${row}, ${col}`);
                 } else {
                     skippedCount++;
-                    if (!errors.includes(validationResult)) {
-                        errors.push(validationResult);
+                    const errorMessage = typeof validationResult === 'string' ? validationResult : 'Invalid placement';
+                    if (!errors.includes(errorMessage)) {
+                        errors.push(errorMessage);
                     }
-                    console.log(`Skipped ${row}, ${col}: ${validationResult}`);
+                    console.log(`Skipped ${row}, ${col}: ${errorMessage}`);
                 }
             } catch (error) {
                 skippedCount++;

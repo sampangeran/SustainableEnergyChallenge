@@ -91,7 +91,10 @@ class RenewableEnergySimulator {
     }
 
     initializeUI() {
+        console.log('initializeUI called');
+        
         // Generate city grid
+        console.log('About to call generateCityGrid');
         this.generateCityGrid();
         
         // Setup energy source draggables
@@ -102,6 +105,8 @@ class RenewableEnergySimulator {
         
         // Setup weather display
         this.updateWeatherDisplay();
+        
+        console.log('initializeUI completed');
     }
 
     generateCityGrid() {

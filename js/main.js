@@ -817,6 +817,10 @@ class RenewableEnergySimulator {
         const sourceType = this.zoneManager.getEnergySourceAt(row, col);
         
         if (sourceType) {
+            // Get source info before removal
+            const source = this.energyManager.getSource(sourceType);
+            const refund = Math.round(source.baseCost * 0.7);
+            
             // Remove from zone manager
             this.zoneManager.removeEnergySource(row, col);
             
@@ -826,14 +830,15 @@ class RenewableEnergySimulator {
             // Process refund
             this.budgetManager.sellEnergySource(sourceType);
             
+            // Force budget display update
+            this.budgetManager.updateBudgetDisplay();
+            
             // Update entire grid display to refresh power indicators
             this.updateGridDisplay();
             this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
             this.dashboard.updateDashboard();
             
             // Show feedback with refund info
-            const source = this.energyManager.getSource(sourceType);
-            const refund = Math.round(source.baseCost * 0.7);
             this.showNotification(`Removed ${source.name} (Refund: $${refund.toLocaleString()})`, 'info');
         }
     }

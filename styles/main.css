@@ -594,12 +594,22 @@ body {
 /* Terrain Effects Styling */
 .negative-effect {
     color: #e74c3c;
-    font-weight: 500;
+    font-weight: 600;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid rgba(231, 76, 60, 0.2);
 }
 
 .positive-effect {
     color: #27ae60;
-    font-weight: 500;
+    font-weight: 600;
+    background: rgba(39, 174, 96, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid rgba(39, 174, 96, 0.2);
 }
 
 /* Dashboard */

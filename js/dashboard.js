@@ -101,9 +101,8 @@ class EnergyDashboard {
     calculateMetrics(weather) {
         // Ensure we're using the current weather type consistently
         const currentWeatherType = weather?.type || weather || 'sunny';
-        const energyManagerProduction = this.energyManager.getTotalOutput(currentWeatherType);
-        const zoneEnergyProduction = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
-        const totalProduction = energyManagerProduction + zoneEnergyProduction;
+        // Use zone manager production which includes terrain bonuses and weather effects
+        const totalProduction = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
         const totalConsumption = this.zoneManager.getTotalEnergyDemand();
         const totalCost = this.energyManager.getTotalCost();
         const totalInstallations = this.energyManager.getTotalInstallations();
@@ -169,7 +168,8 @@ class EnergyDashboard {
 
     calculateSustainabilityScore(efficiency, carbonReduction, installations) {
         const energyMix = this.energyManager.getEnergyMix();
-        const totalProduction = this.energyManager.getTotalOutput(this.weatherSystem.getCurrentWeather());
+        const currentWeather = this.weatherSystem.getCurrentWeather();
+        const totalProduction = this.zoneManager.getTotalEnergyProduction(this.energyManager, currentWeather);
         const totalDemand = this.zoneManager.getTotalEnergyDemand();
         
         let score = 0;

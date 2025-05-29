@@ -142,7 +142,7 @@ class SimpleTutorial {
                 title: "You're Ready to Build!",
                 content: `
                     <h3>🎯 Start Your Sustainable City!</h3>
-                    <p>You now have all the knowledge needed to create an amazing renewable energy city!</p>
+                    <p>Now you can use these controls to build your city! Switch between <strong>Zone Mode</strong> and <strong>Energy Mode</strong>, and select zones like <strong>Residential</strong> to start planning.</p>
                     
                     <h4>Success Tips:</h4>
                     <ul>
@@ -154,7 +154,7 @@ class SimpleTutorial {
                     
                     <p><strong>Challenge:</strong> Can you build a 100% renewable city that's profitable and efficient?</p>
                 `,
-                highlight: ".header"
+                highlight: ".grid-controls"
             }
         ];
     }

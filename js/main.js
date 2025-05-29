@@ -436,6 +436,7 @@ class RenewableEnergySimulator {
         this.boundGridMouseMoveHandler = (event) => {
             if (!this.isDragging || !this.isSelecting) return;
             
+            console.log('Mouse move during drag selection');
             const cell = event.target.closest('.grid-cell');
             if (!cell) return;
             
@@ -444,12 +445,15 @@ class RenewableEnergySimulator {
             
             if (isNaN(row) || isNaN(col)) return;
             
+            console.log(`Updating drag selection to ${row}, ${col}`);
             this.updateDragSelection(row, col);
         };
         
         // Mouse up handler for ending drag selection
         this.boundGridMouseUpHandler = (event) => {
+            console.log('Mouse up event detected');
             if (this.isDragging) {
+                console.log('Ending drag selection');
                 this.isDragging = false;
                 
                 if (this.isSelecting) {

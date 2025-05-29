@@ -77,11 +77,11 @@ class TutorialSystem {
                 action: null
             },
             {
-                title: "Understanding City Zones",
+                title: "City Zones & Strategic Planning",
                 content: `
                     <div class="tutorial-content">
-                        <h3>🏘️ City Zones and Energy Needs</h3>
-                        <p>Cities are divided into different zones with unique energy and income characteristics:</p>
+                        <h3>🏘️ Building Your City Layout</h3>
+                        <p>Create different zones, each with unique energy demands and income potential when properly powered:</p>
                         
                         <div class="zone-explanation">
                             <div class="zone-item">
@@ -109,11 +109,12 @@ class TutorialSystem {
                             </div>
                         </div>
                         
-                        <h4>Advanced Features:</h4>
+                        <h4>💡 Pro Tips:</h4>
                         <ul>
-                            <li>Drag to select multiple cells for bulk zone creation</li>
-                            <li>Monthly income updates in real-time</li>
-                            <li>Visual indicators show powered vs unpowered zones</li>
+                            <li>Drag across multiple cells for bulk zone creation</li>
+                            <li>Unpowered zones show red borders - they generate no income!</li>
+                            <li>Plan zone layout before placing expensive energy sources</li>
+                            <li>Industrial zones offer highest income but need most power</li>
                         </ul>
                     </div>
                 `,
@@ -283,7 +284,7 @@ class TutorialSystem {
                             <li>Click on any empty grid cell to create a residential zone</li>
                         </ol>
                         
-                        <p>The cell will turn green and show it needs 50 kW of power to generate $120/month income.</p>
+                        <p>The cell will turn green and display its energy requirements. Remember: zones only generate income when properly powered!</p>
                         
                         <div class="tutorial-tip">
                             💡 <strong>Advanced Tip:</strong> Drag across multiple cells to create zones in bulk!

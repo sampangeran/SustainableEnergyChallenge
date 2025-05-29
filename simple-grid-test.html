@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Grid Test</title>
+    <style>
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(5, 60px);
+            gap: 2px;
+            margin: 20px;
+        }
+        .test-cell {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .test-cell:hover {
+            background: #e0e0e0;
+        }
+        .test-cell.clicked {
+            background: #4CAF50;
+            color: white;
+        }
+        .controls {
+            margin: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Grid Click Test</h1>
+    <div class="controls">
+        <button onclick="clearGrid()">Clear Grid</button>
+        <p>Click on any cell to test single-click functionality:</p>
+    </div>
+    
+    <div id="test-grid" class="test-grid">
+        <!-- Grid will be generated here -->
+    </div>
+    
+    <div id="log" style="margin: 20px; padding: 10px; background: #f9f9f9; border: 1px solid #ddd;">
+        <h3>Click Log:</h3>
+        <div id="click-log"></div>
+    </div>
+
+    <script>
+        // Create simple grid
+        function createGrid() {
+            const grid = document.getElementById('test-grid');
+            grid.innerHTML = '';
+            
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 5; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'test-cell';
+                    cell.textContent = `${row},${col}`;
+                    cell.onclick = function() {
+                        handleCellClick(row, col, this);
+                    };
+                    grid.appendChild(cell);
+                }
+            }
+        }
+        
+        function handleCellClick(row, col, element) {
+            // Log the click
+            const log = document.getElementById('click-log');
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML += `<div>${time}: Clicked cell (${row}, ${col})</div>`;
+            
+            // Visual feedback
+            element.classList.toggle('clicked');
+            
+            console.log(`Cell clicked: ${row}, ${col}`);
+        }
+        
+        function clearGrid() {
+            document.querySelectorAll('.test-cell').forEach(cell => {
+                cell.classList.remove('clicked');
+            });
+            document.getElementById('click-log').innerHTML = '';
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', createGrid);
+    </script>
+</body>
+</html>

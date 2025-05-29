@@ -349,6 +349,20 @@ class SimpleTutorial {
         }
         const padding = 8;
         
+        // Create dark overlay first
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'tutorial-overlay';
+        this.overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999995;
+            pointer-events: none;
+        `;
+        
         // Create spotlight effect by cutting out highlighted area from overlay
         const clipPath = `polygon(
             0% 0%, 
@@ -364,6 +378,9 @@ class SimpleTutorial {
         )`;
         
         this.overlay.style.clipPath = clipPath;
+        document.body.appendChild(this.overlay);
+        
+        console.log(`Tutorial: Created overlay with clipPath:`, clipPath);
         
         // Create glowing border around the highlighted element
         const highlightBorder = document.createElement('div');

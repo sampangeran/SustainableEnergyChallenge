@@ -365,52 +365,23 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/energySources.js?v=9"></script>
-    <script src="js/cityZones.js?v=9"></script>
-    <script src="js/weatherSystem.js?v=9"></script>
-    <script src="js/dashboard.js?v=9"></script>
-    <script src="js/dragDrop.js?v=9"></script>
+    <script src="js/energySources.js?v=10"></script>
+    <script src="js/cityZones.js?v=10"></script>
+    <script src="js/weatherSystem.js?v=10"></script>
+    <script src="js/dashboard.js?v=10"></script>
+    <script src="js/dragDrop.js?v=10"></script>
     <!-- Budget planner script removed -->
-    <script src="js/tutorial.js?v=9"></script>
-    <script src="js/storage.js?v=9"></script>
-    <script src="js/main.js?v=9"></script>
+    <script src="js/tutorial.js?v=10"></script>
+    <script src="js/storage.js?v=10"></script>
+    <script src="js/main.js?v=10"></script>
     
-    <!-- Emergency fix for single click issue -->
+    <!-- Initialize simulator globally -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Emergency click handler setup...');
-            
-            // Wait a moment for the grid to be created
-            setTimeout(function() {
-                const gridContainer = document.getElementById('city-grid');
-                if (gridContainer) {
-                    console.log('Setting up emergency click handler on grid');
-                    
-                    gridContainer.addEventListener('click', function(event) {
-                        const cell = event.target.closest('.grid-cell');
-                        if (cell) {
-                            const row = parseInt(cell.dataset.row);
-                            const col = parseInt(cell.dataset.col);
-                            
-                            if (!isNaN(row) && !isNaN(col)) {
-                                console.log(`Emergency handler: Cell ${row}, ${col} clicked`);
-                                
-                                // Try to access the main app instance
-                                if (window.renewableEnergySimulator) {
-                                    window.renewableEnergySimulator.handleCellClick(row, col, event);
-                                } else {
-                                    alert(`Cell ${row}, ${col} clicked! (Emergency handler active)`);
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    console.error('Grid container not found for emergency handler');
-                }
-            }, 1000);
-            
             // Make simulator globally accessible for bulk actions
-            window.simulator = window.renewableEnergySimulator;
+            setTimeout(() => {
+                window.simulator = window.renewableEnergySimulator;
+            }, 1000);
         });
     </script>
 </body>

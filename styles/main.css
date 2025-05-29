@@ -61,9 +61,25 @@ body {
     z-index: 100;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    background: white;
+    padding: 4px;
+    border-radius: 4px;
+}
+
 .header h1 {
     font-size: 1.8rem;
     font-weight: 600;
+    margin: 0;
 }
 
 .header h1 i {

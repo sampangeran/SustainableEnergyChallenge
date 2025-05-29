@@ -246,27 +246,47 @@ class BudgetManager {
     showBudgetDetails() {
         const modal = document.createElement('div');
         modal.className = 'modal-overlay';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        `;
         modal.innerHTML = `
-            <div class="modal budget-details-modal">
-                <div class="modal-header">
-                    <h3>Budget Details</h3>
-                    <button class="modal-close">&times;</button>
+            <div class="modal budget-details-modal" style="
+                background: white;
+                border-radius: 8px;
+                padding: 20px;
+                max-width: 600px;
+                max-height: 80vh;
+                overflow-y: auto;
+                position: relative;
+            ">
+                <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0;">Budget Details</h3>
+                    <button class="modal-close" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
                 </div>
                 <div class="modal-content">
-                    <div class="budget-summary">
-                        <div class="summary-item">
+                    <div class="budget-summary" style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
                             <span>Initial Budget:</span>
                             <span>$${this.formatMoney(this.initialBudget)}</span>
                         </div>
-                        <div class="summary-item">
+                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
                             <span>Current Budget:</span>
                             <span class="${this.getBudgetStatusClass()}">$${this.formatMoney(this.currentBudget)}</span>
                         </div>
-                        <div class="summary-item">
+                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
                             <span>Total Spent:</span>
                             <span>$${this.formatMoney(this.totalSpent)}</span>
                         </div>
-                        <div class="summary-item">
+                        <div class="summary-item" style="display: flex; justify-content: space-between; padding: 8px 0;">
                             <span>Monthly Income:</span>
                             <span>$${this.formatMoney(this.incomePerTurn)}</span>
                         </div>

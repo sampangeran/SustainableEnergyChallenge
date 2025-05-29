@@ -17,7 +17,11 @@ class RenewableEnergySimulator {
         this.isPaused = false;
         this.simulationSpeed = 1;
         
-        // Drag selection temporarily removed
+        // Grid selection state
+        this.isSelecting = false;
+        this.selectedCells = new Set();
+        this.startCell = null;
+        this.currentSelectionArea = null;
         
         this.initialize();
     }
@@ -360,38 +364,228 @@ class RenewableEnergySimulator {
             return;
         }
         
-        // Remove any existing click handlers
-        const oldHandler = this.boundGridClickHandler;
-        if (oldHandler) {
-            gridContainer.removeEventListener('click', oldHandler);
-        }
+        // Remove any existing handlers
+        const oldClickHandler = this.boundGridClickHandler;
+        const oldMouseDownHandler = this.boundGridMouseDownHandler;
+        const oldMouseMoveHandler = this.boundGridMouseMoveHandler;
+        const oldMouseUpHandler = this.boundGridMouseUpHandler;
         
-        // Create new click handler using event delegation
+        if (oldClickHandler) gridContainer.removeEventListener('click', oldClickHandler);
+        if (oldMouseDownHandler) gridContainer.removeEventListener('mousedown', oldMouseDownHandler);
+        if (oldMouseMoveHandler) gridContainer.removeEventListener('mousemove', oldMouseMoveHandler);
+        if (oldMouseUpHandler) document.removeEventListener('mouseup', oldMouseUpHandler);
+        
+        // Click handler for single cell selection
         this.boundGridClickHandler = (event) => {
-            console.log('Grid clicked!', event.target);
+            if (this.isSelecting) return; // Don't handle clicks during drag selection
+            
             const cell = event.target.closest('.grid-cell');
-            if (!cell) {
-                console.log('Not a grid cell');
-                return;
-            }
+            if (!cell) return;
             
             const row = parseInt(cell.dataset.row);
             const col = parseInt(cell.dataset.col);
-            console.log(`Parsed coordinates: ${row}, ${col}`);
             
-            if (isNaN(row) || isNaN(col)) {
-                console.error('Invalid coordinates');
-                return;
-            }
+            if (isNaN(row) || isNaN(col)) return;
             
-            // Handle the click
             this.handleCellClick(row, col, event);
         };
         
-        // Add the new click handler
-        gridContainer.addEventListener('click', this.boundGridClickHandler);
+        // Mouse down handler for starting drag selection
+        this.boundGridMouseDownHandler = (event) => {
+            const cell = event.target.closest('.grid-cell');
+            if (!cell) return;
+            
+            const row = parseInt(cell.dataset.row);
+            const col = parseInt(cell.dataset.col);
+            
+            if (isNaN(row) || isNaN(col)) return;
+            
+            this.startDragSelection(row, col, event);
+        };
         
-        console.log('Grid click handlers set up successfully on', gridContainer);
+        // Mouse move handler for updating drag selection
+        this.boundGridMouseMoveHandler = (event) => {
+            if (!this.isSelecting) return;
+            
+            const cell = event.target.closest('.grid-cell');
+            if (!cell) return;
+            
+            const row = parseInt(cell.dataset.row);
+            const col = parseInt(cell.dataset.col);
+            
+            if (isNaN(row) || isNaN(col)) return;
+            
+            this.updateDragSelection(row, col);
+        };
+        
+        // Mouse up handler for ending drag selection
+        this.boundGridMouseUpHandler = (event) => {
+            if (this.isSelecting) {
+                this.endDragSelection();
+            }
+        };
+        
+        // Add event listeners
+        gridContainer.addEventListener('click', this.boundGridClickHandler);
+        gridContainer.addEventListener('mousedown', this.boundGridMouseDownHandler);
+        gridContainer.addEventListener('mousemove', this.boundGridMouseMoveHandler);
+        document.addEventListener('mouseup', this.boundGridMouseUpHandler);
+        
+        console.log('Grid click and drag handlers set up successfully');
+    }
+
+    startDragSelection(row, col, event) {
+        // Prevent text selection during drag
+        event.preventDefault();
+        
+        this.isSelecting = true;
+        this.startCell = { row, col };
+        this.selectedCells.clear();
+        
+        // Clear any previous selection highlights
+        this.clearCellSelections();
+        
+        // Add initial cell to selection
+        this.selectedCells.add(`${row}-${col}`);
+        this.highlightSelectedCells();
+        
+        console.log(`Started drag selection at ${row}, ${col}`);
+    }
+    
+    updateDragSelection(row, col) {
+        if (!this.isSelecting || !this.startCell) return;
+        
+        // Clear previous selection
+        this.selectedCells.clear();
+        
+        // Calculate selection rectangle
+        const minRow = Math.min(this.startCell.row, row);
+        const maxRow = Math.max(this.startCell.row, row);
+        const minCol = Math.min(this.startCell.col, col);
+        const maxCol = Math.max(this.startCell.col, col);
+        
+        // Add all cells in rectangle to selection
+        for (let r = minRow; r <= maxRow; r++) {
+            for (let c = minCol; c <= maxCol; c++) {
+                this.selectedCells.add(`${r}-${c}`);
+            }
+        }
+        
+        this.highlightSelectedCells();
+    }
+    
+    endDragSelection() {
+        this.isSelecting = false;
+        
+        if (this.selectedCells.size > 1) {
+            console.log(`Selected ${this.selectedCells.size} cells for bulk action`);
+            this.showBulkActionMenu();
+        } else if (this.selectedCells.size === 1) {
+            // Handle single cell selection like a normal click
+            const cellKey = Array.from(this.selectedCells)[0];
+            const [row, col] = cellKey.split('-').map(Number);
+            this.clearCellSelections();
+            this.handleCellClick(row, col, { target: document.getElementById(`cell-${row}-${col}`) });
+        }
+        
+        this.startCell = null;
+    }
+    
+    clearCellSelections() {
+        // Remove selection highlighting from all cells
+        document.querySelectorAll('.grid-cell.selected').forEach(cell => {
+            cell.classList.remove('selected');
+        });
+        this.selectedCells.clear();
+    }
+    
+    highlightSelectedCells() {
+        // First clear existing highlights
+        this.clearCellSelections();
+        
+        // Add selection highlight to selected cells
+        this.selectedCells.forEach(cellKey => {
+            const [row, col] = cellKey.split('-').map(Number);
+            const cell = document.getElementById(`cell-${row}-${col}`);
+            if (cell) {
+                cell.classList.add('selected');
+            }
+        });
+    }
+    
+    showBulkActionMenu() {
+        // Create a context menu for bulk actions
+        const selectedArray = Array.from(this.selectedCells);
+        const firstCell = selectedArray[0].split('-').map(Number);
+        const firstCellElement = document.getElementById(`cell-${firstCell[0]}-${firstCell[1]}`);
+        
+        if (!firstCellElement) return;
+        
+        const rect = firstCellElement.getBoundingClientRect();
+        
+        // Create menu
+        const menu = document.createElement('div');
+        menu.className = 'bulk-action-menu';
+        menu.style.cssText = `
+            position: fixed;
+            top: ${rect.bottom + 10}px;
+            left: ${rect.left}px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 200px;
+        `;
+        
+        menu.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 8px;">
+                ${selectedArray.length} cells selected
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin: 2px 0;" onclick="simulator.bulkSetZone('residential')">
+                Set as Residential
+            </button>
+            <button class="btn btn-primary" style="width: 100%; margin: 2px 0;" onclick="simulator.bulkSetZone('commercial')">
+                Set as Commercial
+            </button>
+            <button class="btn btn-primary" style="width: 100%; margin: 2px 0;" onclick="simulator.bulkSetZone('industrial')">
+                Set as Industrial
+            </button>
+            <button class="btn btn-secondary" style="width: 100%; margin: 2px 0;" onclick="simulator.clearCellSelections()">
+                Cancel
+            </button>
+        `;
+        
+        document.body.appendChild(menu);
+        
+        // Auto-remove menu after 10 seconds or on click outside
+        setTimeout(() => {
+            if (menu.parentNode) menu.parentNode.removeChild(menu);
+        }, 10000);
+        
+        document.addEventListener('click', function removeMenu(e) {
+            if (!menu.contains(e.target)) {
+                if (menu.parentNode) menu.parentNode.removeChild(menu);
+                document.removeEventListener('click', removeMenu);
+            }
+        });
+    }
+    
+    bulkSetZone(zoneType) {
+        // Apply zone type to all selected cells
+        this.selectedCells.forEach(cellKey => {
+            const [row, col] = cellKey.split('-').map(Number);
+            this.zoneManager.setCellZone(row, col, zoneType);
+            this.updateCellDisplay(row, col);
+        });
+        
+        // Clear selection and remove menu
+        this.clearCellSelections();
+        const menu = document.querySelector('.bulk-action-menu');
+        if (menu && menu.parentNode) menu.parentNode.removeChild(menu);
+        
+        this.showNotification(`Set ${this.selectedCells.size} cells to ${zoneType} zone`, 'success');
     }
 
     handleCellClick(row, col, event) {

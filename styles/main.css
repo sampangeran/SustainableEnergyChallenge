@@ -386,6 +386,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none; /* Prevent text selection during drag */
+}
+
+.grid-cell.selected {
+    border: 2px solid hsl(var(--accent-color)) !important;
+    background: hsl(var(--accent-color) / 0.2) !important;
+    box-shadow: 0 0 8px hsl(var(--accent-color) / 0.4);
+    transform: scale(0.98);
 }
 
 .grid-cell:hover {

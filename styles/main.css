@@ -597,6 +597,11 @@ body {
     font-weight: 500;
 }
 
+.positive-effect {
+    color: #27ae60;
+    font-weight: 500;
+}
+
 /* Dashboard */
 .dashboard {
     background: hsl(var(--surface));

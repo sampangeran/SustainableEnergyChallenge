@@ -381,6 +381,9 @@ class SimpleTutorial {
         element.style.zIndex = '999997';
         this.originalElement = element;
         
+        // Auto-scroll to highlighted element on mobile
+        this.scrollToElementOnMobile(element);
+        
         this.positionPanelNearElement(element);
     }
 
@@ -438,6 +441,27 @@ class SimpleTutorial {
         this.panel.style.left = '50%';
         this.panel.style.top = '50%';
         this.panel.style.transform = 'translate(-50%, -50%)';
+    }
+
+    scrollToElementOnMobile(element) {
+        // Check if we're on a mobile device
+        const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (!isMobile) return;
+        
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const elementCenter = rect.top + (rect.height / 2);
+        
+        // Only scroll if element is not visible or not well-centered
+        if (rect.top < 100 || rect.bottom > viewportHeight - 100) {
+            const scrollTarget = window.scrollY + elementCenter - (viewportHeight / 2);
+            
+            window.scrollTo({
+                top: Math.max(0, scrollTarget),
+                behavior: 'smooth'
+            });
+        }
     }
 }
 

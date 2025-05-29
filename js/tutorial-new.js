@@ -291,7 +291,7 @@ class TutorialSystem {
                         </div>
                     </div>
                 `,
-                highlight: ".grid-controls",
+                highlight: ".mode-controls",
                 action: "waitForZoneCreation"
             },
             {
@@ -318,7 +318,7 @@ class TutorialSystem {
                         <p><strong>Remember:</strong> You can restart this tutorial anytime by clicking the "Tutorial" button!</p>
                     </div>
                 `,
-                highlight: null,
+                highlight: ".header",
                 action: "completeTutorial"
             }
         ];

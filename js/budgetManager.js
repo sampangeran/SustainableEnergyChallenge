@@ -48,7 +48,6 @@ class BudgetManager {
             </div>
             <div class="budget-controls">
                 <button id="budget-details-btn" class="btn-secondary">View Details</button>
-                <button id="add-funds-btn" class="btn-primary">Add Funds</button>
             </div>
         `;
 
@@ -70,14 +69,9 @@ class BudgetManager {
     // Set up event listeners for budget controls
     setupBudgetEventListeners() {
         const detailsBtn = document.getElementById('budget-details-btn');
-        const addFundsBtn = document.getElementById('add-funds-btn');
 
         if (detailsBtn) {
             detailsBtn.addEventListener('click', () => this.showBudgetDetails());
-        }
-
-        if (addFundsBtn) {
-            addFundsBtn.addEventListener('click', () => this.showAddFundsDialog());
         }
     }
 

@@ -161,18 +161,12 @@ class TutorialSystem {
                         <p>The city has specialized terrain that provides efficiency bonuses for certain energy sources:</p>
                         
                         <div class="terrain-explanation">
-                            <div class="terrain-item">
-                                <strong>🌲 Forest Areas:</strong> +40% biomass efficiency
-                            </div>
-                            <div class="terrain-item">
-                                <strong>🏔️ Mountain Areas:</strong> +50% geothermal, +30% wind efficiency
-                            </div>
-                            <div class="terrain-item">
-                                <strong>🏖️ Beach Areas:</strong> +35% wind, +25% solar efficiency
-                            </div>
-                            <div class="terrain-item">
-                                <strong>🌊 River Areas:</strong> +60% hydro efficiency
-                            </div>
+                            <ul>
+                                <li><strong>🌲 Forest Areas:</strong> +40% biomass efficiency</li>
+                                <li><strong>🏔️ Mountain Areas:</strong> +50% geothermal, +30% wind efficiency</li>
+                                <li><strong>🏖️ Beach Areas:</strong> +35% wind, +25% solar efficiency</li>
+                                <li><strong>🌊 River Areas:</strong> +60% hydro efficiency</li>
+                            </ul>
                         </div>
                         
                         <p><strong>Strategy Tips:</strong></p>
@@ -195,18 +189,12 @@ class TutorialSystem {
                         <p>Weather conditions change every 30-60 seconds and affect energy production:</p>
                         
                         <div class="weather-explanation">
-                            <div class="weather-item">
-                                <strong>☀️ Sunny:</strong> Solar +20%, others normal
-                            </div>
-                            <div class="weather-item">
-                                <strong>☁️ Cloudy:</strong> Solar -30%, others normal
-                            </div>
-                            <div class="weather-item">
-                                <strong>🌧️ Rainy:</strong> Solar -50%, Hydro +30%
-                            </div>
-                            <div class="weather-item">
-                                <strong>💨 Windy:</strong> Wind +40%, Solar -10%
-                            </div>
+                            <ul>
+                                <li><strong>☀️ Sunny:</strong> Solar +20%, others normal</li>
+                                <li><strong>☁️ Cloudy:</strong> Solar -30%, others normal</li>
+                                <li><strong>🌧️ Rainy:</strong> Solar -50%, Hydro +30%</li>
+                                <li><strong>💨 Windy:</strong> Wind +40%, Solar -10%</li>
+                            </ul>
                         </div>
                         
                         <p><strong>Advanced Features:</strong></p>

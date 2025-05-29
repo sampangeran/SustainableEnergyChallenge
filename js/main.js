@@ -105,10 +105,15 @@ class RenewableEnergySimulator {
     }
 
     generateCityGrid() {
+        console.log('generateCityGrid called');
         const gridContainer = document.getElementById('city-grid');
-        if (!gridContainer) return;
+        if (!gridContainer) {
+            console.error('Grid container not found in generateCityGrid');
+            return;
+        }
 
         const { rows, cols } = this.zoneManager.getGridDimensions();
+        console.log(`Grid dimensions: ${rows}x${cols}`);
         
         // Clear existing grid
         gridContainer.innerHTML = '';
@@ -132,7 +137,12 @@ class RenewableEnergySimulator {
         this.updateGridDisplay();
         
         // Set up clean click handlers using event delegation
-        this.setupGridClickHandlers();
+        console.log('About to set up grid click handlers...');
+        try {
+            this.setupGridClickHandlers();
+        } catch (error) {
+            console.error('Error setting up click handlers:', error);
+        }
     }
 
     generateTerrainLayout(rows, cols) {

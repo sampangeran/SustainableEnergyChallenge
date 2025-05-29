@@ -444,24 +444,31 @@ class SimpleTutorial {
     }
 
     scrollToElementOnMobile(element) {
-        // Check if we're on a mobile device
+        // Check if we're on a mobile device or small screen
         const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        console.log(`Tutorial: Mobile check - width: ${window.innerWidth}, isMobile: ${isMobile}`);
         
         if (!isMobile) return;
         
-        const rect = element.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        const elementCenter = rect.top + (rect.height / 2);
-        
-        // Only scroll if element is not visible or not well-centered
-        if (rect.top < 100 || rect.bottom > viewportHeight - 100) {
+        // Wait a moment for highlighting to be applied
+        setTimeout(() => {
+            const rect = element.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const elementCenter = rect.top + (rect.height / 2);
+            
+            console.log(`Tutorial: Scrolling to element - rect.top: ${rect.top}, viewportHeight: ${viewportHeight}`);
+            
+            // Always scroll to center the highlighted element
             const scrollTarget = window.scrollY + elementCenter - (viewportHeight / 2);
+            
+            console.log(`Tutorial: Scroll target: ${scrollTarget}`);
             
             window.scrollTo({
                 top: Math.max(0, scrollTarget),
                 behavior: 'smooth'
             });
-        }
+        }, 100);
     }
 }
 

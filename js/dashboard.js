@@ -299,10 +299,11 @@ class EnergyDashboard {
     }
 
     updateEnergyMetrics(metrics) {
-        // Total Production shows base production without weather effects
+        // Total Production shows base production including terrain bonuses but without weather effects
         if (this.elements.totalProduction) {
-            const baseProduction = this.calculateBaseProduction();
-            this.elements.totalProduction.textContent = `${Math.round(baseProduction)} kW`;
+            const weather = { type: 'sunny' }; // Use sunny weather to get base production with terrain bonuses
+            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
+            this.elements.totalProduction.textContent = `${Math.round(baseProductionWithTerrain)} kW`;
             this.addUpdateAnimation(this.elements.totalProduction);
         }
 

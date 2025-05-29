@@ -315,8 +315,12 @@ class RenewableEnergySimulator {
     }
 
     setupGridClickHandlers() {
+        console.log('Setting up grid click handlers...');
         const gridContainer = document.getElementById('city-grid');
-        if (!gridContainer) return;
+        if (!gridContainer) {
+            console.error('Grid container not found!');
+            return;
+        }
         
         // Remove any existing click handlers
         const oldHandler = this.boundGridClickHandler;
@@ -326,13 +330,21 @@ class RenewableEnergySimulator {
         
         // Create new click handler using event delegation
         this.boundGridClickHandler = (event) => {
+            console.log('Grid clicked!', event.target);
             const cell = event.target.closest('.grid-cell');
-            if (!cell) return;
+            if (!cell) {
+                console.log('Not a grid cell');
+                return;
+            }
             
             const row = parseInt(cell.dataset.row);
             const col = parseInt(cell.dataset.col);
+            console.log(`Parsed coordinates: ${row}, ${col}`);
             
-            if (isNaN(row) || isNaN(col)) return;
+            if (isNaN(row) || isNaN(col)) {
+                console.error('Invalid coordinates');
+                return;
+            }
             
             // Handle the click
             this.handleCellClick(row, col, event);
@@ -341,7 +353,7 @@ class RenewableEnergySimulator {
         // Add the new click handler
         gridContainer.addEventListener('click', this.boundGridClickHandler);
         
-        console.log('Grid click handlers set up successfully');
+        console.log('Grid click handlers set up successfully on', gridContainer);
     }
 
     handleCellClick(row, col, event) {

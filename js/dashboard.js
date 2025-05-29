@@ -319,22 +319,21 @@ class EnergyDashboard {
             this.addUpdateAnimation(this.elements.efficiency);
         }
 
-        // Current Energy Production shows actual weather-affected production
+        // Current Energy Production shows actual weather-affected production with terrain bonuses
         if (this.elements.currentProduction) {
             const weather = this.weatherSystem.getCurrentWeather();
-            const weatherType = weather?.type || 'sunny';
-            const weatherAffectedProduction = this.energyManager.getTotalOutput(weatherType);
-            this.elements.currentProduction.textContent = `${Math.round(weatherAffectedProduction)} kW`;
+            const weatherAffectedProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
+            this.elements.currentProduction.textContent = `${Math.round(weatherAffectedProductionWithTerrain)} kW`;
             this.addUpdateAnimation(this.elements.currentProduction);
         }
 
         // Update weather impact indicator
         if (this.elements.weatherImpact) {
             const weather = this.weatherSystem.getCurrentWeather();
-            const weatherType = weather?.type || 'sunny';
-            const baseProduction = this.calculateBaseProduction();
-            const currentProduction = this.energyManager.getTotalOutput(weatherType);
-            const impact = baseProduction > 0 ? ((currentProduction - baseProduction) / baseProduction) * 100 : 0;
+            const baseWeather = { type: 'sunny' };
+            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, baseWeather);
+            const currentProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
+            const impact = baseProductionWithTerrain > 0 ? ((currentProductionWithTerrain - baseProductionWithTerrain) / baseProductionWithTerrain) * 100 : 0;
             
             this.elements.weatherImpact.textContent = impact >= 0 ? `+${Math.round(impact)}%` : `${Math.round(impact)}%`;
             this.elements.weatherImpact.style.color = impact >= 0 ? '#27ae60' : '#e74c3c';

@@ -226,7 +226,7 @@ class SimpleTutorial {
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            z-index: 99998;
+            z-index: 999998;
         `;
         
         // Create panel
@@ -239,7 +239,7 @@ class SimpleTutorial {
             border-radius: 12px;
             padding: 24px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            z-index: 99999;
+            z-index: 999999;
             max-width: 450px;
             max-height: 80vh;
             overflow-y: auto;

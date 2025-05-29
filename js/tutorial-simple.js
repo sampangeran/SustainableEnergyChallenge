@@ -368,7 +368,7 @@ class SimpleTutorial {
             border: 3px solid #f39c12;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(243, 156, 18, 0.8);
-            z-index: 999999;
+            z-index: 999995;
             pointer-events: none;
             animation: tutorialPulse 2s infinite ease-in-out;
         `;

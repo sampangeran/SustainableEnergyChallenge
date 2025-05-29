@@ -384,6 +384,9 @@ class TutorialSystem {
         
         if (step.highlight) {
             this.highlightElement(step.highlight);
+        } else {
+            // Center panel if no element to highlight
+            this.centerPanel();
         }
         
         if (step.action) {
@@ -448,13 +451,16 @@ class TutorialSystem {
         const exitBtn = modal.querySelector('#tutorialExit');
         const nextBtn = modal.querySelector('#tutorialNext');
         const prevBtn = modal.querySelector('#tutorialPrev');
-        const overlay = modal.querySelector('#tutorialOverlay');
         
-        closeBtn.addEventListener('click', () => this.confirmExit());
-        exitBtn.addEventListener('click', () => this.confirmExit());
-        nextBtn.addEventListener('click', () => this.nextStep());
-        prevBtn.addEventListener('click', () => this.previousStep());
-        overlay.addEventListener('click', () => this.confirmExit());
+        if (closeBtn) closeBtn.addEventListener('click', () => this.confirmExit());
+        if (exitBtn) exitBtn.addEventListener('click', () => this.confirmExit());
+        if (nextBtn) nextBtn.addEventListener('click', () => this.nextStep());
+        if (prevBtn) prevBtn.addEventListener('click', () => this.previousStep());
+        
+        // Close on overlay click
+        if (this.overlay) {
+            this.overlay.addEventListener('click', () => this.confirmExit());
+        }
     }
 
     updateTutorialContent(step) {

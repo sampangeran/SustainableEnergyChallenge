@@ -416,6 +416,41 @@ class SimpleTutorial {
         // Auto-scroll to highlighted element
         this.scrollToElement(element);
         
+        // Update overlay position after scrolling
+        setTimeout(() => {
+            const newRect = element.getBoundingClientRect();
+            const newTopClamp = Math.max(newRect.top - padding, 0);
+            const newLeftClamp = Math.max(newRect.left - padding, 0);
+            const newRightClamp = Math.min(newRect.right + padding, window.innerWidth);
+            const newBottomClamp = Math.min(newRect.bottom + padding, window.innerHeight);
+            
+            const newClipPath = `polygon(
+                0% 0%, 
+                0% 100%, 
+                ${newLeftClamp}px 100%, 
+                ${newLeftClamp}px ${newTopClamp}px, 
+                ${newRightClamp}px ${newTopClamp}px, 
+                ${newRightClamp}px ${newBottomClamp}px, 
+                ${newLeftClamp}px ${newBottomClamp}px, 
+                ${newLeftClamp}px 100%, 
+                100% 100%, 
+                100% 0%
+            )`;
+            
+            if (this.overlay) {
+                this.overlay.style.clipPath = newClipPath;
+                console.log(`Tutorial: Updated overlay clipPath after scroll:`, newClipPath);
+            }
+            
+            // Update highlight border position too
+            if (this.highlightedElement) {
+                this.highlightedElement.style.top = `${newRect.top - padding}px`;
+                this.highlightedElement.style.left = `${newRect.left - padding}px`;
+                this.highlightedElement.style.width = `${newRect.width + (padding * 2)}px`;
+                this.highlightedElement.style.height = `${newRect.height + (padding * 2)}px`;
+            }
+        }, 200);
+        
         this.positionPanelNearElement(element);
     }
 

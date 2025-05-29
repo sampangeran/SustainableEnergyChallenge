@@ -408,6 +408,9 @@
                     console.error('Grid container not found for emergency handler');
                 }
             }, 1000);
+            
+            // Make simulator globally accessible for bulk actions
+            window.simulator = window.renewableEnergySimulator;
         });
     </script>
 </body>

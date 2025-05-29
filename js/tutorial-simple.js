@@ -186,6 +186,9 @@ class SimpleTutorial {
             this.currentStep++;
             console.log(`Tutorial: Moving to step ${this.currentStep}`);
             this.showCurrentStep();
+        } else {
+            console.log(`Tutorial: Finishing tutorial`);
+            this.stop();
         }
     }
 
@@ -262,7 +265,9 @@ class SimpleTutorial {
         this.panel.querySelector('.tutorial-close').addEventListener('click', () => this.stop());
         this.panel.querySelector('.tutorial-prev').addEventListener('click', () => this.previousStep());
         this.panel.querySelector('.tutorial-next').addEventListener('click', () => this.nextStep());
-        this.overlay.addEventListener('click', () => this.stop());
+        this.overlay.addEventListener('click', (e) => {
+            if (e.target === this.overlay) this.stop();
+        });
         
         document.body.appendChild(this.overlay);
         document.body.appendChild(this.panel);
@@ -298,10 +303,8 @@ class SimpleTutorial {
         
         if (this.currentStep === this.tutorialSteps.length - 1) {
             nextBtn.textContent = 'Finish';
-            nextBtn.onclick = () => this.stop();
         } else {
             nextBtn.textContent = 'Next';
-            nextBtn.onclick = () => this.nextStep();
         }
         
         progress.textContent = `${this.currentStep + 1} of ${this.tutorialSteps.length}`;

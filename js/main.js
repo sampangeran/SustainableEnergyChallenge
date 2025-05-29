@@ -602,12 +602,26 @@ class RenewableEnergySimulator {
     bulkSetZone(zoneType) {
         // Store count before clearing
         const cellCount = this.selectedCells.size;
+        let assignedCount = 0;
+        let skippedTerrain = 0;
         
-        // Apply zone type to all selected cells
+        // Apply zone type to all selected cells (except terrain)
         this.selectedCells.forEach(cellKey => {
             const [row, col] = cellKey.split('-').map(Number);
-            this.zoneManager.setCellZone(row, col, zoneType);
-            this.updateCellDisplay(row, col);
+            const cell = document.getElementById(`cell-${row}-${col}`);
+            
+            // Check if cell has terrain (forest, mountain, beach, river)
+            if (cell && (cell.classList.contains('forest') || 
+                        cell.classList.contains('mountain') || 
+                        cell.classList.contains('beach') || 
+                        cell.classList.contains('river'))) {
+                skippedTerrain++;
+                console.log(`Skipping terrain cell at ${row}, ${col}`);
+            } else {
+                this.zoneManager.setCellZone(row, col, zoneType);
+                this.updateCellDisplay(row, col);
+                assignedCount++;
+            }
         });
         
         // Clear selection and remove menu
@@ -615,7 +629,14 @@ class RenewableEnergySimulator {
         const menu = document.querySelector('.bulk-action-menu');
         if (menu && menu.parentNode) menu.parentNode.removeChild(menu);
         
-        this.showNotification(`Set ${cellCount} cells to ${zoneType} zone`, 'success');
+        // Show appropriate notification
+        if (assignedCount > 0 && skippedTerrain > 0) {
+            this.showNotification(`Set ${assignedCount} cells to ${zoneType} zone (${skippedTerrain} terrain cells protected)`, 'success');
+        } else if (assignedCount > 0) {
+            this.showNotification(`Set ${assignedCount} cells to ${zoneType} zone`, 'success');
+        } else if (skippedTerrain > 0) {
+            this.showNotification(`Cannot assign zones to terrain cells (${skippedTerrain} cells protected)`, 'warning');
+        }
     }
 
     handleCellClick(row, col, event) {

@@ -1586,30 +1586,46 @@ body {
 
 /* Tutorial Content Styling */
 .tutorial-modal ul {
-    margin: 12px 0;
-    padding-left: 24px;
+    margin: 12px 0 !important;
+    padding-left: 24px !important;
+    list-style-position: outside !important;
 }
 
 .tutorial-modal ol {
-    margin: 12px 0;
-    padding-left: 24px;
+    margin: 12px 0 !important;
+    padding-left: 24px !important;
+    list-style-position: outside !important;
 }
 
 .tutorial-modal li {
-    margin: 6px 0;
-    line-height: 1.5;
+    margin: 6px 0 !important;
+    line-height: 1.5 !important;
+    padding-left: 0 !important;
 }
 
-.tutorial-modal .budget-explanation ul,
-.tutorial-modal .energy-explanation ul,
-.tutorial-modal .terrain-explanation ul,
-.tutorial-modal .weather-explanation ul,
-.tutorial-modal .dashboard-explanation ul,
-.tutorial-modal .next-steps ul {
-    padding-left: 24px;
+.tutorial-modal .tutorial-welcome ul,
+.tutorial-modal .tutorial-budget ul,
+.tutorial-modal .tutorial-zones ul,
+.tutorial-modal .tutorial-energy ul,
+.tutorial-modal .tutorial-terrain ul,
+.tutorial-modal .tutorial-weather ul,
+.tutorial-modal .tutorial-dashboard ul,
+.tutorial-modal .tutorial-conclusion ul {
+    padding-left: 24px !important;
+    margin-left: 0 !important;
 }
 
 .tutorial-modal h4 {
-    margin: 16px 0 8px 0;
-    font-weight: 600;
+    margin: 16px 0 8px 0 !important;
+    font-weight: 600 !important;
+}
+
+/* Reset any conflicting styles */
+.tutorial-modal .zone-explanation,
+.tutorial-modal .energy-explanation,
+.tutorial-modal .terrain-explanation,
+.tutorial-modal .weather-explanation,
+.tutorial-modal .dashboard-explanation {
+    margin: 0 !important;
+    padding: 0 !important;
 }

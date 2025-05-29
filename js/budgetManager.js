@@ -16,8 +16,9 @@ class BudgetManager {
 
     // Initialize budget display and controls
     initialize() {
-        this.createBudgetPanel();
-        this.updateBudgetDisplay();
+        // Budget panel creation disabled
+        // this.createBudgetPanel();
+        // this.updateBudgetDisplay();
     }
 
     // Create the budget panel UI

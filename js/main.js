@@ -27,18 +27,23 @@ class RenewableEnergySimulator {
             console.log('Initializing Renewable Energy City Simulator...');
             
             // Initialize core systems
+            console.log('Step 1: Initializing managers...');
             this.initializeManagers();
             
             // Initialize UI components
+            console.log('Step 2: Initializing UI...');
             this.initializeUI();
             
             // Setup event listeners
+            console.log('Step 3: Setting up event listeners...');
             this.setupEventListeners();
             
             // Load saved data if available
+            console.log('Step 4: Loading saved state...');
             await this.loadSavedState();
             
             // Start systems
+            console.log('Step 5: Starting systems...');
             this.startSystems();
             
             this.isInitialized = true;

@@ -158,17 +158,8 @@ class RenewableEnergySimulator {
                     cell.classList.add(`zone-${terrainType}`);
                 }
                 
-                // Add multiple event handlers to ensure clicks work
-                const clickHandler = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log(`Cell ${row}, ${col} clicked via handler`);
-                    this.handleCellClick(row, col, e);
-                };
-                
-                cell.addEventListener('click', clickHandler);
-                cell.addEventListener('mouseup', clickHandler);
-                cell.onclick = clickHandler;
+                // Remove direct handlers to enable drag-to-select
+                // Events are handled by the grid container now
                 
                 gridContainer.appendChild(cell);
             }
@@ -177,8 +168,8 @@ class RenewableEnergySimulator {
         // Update display to show terrain zones
         this.updateGridDisplay();
         
-        // Click handlers are now set up directly on each cell during creation
-        console.log('Grid cells created with direct click handlers');
+        // Event delegation is now used for drag-to-select functionality
+        console.log('Grid cells created for drag-to-select system');
     }
 
     generateTerrainLayout(rows, cols) {
@@ -399,17 +390,25 @@ class RenewableEnergySimulator {
         
         // Mouse down handler for starting drag selection
         this.boundGridMouseDownHandler = (event) => {
+            console.log('Mouse down detected on grid!');
             // Only handle left mouse button
             if (event.button !== 0) return;
             
             const cell = event.target.closest('.grid-cell');
-            if (!cell) return;
+            if (!cell) {
+                console.log('No cell found for mousedown');
+                return;
+            }
             
             const row = parseInt(cell.dataset.row);
             const col = parseInt(cell.dataset.col);
             
-            if (isNaN(row) || isNaN(col)) return;
+            if (isNaN(row) || isNaN(col)) {
+                console.log('Invalid coordinates for mousedown');
+                return;
+            }
             
+            console.log(`Mouse down on cell ${row}, ${col}`);
             // Immediately start selection
             this.isDragging = true;
             this.startDragSelection(row, col, event);

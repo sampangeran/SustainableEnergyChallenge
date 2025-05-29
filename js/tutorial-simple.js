@@ -381,8 +381,8 @@ class SimpleTutorial {
         element.style.zIndex = '999997';
         this.originalElement = element;
         
-        // Auto-scroll to highlighted element on mobile
-        this.scrollToElementOnMobile(element);
+        // Auto-scroll to highlighted element
+        this.scrollToElement(element);
         
         this.positionPanelNearElement(element);
     }
@@ -458,13 +458,9 @@ class SimpleTutorial {
         this.panel.style.transform = 'translate(-50%, -50%)';
     }
 
-    scrollToElementOnMobile(element) {
-        // Check if we're on a mobile device or small screen
-        const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        console.log(`Tutorial: Mobile check - width: ${window.innerWidth}, isMobile: ${isMobile}`);
-        
-        if (!isMobile) return;
+    scrollToElement(element) {
+        // Enable scrolling for all devices now
+        console.log(`Tutorial: Scrolling enabled for all devices - width: ${window.innerWidth}`);
         
         // Wait a moment for highlighting to be applied
         setTimeout(() => {

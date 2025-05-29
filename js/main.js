@@ -695,6 +695,11 @@ class RenewableEnergySimulator {
         // Clear selection
         this.clearCellSelections();
         
+        // Update income calculation after energy source changes
+        if (placedCount > 0) {
+            this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
+        }
+        
         // Show appropriate notification
         if (placedCount > 0 && skippedCount > 0) {
             this.showNotification(`Placed ${placedCount} ${selectedEnergyType} sources (${skippedCount} cells skipped)`, 'success');
@@ -735,6 +740,11 @@ class RenewableEnergySimulator {
         this.clearCellSelections();
         const menu = document.querySelector('.bulk-action-menu');
         if (menu && menu.parentNode) menu.parentNode.removeChild(menu);
+        
+        // Update income calculation after zone changes
+        if (assignedCount > 0) {
+            this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
+        }
         
         // Show appropriate notification
         if (assignedCount > 0 && skippedTerrain > 0) {
@@ -786,6 +796,7 @@ class RenewableEnergySimulator {
         }
         
         this.updateCellDisplay(row, col);
+        this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
         this.dashboard.updateDashboard();
     }
 
@@ -817,6 +828,7 @@ class RenewableEnergySimulator {
             
             // Update entire grid display to refresh power indicators
             this.updateGridDisplay();
+            this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
             this.dashboard.updateDashboard();
             
             // Show feedback with refund info
@@ -923,6 +935,7 @@ class RenewableEnergySimulator {
         
         // Update entire grid display to refresh power indicators
         this.updateGridDisplay();
+        this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
         this.dashboard.updateDashboard();
         
         // Show success feedback

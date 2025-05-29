@@ -526,9 +526,54 @@ class TutorialSystem {
     }
 
     confirmExit() {
-        if (confirm('Are you sure you want to exit the tutorial?')) {
+        this.showExitConfirmationModal();
+    }
+
+    showExitConfirmationModal() {
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'tutorial-exit-overlay';
+        
+        // Create modal
+        const modal = document.createElement('div');
+        modal.className = 'tutorial-exit-modal';
+        modal.innerHTML = `
+            <div class="exit-modal-header">
+                <h3>Exit Tutorial</h3>
+            </div>
+            <div class="exit-modal-body">
+                <div class="exit-icon">⚠️</div>
+                <p>Are you sure you want to exit the tutorial?</p>
+                <p class="exit-subtitle">Your progress will not be saved.</p>
+            </div>
+            <div class="exit-modal-footer">
+                <button class="exit-btn exit-btn-cancel" id="exitCancel">Stay in Tutorial</button>
+                <button class="exit-btn exit-btn-confirm" id="exitConfirm">Exit Tutorial</button>
+            </div>
+        `;
+        
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        
+        // Add event listeners
+        const cancelBtn = modal.querySelector('#exitCancel');
+        const confirmBtn = modal.querySelector('#exitConfirm');
+        
+        cancelBtn.addEventListener('click', () => {
+            overlay.remove();
+        });
+        
+        confirmBtn.addEventListener('click', () => {
+            overlay.remove();
             this.stop();
-        }
+        });
+        
+        // Close on overlay click
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.remove();
+            }
+        });
     }
 
     completeTutorial() {
@@ -758,6 +803,112 @@ class TutorialSystem {
                     z-index: 9999;
                     box-shadow: 0 0 0 4px #f39c12, 0 0 20px rgba(243, 156, 18, 0.3);
                     border-radius: 4px;
+                }
+                
+                .tutorial-exit-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    z-index: 10003;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    animation: tutorialSlideIn 0.3s ease-out;
+                }
+                
+                .tutorial-exit-modal {
+                    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                    border-radius: 16px;
+                    max-width: 450px;
+                    width: 90%;
+                    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    overflow: hidden;
+                    animation: tutorialSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                }
+                
+                .exit-modal-header {
+                    padding: 24px 28px 16px;
+                    border-bottom: 1px solid #e9ecef;
+                    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+                }
+                
+                .exit-modal-header h3 {
+                    margin: 0;
+                    font-size: 1.4em;
+                    font-weight: 700;
+                    color: #1a252f;
+                    text-align: center;
+                }
+                
+                .exit-modal-body {
+                    padding: 28px;
+                    text-align: center;
+                }
+                
+                .exit-icon {
+                    font-size: 3em;
+                    margin-bottom: 16px;
+                    display: block;
+                }
+                
+                .exit-modal-body p {
+                    margin: 8px 0;
+                    font-size: 1.1em;
+                    color: #2c3e50;
+                    line-height: 1.5;
+                }
+                
+                .exit-subtitle {
+                    font-size: 0.95em !important;
+                    color: #6c757d !important;
+                    font-style: italic;
+                }
+                
+                .exit-modal-footer {
+                    padding: 20px 28px 28px;
+                    display: flex;
+                    gap: 12px;
+                    justify-content: center;
+                }
+                
+                .exit-btn {
+                    padding: 12px 24px;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    font-size: 14px;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    min-width: 140px;
+                }
+                
+                .exit-btn-cancel {
+                    background: linear-gradient(135deg, #6c757d, #545b62);
+                    color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                }
+                
+                .exit-btn-cancel:hover {
+                    background: linear-gradient(135deg, #545b62, #383d41);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+                }
+                
+                .exit-btn-confirm {
+                    background: linear-gradient(135deg, #dc3545, #c82333);
+                    color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                }
+                
+                .exit-btn-confirm:hover {
+                    background: linear-gradient(135deg, #c82333, #a71e2a);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
                 }
                 
                 @media (max-width: 768px) {

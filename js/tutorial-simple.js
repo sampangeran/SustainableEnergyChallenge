@@ -216,7 +216,7 @@ class SimpleTutorial {
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 9998;
         `;
         
@@ -225,27 +225,30 @@ class SimpleTutorial {
         this.panel.className = 'tutorial-panel';
         this.panel.style.cssText = `
             position: fixed;
-            background: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border-radius: 12px;
             padding: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             z-index: 9999;
-            max-width: 400px;
+            max-width: 450px;
             max-height: 80vh;
             overflow-y: auto;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         `;
         
         this.panel.innerHTML = `
             <div class="tutorial-header">
-                <h2 style="margin: 0 0 16px 0; color: #333; font-size: 20px;"></h2>
-                <button class="tutorial-close" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+                <h2 style="margin: 0 0 16px 0; color: white; font-size: 22px; font-weight: 600;"></h2>
+                <button class="tutorial-close" style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; font-size: 20px; cursor: pointer; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
             </div>
-            <div class="tutorial-content" style="margin-bottom: 20px; line-height: 1.6; color: #555;"></div>
-            <div class="tutorial-navigation" style="display: flex; justify-content: space-between; align-items: center;">
-                <button class="tutorial-prev" style="padding: 8px 16px; background: #f0f0f0; border: none; border-radius: 6px; cursor: pointer;">Previous</button>
-                <span class="tutorial-progress" style="color: #888; font-size: 14px;"></span>
-                <button class="tutorial-next" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">Next</button>
+            <div class="tutorial-content" style="margin-bottom: 24px; line-height: 1.7; color: rgba(255,255,255,0.95); font-size: 14px;"></div>
+            <div class="tutorial-navigation" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                <button class="tutorial-prev" style="padding: 10px 20px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Previous</button>
+                <span class="tutorial-progress" style="color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 500;"></span>
+                <button class="tutorial-next" style="padding: 10px 20px; background: rgba(255,255,255,0.9); color: #333; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">Next</button>
             </div>
         `;
         
@@ -307,12 +310,12 @@ class SimpleTutorial {
             return;
         }
         
-        // Add highlight styling directly
+        // Add highlight styling directly (yellow glow like original)
         element.style.position = 'relative';
         element.style.zIndex = '10000';
-        element.style.boxShadow = '0 0 0 4px #007bff, 0 0 25px rgba(0, 123, 255, 0.6)';
+        element.style.boxShadow = '0 0 0 4px #f39c12, 0 0 20px rgba(243, 156, 18, 0.5)';
         element.style.borderRadius = '8px';
-        element.style.background = 'rgba(255, 255, 255, 0.05)';
+        element.style.background = 'rgba(243, 156, 18, 0.1)';
         element.dataset.tutorialHighlight = 'true';
         
         this.highlightedElement = element;

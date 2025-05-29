@@ -146,13 +146,8 @@ class RenewableEnergySimulator {
         // Update display to show terrain zones
         this.updateGridDisplay();
         
-        // Set up clean click handlers using event delegation
-        console.log('About to set up grid click handlers...');
-        try {
-            this.setupGridClickHandlers();
-        } catch (error) {
-            console.error('Error setting up click handlers:', error);
-        }
+        // Click handlers are now set up directly on each cell during creation
+        console.log('Grid cells created with direct click handlers');
     }
 
     generateTerrainLayout(rows, cols) {
@@ -184,6 +179,12 @@ class RenewableEnergySimulator {
         cell.dataset.row = row;
         cell.dataset.col = col;
         cell.id = `cell-${row}-${col}`;
+        
+        // Add simple, direct click handler that works
+        cell.onclick = () => {
+            console.log(`Direct click handler: Cell ${row}, ${col}`);
+            this.handleCellClick(row, col, null);
+        };
         
         // Set initial terrain if this is a terrain zone
         const terrainGrid = this.terrainLayout;

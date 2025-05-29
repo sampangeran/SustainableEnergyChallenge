@@ -26,21 +26,57 @@ class TutorialSystem {
                 content: `
                     <div class="tutorial-welcome">
                         <h3>🌱 Learn to Build a Sustainable City!</h3>
-                        <p>This simulation teaches you about renewable energy sources and how to design an eco-friendly city.</p>
+                        <p>This advanced simulation teaches you about renewable energy sources and sustainable urban planning.</p>
                         
                         <h4>What you'll learn:</h4>
                         <ul>
-                            <li>🌞 Different types of renewable energy</li>
-                            <li>🏙️ How cities consume energy</li>
+                            <li>🌞 7 different energy sources (5 renewable + 2 fossil fuels)</li>
+                            <li>🏙️ How city zones generate income when powered</li>
                             <li>🌤️ How weather affects energy production</li>
-                            <li>💰 Cost vs. environmental benefits</li>
-                            <li>📊 Energy efficiency and sustainability</li>
+                            <li>💰 Budget management and economic sustainability</li>
+                            <li>🗻 Terrain bonuses for optimal energy placement</li>
+                            <li>📊 Real-time performance tracking</li>
                         </ul>
                         
-                        <p><strong>Goal:</strong> Create a city that produces enough clean energy to meet all its needs!</p>
+                        <p><strong>Goal:</strong> Build a profitable, sustainable city with $250,000 starting budget!</p>
                     </div>
                 `,
                 highlight: null,
+                action: null
+            },
+            {
+                title: "Understanding Your Budget System",
+                content: `
+                    <div class="tutorial-budget">
+                        <h3>💰 Managing Your City Budget</h3>
+                        <p>You start with <strong>$250,000</strong> to build your city. Here's how money works:</p>
+                        
+                        <div class="budget-explanation">
+                            <h4>💸 Expenses:</h4>
+                            <ul>
+                                <li>Energy sources cost money to build</li>
+                                <li>You get 70% refund when removing energy sources</li>
+                            </ul>
+                            
+                            <h4>💵 Income (Monthly):</h4>
+                            <ul>
+                                <li><strong>Residential:</strong> $120/month (when powered)</li>
+                                <li><strong>Commercial:</strong> $250/month (when powered)</li>
+                                <li><strong>Industrial:</strong> $400/month (when powered)</li>
+                            </ul>
+                            
+                            <h4>🔋 Power Requirements:</h4>
+                            <ul>
+                                <li>Zones only generate income if they have enough power</li>
+                                <li>Energy is shared across the entire city grid</li>
+                                <li>Unpowered zones get red borders and warning icons</li>
+                            </ul>
+                        </div>
+                        
+                        <p><strong>Tip:</strong> Click the budget amount to see detailed financial information!</p>
+                    </div>
+                `,
+                highlight: ".budget-display",
                 action: null
             },
             {
@@ -48,14 +84,14 @@ class TutorialSystem {
                 content: `
                     <div class="tutorial-zones">
                         <h3>🏘️ City Zones and Energy Needs</h3>
-                        <p>Cities are divided into different zones, each with unique energy requirements:</p>
+                        <p>Cities are divided into different zones with unique energy and income characteristics:</p>
                         
                         <div class="zone-explanation">
                             <div class="zone-item">
                                 <div class="zone-color residential"></div>
                                 <div>
                                     <strong>Residential Zones</strong><br>
-                                    <small>50 kW per cell - Houses and apartments where people live</small>
+                                    <small>50 kW demand • $120/month income when powered</small>
                                 </div>
                             </div>
                             
@@ -63,7 +99,7 @@ class TutorialSystem {
                                 <div class="zone-color commercial"></div>
                                 <div>
                                     <strong>Commercial Zones</strong><br>
-                                    <small>100 kW per cell - Offices, shops, and businesses</small>
+                                    <small>100 kW demand • $250/month income when powered</small>
                                 </div>
                             </div>
                             
@@ -71,16 +107,150 @@ class TutorialSystem {
                                 <div class="zone-color industrial"></div>
                                 <div>
                                     <strong>Industrial Zones</strong><br>
-                                    <small>200 kW per cell - Factories and heavy manufacturing</small>
+                                    <small>200 kW demand • $400/month income when powered</small>
                                 </div>
                             </div>
                         </div>
                         
-                        <p><strong>Try it:</strong> Click on the grid to create zones!</p>
+                        <p><strong>Advanced Features:</strong></p>
+                        <ul>
+                            <li>Drag to select multiple cells for bulk zone creation</li>
+                            <li>Monthly income updates in real-time</li>
+                            <li>Visual indicators show powered vs unpowered zones</li>
+                        </ul>
                     </div>
                 `,
                 highlight: ".city-grid",
                 action: "enableZoneMode"
+            },
+            {
+                title: "Understanding Energy Sources",
+                content: `
+                    <div class="tutorial-energy">
+                        <h3>⚡ Energy Source Types & Costs</h3>
+                        <p>Choose from 7 different energy sources, each with unique characteristics:</p>
+                        
+                        <div class="energy-explanation">
+                            <h4>🌱 Renewable Energy:</h4>
+                            <ul>
+                                <li><strong>Solar:</strong> $15,000 • 100kW • Works best in sunny weather</li>
+                                <li><strong>Wind:</strong> $20,000 • 150kW • Enhanced by windy weather</li>
+                                <li><strong>Hydro:</strong> $25,000 • 200kW • +60% bonus near rivers</li>
+                                <li><strong>Geothermal:</strong> $30,000 • 120kW • +50% bonus in mountains</li>
+                                <li><strong>Biomass:</strong> $18,000 • 80kW • +40% bonus in forests</li>
+                            </ul>
+                            
+                            <h4>🏭 Fossil Fuels:</h4>
+                            <ul>
+                                <li><strong>Coal:</strong> $35,000 • 300kW • High pollution</li>
+                                <li><strong>Natural Gas:</strong> $28,000 • 250kW • Lower emissions than coal</li>
+                            </ul>
+                        </div>
+                        
+                        <p><strong>Advanced Placement:</strong> Drag to select multiple cells, then auto-place energy sources!</p>
+                    </div>
+                `,
+                highlight: ".energy-sources",
+                action: null
+            },
+            {
+                title: "Terrain Bonuses & Strategic Placement",
+                content: `
+                    <div class="tutorial-terrain">
+                        <h3>🗻 Terrain Features & Efficiency Bonuses</h3>
+                        <p>The city has specialized terrain that provides efficiency bonuses for certain energy sources:</p>
+                        
+                        <div class="terrain-explanation">
+                            <div class="terrain-item">
+                                <strong>🌲 Forest Areas:</strong> +40% biomass efficiency
+                            </div>
+                            <div class="terrain-item">
+                                <strong>🏔️ Mountain Areas:</strong> +50% geothermal, +30% wind efficiency
+                            </div>
+                            <div class="terrain-item">
+                                <strong>🏖️ Beach Areas:</strong> +35% wind, +25% solar efficiency
+                            </div>
+                            <div class="terrain-item">
+                                <strong>🌊 River Areas:</strong> +60% hydro efficiency
+                            </div>
+                        </div>
+                        
+                        <p><strong>Strategy Tips:</strong></p>
+                        <ul>
+                            <li>Place hydro plants near rivers for maximum efficiency</li>
+                            <li>Mountain areas are perfect for geothermal and wind</li>
+                            <li>Forests boost biomass production significantly</li>
+                            <li>Beach areas enhance both wind and solar</li>
+                        </ul>
+                    </div>
+                `,
+                highlight: ".city-grid",
+                action: null
+            },
+            {
+                title: "Weather System & Production",
+                content: `
+                    <div class="tutorial-weather">
+                        <h3>🌤️ Dynamic Weather Effects</h3>
+                        <p>Weather conditions change every 30-60 seconds and affect energy production:</p>
+                        
+                        <div class="weather-explanation">
+                            <div class="weather-item">
+                                <strong>☀️ Sunny:</strong> Solar +20%, others normal
+                            </div>
+                            <div class="weather-item">
+                                <strong>☁️ Cloudy:</strong> Solar -30%, others normal
+                            </div>
+                            <div class="weather-item">
+                                <strong>🌧️ Rainy:</strong> Solar -50%, Hydro +30%
+                            </div>
+                            <div class="weather-item">
+                                <strong>💨 Windy:</strong> Wind +40%, Solar -10%
+                            </div>
+                        </div>
+                        
+                        <p><strong>Advanced Features:</strong></p>
+                        <ul>
+                            <li>Weather forecast shows upcoming conditions</li>
+                            <li>Real-time production updates based on weather</li>
+                            <li>Diversify energy sources to handle weather changes</li>
+                            <li>Income calculations adjust with production changes</li>
+                        </ul>
+                    </div>
+                `,
+                highlight: ".weather-display",
+                action: null
+            },
+            {
+                title: "Dashboard & Performance Monitoring",
+                content: `
+                    <div class="tutorial-dashboard">
+                        <h3>📊 Real-Time Performance Dashboard</h3>
+                        <p>The dashboard provides comprehensive city performance metrics:</p>
+                        
+                        <div class="dashboard-explanation">
+                            <h4>📈 Key Metrics:</h4>
+                            <ul>
+                                <li><strong>Energy Production:</strong> Total kW generated vs demanded</li>
+                                <li><strong>Efficiency:</strong> How well your city meets energy needs</li>
+                                <li><strong>Carbon Reduction:</strong> Environmental impact tracking</li>
+                                <li><strong>Sustainability Score:</strong> Overall city performance grade</li>
+                            </ul>
+                            
+                            <h4>💡 Performance Insights:</h4>
+                            <ul>
+                                <li>Energy mix breakdown showing source diversity</li>
+                                <li>Zone-by-zone performance analysis</li>
+                                <li>Financial projections and trends</li>
+                                <li>Achievement system for milestones</li>
+                            </ul>
+                        </div>
+                        
+                        <p><strong>Use the dashboard to:</strong> Track progress, identify problems, and optimize your city design!</p>
+                    </div>
+                `,
+                highlight: ".dashboard",
+                action: null
             },
             {
                 title: "Creating Your First Zone",
@@ -94,10 +264,10 @@ class TutorialSystem {
                             <li>Click on any empty grid cell to create a residential zone</li>
                         </ol>
                         
-                        <p>The cell will turn green to show it's now a residential area that needs 50 kW of power.</p>
+                        <p>The cell will turn green and show it needs 50 kW of power to generate $120/month income.</p>
                         
                         <div class="tutorial-tip">
-                            💡 <strong>Tip:</strong> Click on the same cell again to remove the zone.
+                            💡 <strong>Advanced Tip:</strong> Drag across multiple cells to create zones in bulk!
                         </div>
                     </div>
                 `,
@@ -108,18 +278,23 @@ class TutorialSystem {
                 title: "You're Ready to Build!",
                 content: `
                     <div class="tutorial-conclusion">
-                        <h3>🎉 Congratulations!</h3>
-                        <p>You now know the basics of building a sustainable renewable energy city!</p>
+                        <h3>🎉 Ready for Advanced City Planning!</h3>
+                        <p>You now understand all the advanced features of the renewable energy city simulator!</p>
                         
                         <div class="next-steps">
                             <h4>Your Next Steps:</h4>
                             <ol>
-                                <li>Expand your city with more zones</li>
-                                <li>Drag energy sources from the left panel to power your zones</li>
-                                <li>Monitor weather changes and adapt your strategy</li>
-                                <li>Watch the dashboard to track your city's performance</li>
-                                <li>Save your best designs</li>
+                                <li><strong>Plan strategically:</strong> Use terrain bonuses for optimal placement</li>
+                                <li><strong>Manage budget:</strong> Balance costs with income potential</li>
+                                <li><strong>Diversify energy:</strong> Mix renewable sources for weather resilience</li>
+                                <li><strong>Monitor performance:</strong> Use the dashboard to track efficiency</li>
+                                <li><strong>Experiment:</strong> Try different city layouts and energy mixes</li>
+                                <li><strong>Compare options:</strong> Test renewable vs fossil fuel scenarios</li>
                             </ol>
+                        </div>
+                        
+                        <div class="tutorial-tip">
+                            🎯 <strong>Challenge:</strong> Can you build a 100% renewable city that's profitable?
                         </div>
                         
                         <p><strong>Remember:</strong> You can restart this tutorial anytime by clicking the "Tutorial" button!</p>

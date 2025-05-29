@@ -608,15 +608,15 @@ class RenewableEnergySimulator {
         // Apply zone type to all selected cells (except terrain)
         this.selectedCells.forEach(cellKey => {
             const [row, col] = cellKey.split('-').map(Number);
-            const cell = document.getElementById(`cell-${row}-${col}`);
+            
+            // Check if cell has terrain using zone manager
+            const currentZone = this.zoneManager.getCellZone(row, col);
             
             // Check if cell has terrain (forest, mountain, beach, river)
-            if (cell && (cell.classList.contains('forest') || 
-                        cell.classList.contains('mountain') || 
-                        cell.classList.contains('beach') || 
-                        cell.classList.contains('river'))) {
+            if (currentZone === 'forest' || currentZone === 'mountain' || 
+                currentZone === 'beach' || currentZone === 'river') {
                 skippedTerrain++;
-                console.log(`Skipping terrain cell at ${row}, ${col}`);
+                console.log(`Skipping terrain cell at ${row}, ${col} (type: ${currentZone})`);
             } else {
                 this.zoneManager.setCellZone(row, col, zoneType);
                 this.updateCellDisplay(row, col);

@@ -52,10 +52,16 @@ class BudgetManager {
             </div>
         `;
 
-        // Insert budget panel into the sidebar
-        const controlPanel = document.querySelector('.control-panel');
-        if (controlPanel) {
-            controlPanel.appendChild(budgetPanel);
+        // Insert budget panel into the dashboard sidebar
+        const dashboard = document.querySelector('.dashboard');
+        if (dashboard) {
+            // Insert after the dashboard title but before other sections
+            const dashboardTitle = dashboard.querySelector('h3');
+            if (dashboardTitle) {
+                dashboardTitle.insertAdjacentElement('afterend', budgetPanel);
+            } else {
+                dashboard.insertBefore(budgetPanel, dashboard.firstChild);
+            }
         }
 
         this.setupBudgetEventListeners();

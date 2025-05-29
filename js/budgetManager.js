@@ -341,6 +341,16 @@ class BudgetManager {
                                     <div style="font-size: 0.9em; color: #6c757d; margin-bottom: 5px;">Monthly Income</div>
                                     <div style="font-size: 1.3em; font-weight: bold; color: #28a745;">$${this.formatMoney(this.incomePerTurn)}</div>
                                 </div>
+                                
+                                <div class="summary-item" style="
+                                    background: white;
+                                    padding: 15px;
+                                    border-radius: 6px;
+                                    border: 1px solid #dee2e6;
+                                ">
+                                    <div style="font-size: 0.9em; color: #6c757d; margin-bottom: 5px;">Potential Income</div>
+                                    <div style="font-size: 1.3em; font-weight: bold; color: #17a2b8;">$${this.formatMoney(this.calculatePotentialIncome())}</div>
+                                </div>
                             </div>
                             
                             <div style="
@@ -642,6 +652,27 @@ class BudgetManager {
         this.updateBudgetDisplay();
         this.notifyBudgetChange();
         this.showNotification(`Added $${this.formatMoney(amount)} from ${source}`, 'success');
+    }
+
+    // Calculate potential income if all zones were fully powered
+    calculatePotentialIncome() {
+        if (!window.simulator || !window.simulator.zoneManager) {
+            return 0;
+        }
+        
+        const zoneManager = window.simulator.zoneManager;
+        let potentialIncome = 0;
+        
+        // Calculate maximum possible income from all zones
+        zoneManager.zones.forEach((zone, zoneType) => {
+            // Only count zones that generate income (residential, commercial, industrial)
+            if (zone.income > 0) {
+                const maxIncomeFromZone = zone.cells.size * zone.income;
+                potentialIncome += maxIncomeFromZone;
+            }
+        });
+        
+        return potentialIncome;
     }
 
     // Format money for display

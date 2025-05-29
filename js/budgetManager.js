@@ -244,24 +244,200 @@ class BudgetManager {
 
     // Show budget details modal
     showBudgetDetails() {
-        // Simple alert-based display for now
-        const details = `
-BUDGET DETAILS:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-💰 BUDGET SUMMARY:
-• Initial Budget: $${this.formatMoney(this.initialBudget)}
-• Current Budget: $${this.formatMoney(this.currentBudget)}
-• Total Spent: $${this.formatMoney(this.totalSpent)}
-• Monthly Income: $${this.formatMoney(this.incomePerTurn)}
-
-📊 BUDGET STATUS: ${this.getBudgetStatusText()}
-
-📝 RECENT TRANSACTIONS:
-${this.getTransactionSummary()}
+        const modalHtml = `
+            <div class="modal-overlay" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                animation: fadeIn 0.3s ease;
+            ">
+                <div class="modal-container" style="
+                    background: white;
+                    border-radius: 12px;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                    animation: slideIn 0.3s ease;
+                ">
+                    <div class="modal-header" style="
+                        background: linear-gradient(135deg, #3498db, #2c3e50);
+                        color: white;
+                        padding: 20px;
+                        border-radius: 12px 12px 0 0;
+                        position: relative;
+                    ">
+                        <h2 style="margin: 0; font-size: 1.5em;">💰 Budget Details</h2>
+                        <button class="modal-close-btn" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 20px;
+                            background: none;
+                            border: none;
+                            color: white;
+                            font-size: 24px;
+                            cursor: pointer;
+                            padding: 5px;
+                            border-radius: 50%;
+                            transition: background 0.3s ease;
+                        ">&times;</button>
+                    </div>
+                    
+                    <div class="modal-content" style="padding: 25px;">
+                        <div class="budget-summary-section" style="
+                            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+                            border-radius: 8px;
+                            padding: 20px;
+                            margin-bottom: 25px;
+                            border-left: 4px solid #3498db;
+                        ">
+                            <h3 style="margin: 0 0 15px 0; color: #2c3e50;">📊 Financial Overview</h3>
+                            
+                            <div class="summary-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="summary-item" style="
+                                    background: white;
+                                    padding: 15px;
+                                    border-radius: 6px;
+                                    border: 1px solid #dee2e6;
+                                ">
+                                    <div style="font-size: 0.9em; color: #6c757d; margin-bottom: 5px;">Initial Budget</div>
+                                    <div style="font-size: 1.3em; font-weight: bold; color: #495057;">$${this.formatMoney(this.initialBudget)}</div>
+                                </div>
+                                
+                                <div class="summary-item" style="
+                                    background: white;
+                                    padding: 15px;
+                                    border-radius: 6px;
+                                    border: 1px solid #dee2e6;
+                                ">
+                                    <div style="font-size: 0.9em; color: #6c757d; margin-bottom: 5px;">Current Budget</div>
+                                    <div style="font-size: 1.3em; font-weight: bold;" class="${this.getBudgetStatusClass()}">$${this.formatMoney(this.currentBudget)}</div>
+                                </div>
+                                
+                                <div class="summary-item" style="
+                                    background: white;
+                                    padding: 15px;
+                                    border-radius: 6px;
+                                    border: 1px solid #dee2e6;
+                                ">
+                                    <div style="font-size: 0.9em; color: #6c757d; margin-bottom: 5px;">Total Spent</div>
+                                    <div style="font-size: 1.3em; font-weight: bold; color: #dc3545;">$${this.formatMoney(this.totalSpent)}</div>
+                                </div>
+                                
+                                <div class="summary-item" style="
+                                    background: white;
+                                    padding: 15px;
+                                    border-radius: 6px;
+                                    border: 1px solid #dee2e6;
+                                ">
+                                    <div style="font-size: 0.9em; color: #6c757d; margin-bottom: 5px;">Monthly Income</div>
+                                    <div style="font-size: 1.3em; font-weight: bold; color: #28a745;">$${this.formatMoney(this.incomePerTurn)}</div>
+                                </div>
+                            </div>
+                            
+                            <div style="
+                                margin-top: 15px;
+                                padding: 12px;
+                                background: ${this.getBudgetStatusColor()};
+                                color: white;
+                                border-radius: 6px;
+                                text-align: center;
+                                font-weight: bold;
+                            ">
+                                Status: ${this.getBudgetStatusText()}
+                            </div>
+                        </div>
+                        
+                        <div class="transactions-section" style="
+                            background: #f8f9fa;
+                            border-radius: 8px;
+                            padding: 20px;
+                            border-left: 4px solid #28a745;
+                        ">
+                            <h3 style="margin: 0 0 15px 0; color: #2c3e50;">📝 Recent Transactions</h3>
+                            <div class="transaction-list" style="max-height: 200px; overflow-y: auto;">
+                                ${this.generateTransactionHistoryHTML()}
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 25px;">
+                            <button class="close-modal-btn" style="
+                                background: #3498db;
+                                color: white;
+                                border: none;
+                                padding: 12px 30px;
+                                border-radius: 6px;
+                                font-size: 1em;
+                                cursor: pointer;
+                                transition: background 0.3s ease;
+                            ">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         `;
-        
-        alert(details);
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes slideIn {
+                from { 
+                    opacity: 0;
+                    transform: translateY(-50px) scale(0.95);
+                }
+                to { 
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            .modal-close-btn:hover {
+                background: rgba(255, 255, 255, 0.2) !important;
+            }
+            .close-modal-btn:hover {
+                background: #2980b9 !important;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create and show modal
+        const modalElement = document.createElement('div');
+        modalElement.innerHTML = modalHtml;
+        document.body.appendChild(modalElement.firstElementChild);
+
+        // Add event listeners
+        const modal = document.querySelector('.modal-overlay');
+        const closeBtn = modal.querySelector('.modal-close-btn');
+        const closeModalBtn = modal.querySelector('.close-modal-btn');
+
+        const closeModal = () => {
+            modal.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+                document.head.removeChild(style);
+            }, 300);
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
     }
 
     // Get budget status as text
@@ -272,6 +448,79 @@ ${this.getTransactionSummary()}
         if (budgetPercentage < 25) return 'LOW - Limited Funds';
         if (budgetPercentage < 50) return 'WARNING - Moderate Funds';
         return 'HEALTHY - Good Financial Status';
+    }
+
+    // Get budget status color
+    getBudgetStatusColor() {
+        const budgetPercentage = (this.currentBudget / this.initialBudget) * 100;
+        
+        if (budgetPercentage < 10) return '#e74c3c';
+        if (budgetPercentage < 25) return '#e67e22';
+        if (budgetPercentage < 50) return '#f39c12';
+        return '#27ae60';
+    }
+
+    // Generate transaction history HTML for modal
+    generateTransactionHistoryHTML() {
+        const allTransactions = [
+            ...this.expenses.map(e => ({...e, type: 'expense'})),
+            ...this.revenue.map(r => ({...r, type: 'revenue'}))
+        ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 10);
+
+        if (allTransactions.length === 0) {
+            return `
+                <div style="
+                    text-align: center;
+                    padding: 30px;
+                    color: #6c757d;
+                    font-style: italic;
+                ">
+                    <div style="font-size: 2em; margin-bottom: 10px;">📋</div>
+                    <div>No transactions yet</div>
+                    <div style="font-size: 0.9em; margin-top: 5px;">Start building energy sources to see transaction history</div>
+                </div>
+            `;
+        }
+
+        return allTransactions.map(transaction => {
+            const amount = transaction.cost || transaction.revenue;
+            const isExpense = transaction.type === 'expense';
+            const date = new Date(transaction.timestamp).toLocaleDateString();
+            const time = new Date(transaction.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            return `
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 12px;
+                    margin-bottom: 8px;
+                    background: white;
+                    border-radius: 6px;
+                    border-left: 4px solid ${isExpense ? '#dc3545' : '#28a745'};
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                ">
+                    <div style="flex: 1;">
+                        <div style="
+                            font-weight: 500;
+                            color: #2c3e50;
+                            margin-bottom: 2px;
+                        ">${transaction.item}</div>
+                        <div style="
+                            font-size: 0.85em;
+                            color: #6c757d;
+                        ">${date} at ${time}</div>
+                    </div>
+                    <div style="
+                        font-weight: bold;
+                        font-size: 1.1em;
+                        color: ${isExpense ? '#dc3545' : '#28a745'};
+                    ">
+                        ${isExpense ? '-' : '+'}$${this.formatMoney(amount)}
+                    </div>
+                </div>
+            `;
+        }).join('');
     }
 
     // Get transaction summary for simple display

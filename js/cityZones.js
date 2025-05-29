@@ -27,24 +27,33 @@ class CityZone {
         return this.cells.size * this.energyDemand;
     }
 
-    getTotalIncome(energyManager, weather) {
+    getTotalIncome(energyManager, weather, cityWideProduction = null, cityWideDemand = null) {
         const baseIncome = this.cells.size * this.income;
         if (baseIncome === 0) return 0;
         
         // Safely calculate income with error handling
         try {
-            const energyBalance = this.getEnergyBalance(energyManager, weather);
             const totalDemand = this.getTotalEnergyDemand();
             
             if (totalDemand === 0) return baseIncome; // No energy demand = full income
             
-            if (energyBalance >= 0) {
+            // Use city-wide energy production if provided (shared power grid)
+            let totalProduction;
+            if (cityWideProduction !== null && cityWideDemand !== null) {
+                // Calculate this zone's share of city-wide power
+                const demandRatio = totalDemand / cityWideDemand;
+                totalProduction = cityWideProduction * demandRatio;
+            } else {
+                // Fall back to zone-specific production
+                totalProduction = this.getTotalEnergyProduction(energyManager, weather);
+            }
+            
+            if (totalProduction >= totalDemand) {
                 // Full power = full income
                 return baseIncome;
             } else {
                 // Insufficient power = reduced income proportionally
-                const production = this.getTotalEnergyProduction(energyManager, weather);
-                const powerRatio = Math.max(0.1, production / totalDemand); // Minimum 10% income
+                const powerRatio = Math.max(0.1, totalProduction / totalDemand); // Minimum 10% income
                 return Math.floor(baseIncome * powerRatio);
             }
         } catch (error) {
@@ -370,8 +379,12 @@ class CityZoneManager {
     }
 
     getTotalIncome(energyManager, weather) {
+        // Calculate city-wide energy production and demand for shared power grid
+        const cityWideProduction = this.getTotalEnergyProduction(energyManager, weather);
+        const cityWideDemand = this.getTotalEnergyDemand();
+        
         return Array.from(this.zones.values())
-            .reduce((total, zone) => total + zone.getTotalIncome(energyManager, weather), 0);
+            .reduce((total, zone) => total + zone.getTotalIncome(energyManager, weather, cityWideProduction, cityWideDemand), 0);
     }
 
     getIncomeByZoneType(energyManager, weather) {

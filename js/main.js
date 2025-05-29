@@ -22,6 +22,8 @@ class RenewableEnergySimulator {
         this.selectedCells = new Set();
         this.startCell = null;
         this.currentSelectionArea = null;
+        this.dragStartTimer = null;
+        this.isDragging = false;
         
         this.initialize();
     }
@@ -392,6 +394,9 @@ class RenewableEnergySimulator {
         
         // Mouse down handler for starting drag selection
         this.boundGridMouseDownHandler = (event) => {
+            // Only handle left mouse button
+            if (event.button !== 0) return;
+            
             const cell = event.target.closest('.grid-cell');
             if (!cell) return;
             
@@ -400,12 +405,14 @@ class RenewableEnergySimulator {
             
             if (isNaN(row) || isNaN(col)) return;
             
+            // Immediately start selection
+            this.isDragging = true;
             this.startDragSelection(row, col, event);
         };
         
-        // Mouse move handler for updating drag selection
+        // Mouse move handler for updating drag selection  
         this.boundGridMouseMoveHandler = (event) => {
-            if (!this.isSelecting) return;
+            if (!this.isDragging || !this.isSelecting) return;
             
             const cell = event.target.closest('.grid-cell');
             if (!cell) return;
@@ -420,8 +427,12 @@ class RenewableEnergySimulator {
         
         // Mouse up handler for ending drag selection
         this.boundGridMouseUpHandler = (event) => {
-            if (this.isSelecting) {
-                this.endDragSelection();
+            if (this.isDragging) {
+                this.isDragging = false;
+                
+                if (this.isSelecting) {
+                    this.endDragSelection();
+                }
             }
         };
         

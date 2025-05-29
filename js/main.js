@@ -1497,6 +1497,7 @@ class RenewableEnergySimulator {
             zoneManager: this.zoneManager.exportData(),
             weatherSystem: this.weatherSystem.exportData(),
             dashboard: this.dashboard.exportData(),
+            budgetManager: this.budgetManager.exportData(),
             timestamp: Date.now(),
             version: '1.0.0'
         };
@@ -1512,6 +1513,7 @@ class RenewableEnergySimulator {
             this.zoneManager.importData(data.zoneManager || {});
             this.weatherSystem.importData(data.weatherSystem || {});
             this.dashboard.importData(data.dashboard || {});
+            this.budgetManager.importData(data.budgetManager || {});
             
             return true;
         } catch (error) {

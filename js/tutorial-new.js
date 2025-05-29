@@ -88,7 +88,7 @@ class TutorialSystem {
                                 <div class="zone-color residential"></div>
                                 <div>
                                     <strong>Residential Zones</strong><br>
-                                    <small>50 kW demand • $120/month income when powered</small>
+                                    <span class="energy-requirement">50kW needed</span> • <span class="income-value">$120/month</span>
                                 </div>
                             </div>
                             
@@ -96,7 +96,7 @@ class TutorialSystem {
                                 <div class="zone-color commercial"></div>
                                 <div>
                                     <strong>Commercial Zones</strong><br>
-                                    <small>100 kW demand • $250/month income when powered</small>
+                                    <span class="energy-requirement">100kW needed</span> • <span class="income-value">$250/month</span>
                                 </div>
                             </div>
                             
@@ -104,7 +104,7 @@ class TutorialSystem {
                                 <div class="zone-color industrial"></div>
                                 <div>
                                     <strong>Industrial Zones</strong><br>
-                                    <small>200 kW demand • $400/month income when powered</small>
+                                    <span class="energy-requirement">200kW needed</span> • <span class="income-value">$400/month</span>
                                 </div>
                             </div>
                         </div>
@@ -129,17 +129,17 @@ class TutorialSystem {
                         
                         <h4>🌱 Renewable Energy:</h4>
                         <ul>
-                            <li><strong>Solar:</strong> $15,000 • 100kW • Works best in sunny weather</li>
-                            <li><strong>Wind:</strong> $20,000 • 150kW • Enhanced by windy weather</li>
+                            <li><strong>Solar:</strong> $15,000 • 100kW • Enhanced by sunny weather</li>
+                            <li><strong>Wind:</strong> $20,000 • 150kW • Boosted by windy conditions</li>
                             <li><strong>Hydro:</strong> $25,000 • 200kW • +60% bonus near rivers</li>
-                            <li><strong>Geothermal:</strong> $30,000 • 120kW • +50% bonus in mountains</li>
-                            <li><strong>Biomass:</strong> $18,000 • 80kW • +40% bonus in forests</li>
+                            <li><strong>Geothermal:</strong> $30,000 • 180kW • +50% bonus in mountains</li>
+                            <li><strong>Biomass:</strong> $18,000 • 120kW • +40% bonus in forests</li>
                         </ul>
                         
                         <h4>🏭 Fossil Fuels:</h4>
                         <ul>
-                            <li><strong>Coal:</strong> $35,000 • 300kW • High pollution</li>
-                            <li><strong>Natural Gas:</strong> $28,000 • 250kW • Lower emissions than coal</li>
+                            <li><strong>Coal:</strong> $35,000 • 400kW • High pollution impact</li>
+                            <li><strong>Natural Gas:</strong> $28,000 • 300kW • Lower emissions than coal</li>
                         </ul>
                         
                         <p><strong>Advanced Placement:</strong> Drag to select multiple cells, then auto-place energy sources!</p>
@@ -152,23 +152,34 @@ class TutorialSystem {
                 title: "Terrain Bonuses & Strategic Placement",
                 content: `
                     <div class="tutorial-content">
-                        <h3>🗻 Terrain Features & Efficiency Bonuses</h3>
-                        <p>The city has specialized terrain that provides efficiency bonuses for certain energy sources:</p>
+                        <h3>🗻 Terrain Features & Strategic Placement</h3>
+                        <p>The city has specialized terrain that provides efficiency bonuses and penalties. Use the terrain legend to see all effects!</p>
                         
+                        <h4>🌲 Forest Terrain:</h4>
                         <ul>
-                            <li><strong>🌲 Forest Areas:</strong> +40% biomass efficiency</li>
-                            <li><strong>🏔️ Mountain Areas:</strong> +50% geothermal, +30% wind efficiency</li>
-                            <li><strong>🏖️ Beach Areas:</strong> +35% wind, +25% solar efficiency</li>
-                            <li><strong>🌊 River Areas:</strong> +60% hydro efficiency</li>
+                            <li><span style="color: #28a745;">+40% Biomass</span> <span style="color: #28a745;">+20% Hydro</span></li>
+                            <li><span style="color: #dc3545;">-10% Solar</span> <span style="color: #dc3545;">-5% Wind</span></li>
                         </ul>
                         
-                        <h4>Strategy Tips:</h4>
+                        <h4>🏔️ Mountain Terrain:</h4>
                         <ul>
-                            <li>Place hydro plants near rivers for maximum efficiency</li>
-                            <li>Mountain areas are perfect for geothermal and wind</li>
-                            <li>Forests boost biomass production significantly</li>
-                            <li>Beach areas enhance both wind and solar</li>
+                            <li><span style="color: #28a745;">+50% Geothermal</span> <span style="color: #28a745;">+30% Wind</span> <span style="color: #28a745;">+10% Solar</span></li>
+                            <li><span style="color: #dc3545;">-20% Hydro</span></li>
                         </ul>
+                        
+                        <h4>🏖️ Beach Terrain:</h4>
+                        <ul>
+                            <li><span style="color: #28a745;">+35% Wind</span> <span style="color: #28a745;">+25% Solar</span></li>
+                            <li><span style="color: #dc3545;">-30% Hydro</span></li>
+                        </ul>
+                        
+                        <h4>🌊 River Terrain:</h4>
+                        <ul>
+                            <li><span style="color: #28a745;">+60% Hydro</span> <span style="color: #28a745;">+20% Biomass</span></li>
+                            <li><span style="color: #dc3545;">-10% Geothermal</span></li>
+                        </ul>
+                        
+                        <p><strong>Pro Tip:</strong> Check the terrain legend for complete bonus/penalty information!</p>
                     </div>
                 `,
                 highlight: ".city-grid",
@@ -224,6 +235,37 @@ class TutorialSystem {
                         </ul>
                         
                         <p><strong>Use the dashboard to:</strong> Track progress, identify problems, and optimize your city design!</p>
+                    </div>
+                `,
+                highlight: ".dashboard",
+                action: null
+            },
+            {
+                title: "Dashboard & Sustainability Scoring",
+                content: `
+                    <div class="tutorial-content">
+                        <h3>📊 Advanced Performance Tracking</h3>
+                        <p>The dashboard provides comprehensive performance metrics and sustainability scoring:</p>
+                        
+                        <h4>📈 Key Metrics:</h4>
+                        <ul>
+                            <li><strong>Base Production:</strong> Energy output with terrain bonuses</li>
+                            <li><strong>Current Production:</strong> Real-time output with weather effects</li>
+                            <li><strong>Grid Efficiency:</strong> How well production meets demand</li>
+                            <li><strong>Monthly Income:</strong> Revenue from powered zones</li>
+                        </ul>
+                        
+                        <h4>🌟 Sustainability Score (0-100):</h4>
+                        <ul>
+                            <li><strong>Energy Efficiency (25 pts):</strong> Production vs demand ratio</li>
+                            <li><strong>Carbon Impact (20 pts):</strong> CO₂ reduction achievements</li>
+                            <li><strong>Energy Diversity (20 pts):</strong> Variety of renewable sources</li>
+                            <li><strong>Grid Reliability (15 pts):</strong> Consistent power coverage</li>
+                            <li><strong>Innovation (10 pts):</strong> Advanced technology usage</li>
+                            <li><strong>Community Impact (10 pts):</strong> Zones fully powered</li>
+                        </ul>
+                        
+                        <p><strong>Grades:</strong> Achieve A+ (90+) for exceptional sustainability leadership!</p>
                     </div>
                 `,
                 highlight: ".dashboard",
@@ -519,14 +561,15 @@ class TutorialSystem {
                 
                 .tutorial-content-wrapper {
                     position: relative;
-                    background: white;
-                    border-radius: 12px;
-                    max-width: 600px;
-                    max-height: 80vh;
+                    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                    border-radius: 16px;
+                    max-width: 650px;
+                    max-height: 85vh;
                     width: 90%;
-                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+                    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
                     display: flex;
                     flex-direction: column;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
                 }
                 
                 .tutorial-header {
@@ -595,11 +638,31 @@ class TutorialSystem {
                 }
                 
                 .tutorial-tip {
-                    background: #f8f9fa;
-                    border: 1px solid #e9ecef;
+                    background: linear-gradient(135deg, rgba(23, 162, 184, 0.05), rgba(23, 162, 184, 0.15));
+                    border: 1px solid rgba(23, 162, 184, 0.3);
+                    border-left: 4px solid #17a2b8;
                     border-radius: 8px;
-                    padding: 16px;
-                    margin: 16px 0;
+                    padding: 18px;
+                    margin: 24px 0;
+                    box-shadow: 0 2px 8px rgba(23, 162, 184, 0.1);
+                }
+                
+                .energy-requirement {
+                    color: #fd7e14;
+                    font-weight: 600;
+                    background: rgba(253, 126, 20, 0.1);
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    border: 1px solid rgba(253, 126, 20, 0.2);
+                }
+                
+                .income-value {
+                    color: #198754;
+                    font-weight: 600;
+                    background: rgba(25, 135, 84, 0.1);
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    border: 1px solid rgba(25, 135, 84, 0.2);
                 }
                 
                 .zone-explanation {

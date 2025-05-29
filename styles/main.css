@@ -1583,3 +1583,33 @@ body {
     50% { opacity: 0.7; }
     100% { opacity: 1; }
 }
+
+/* Tutorial Content Styling */
+.tutorial-modal ul {
+    margin: 12px 0;
+    padding-left: 24px;
+}
+
+.tutorial-modal ol {
+    margin: 12px 0;
+    padding-left: 24px;
+}
+
+.tutorial-modal li {
+    margin: 6px 0;
+    line-height: 1.5;
+}
+
+.tutorial-modal .budget-explanation ul,
+.tutorial-modal .energy-explanation ul,
+.tutorial-modal .terrain-explanation ul,
+.tutorial-modal .weather-explanation ul,
+.tutorial-modal .dashboard-explanation ul,
+.tutorial-modal .next-steps ul {
+    padding-left: 24px;
+}
+
+.tutorial-modal h4 {
+    margin: 16px 0 8px 0;
+    font-weight: 600;
+}

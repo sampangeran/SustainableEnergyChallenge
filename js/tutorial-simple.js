@@ -331,6 +331,7 @@ class SimpleTutorial {
         const element = document.querySelector(selector);
         if (!element) {
             console.warn(`Tutorial: Element not found for selector: ${selector}`);
+            console.log(`Tutorial: Available header elements:`, document.querySelectorAll('header, .header'));
             this.centerPanel();
             return;
         }

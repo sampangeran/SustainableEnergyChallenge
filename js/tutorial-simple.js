@@ -86,7 +86,7 @@ class SimpleTutorial {
                     
                     <p>Click the budget panel to see detailed financial information and transaction history.</p>
                 `,
-                highlight: ".budget-display"
+                highlight: "#budget-panel"
             },
             {
                 title: "Weather System Impact",

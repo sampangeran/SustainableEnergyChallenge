@@ -373,5 +373,41 @@
     <script src="js/tutorial.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/main.js"></script>
+    
+    <!-- Emergency fix for single click issue -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Emergency click handler setup...');
+            
+            // Wait a moment for the grid to be created
+            setTimeout(function() {
+                const gridContainer = document.getElementById('city-grid');
+                if (gridContainer) {
+                    console.log('Setting up emergency click handler on grid');
+                    
+                    gridContainer.addEventListener('click', function(event) {
+                        const cell = event.target.closest('.grid-cell');
+                        if (cell) {
+                            const row = parseInt(cell.dataset.row);
+                            const col = parseInt(cell.dataset.col);
+                            
+                            if (!isNaN(row) && !isNaN(col)) {
+                                console.log(`Emergency handler: Cell ${row}, ${col} clicked`);
+                                
+                                // Try to access the main app instance
+                                if (window.renewableEnergySimulator) {
+                                    window.renewableEnergySimulator.handleCellClick(row, col, event);
+                                } else {
+                                    alert(`Cell ${row}, ${col} clicked! (Emergency handler active)`);
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    console.error('Grid container not found for emergency handler');
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

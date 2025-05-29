@@ -39,10 +39,17 @@ class CityZone {
             
             // Use city-wide energy production if provided (shared power grid)
             let totalProduction;
-            if (cityWideProduction !== null && cityWideDemand !== null) {
-                // Calculate this zone's share of city-wide power
-                const demandRatio = totalDemand / cityWideDemand;
-                totalProduction = cityWideProduction * demandRatio;
+            if (cityWideProduction !== null && cityWideDemand !== null && cityWideDemand > 0) {
+                // In a shared grid, distribute power proportionally based on demand
+                // But if there's excess power, zones get full power first
+                if (cityWideProduction >= cityWideDemand) {
+                    // Enough power for everyone - this zone gets full power
+                    totalProduction = totalDemand;
+                } else {
+                    // Not enough power - distribute proportionally
+                    const powerRatio = cityWideProduction / cityWideDemand;
+                    totalProduction = totalDemand * powerRatio;
+                }
             } else {
                 // Fall back to zone-specific production
                 totalProduction = this.getTotalEnergyProduction(energyManager, weather);

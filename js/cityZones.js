@@ -92,7 +92,7 @@ class CityZone {
             wind: 150,       // Matches "Output: 150kW" in interface
             hydro: 200,      // Matches "Output: 200kW" in interface
             geothermal: 120, // Matches "Output: 120kW" in interface
-            biomass: 80,     // Matches "Output: 80kW" in interface
+            biomass: 120,    // Matches "Output: 120kW" in interface
             coal: 300,       // Matches "Output: 300kW" from energySources.js
             naturalgas: 250  // Matches "Output: 250kW" from energySources.js
         };

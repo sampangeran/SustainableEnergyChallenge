@@ -181,8 +181,10 @@ class SimpleTutorial {
     }
 
     nextStep() {
+        console.log(`Tutorial: Current step ${this.currentStep}, total steps ${this.tutorialSteps.length}`);
         if (this.currentStep < this.tutorialSteps.length - 1) {
             this.currentStep++;
+            console.log(`Tutorial: Moving to step ${this.currentStep}`);
             this.showCurrentStep();
         }
     }
@@ -196,8 +198,12 @@ class SimpleTutorial {
 
     showCurrentStep() {
         const step = this.tutorialSteps[this.currentStep];
-        if (!step) return;
+        if (!step) {
+            console.log(`Tutorial: No step found for index ${this.currentStep}`);
+            return;
+        }
         
+        console.log(`Tutorial: Showing step ${this.currentStep}: ${step.title}`);
         this.updateContent(step);
         this.updateNavigation();
         

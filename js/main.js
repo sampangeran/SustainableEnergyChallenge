@@ -130,6 +130,9 @@ class RenewableEnergySimulator {
         
         // Update display to show terrain zones
         this.updateGridDisplay();
+        
+        // Set up clean click handlers using event delegation
+        this.setupGridClickHandlers();
     }
 
     generateTerrainLayout(rows, cols) {
@@ -162,11 +165,13 @@ class RenewableEnergySimulator {
         cell.dataset.col = col;
         cell.id = `cell-${row}-${col}`;
         
-        // Use the simplest possible click handler
-        cell.onclick = () => {
-            alert(`Clicked cell ${row}, ${col}`);
-            this.handleCellClick(row, col, null);
-        };
+        // Set initial terrain if this is a terrain zone
+        const terrainGrid = this.terrainLayout;
+        if (terrainGrid && terrainGrid[row] && terrainGrid[row][col]) {
+            const terrainType = terrainGrid[row][col];
+            this.zoneManager.setCellZone(row, col, terrainType);
+            cell.classList.add(`zone-${terrainType}`);
+        }
         
         return cell;
     }
@@ -309,7 +314,35 @@ class RenewableEnergySimulator {
         // TODO: Re-implement drag selection properly later
     }
 
-    // Drag selection functions temporarily removed to fix single click issue
+    setupGridClickHandlers() {
+        const gridContainer = document.getElementById('city-grid');
+        if (!gridContainer) return;
+        
+        // Remove any existing click handlers
+        const oldHandler = this.boundGridClickHandler;
+        if (oldHandler) {
+            gridContainer.removeEventListener('click', oldHandler);
+        }
+        
+        // Create new click handler using event delegation
+        this.boundGridClickHandler = (event) => {
+            const cell = event.target.closest('.grid-cell');
+            if (!cell) return;
+            
+            const row = parseInt(cell.dataset.row);
+            const col = parseInt(cell.dataset.col);
+            
+            if (isNaN(row) || isNaN(col)) return;
+            
+            // Handle the click
+            this.handleCellClick(row, col, event);
+        };
+        
+        // Add the new click handler
+        gridContainer.addEventListener('click', this.boundGridClickHandler);
+        
+        console.log('Grid click handlers set up successfully');
+    }
 
     handleCellClick(row, col, event) {
         console.log(`Cell clicked: ${row}, ${col}`);

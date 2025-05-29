@@ -110,6 +110,9 @@ class RenewableEnergySimulator {
         // Setup energy source draggables
         this.setupEnergySourceDraggables();
         
+        // Setup grid click and drag handlers
+        this.setupGridClickHandlers();
+        
         // Initialize mode controls
         this.initializeModeControls();
         

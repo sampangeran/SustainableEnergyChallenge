@@ -266,6 +266,7 @@ class TutorialSystem {
                                 <li><strong>Plan strategically:</strong> Use terrain bonuses for optimal placement</li>
                                 <li><strong>Manage budget:</strong> Balance costs with income potential</li>
                                 <li><strong>Diversify energy:</strong> Mix renewable sources for weather resilience</li>
+                                <li><strong>Consider pollution impact:</strong> Avoid placing polluting sources in residential areas</li>
                                 <li><strong>Monitor performance:</strong> Use the dashboard to track efficiency</li>
                                 <li><strong>Experiment:</strong> Try different city layouts and energy mixes</li>
                                 <li><strong>Compare options:</strong> Test renewable vs fossil fuel scenarios</li>

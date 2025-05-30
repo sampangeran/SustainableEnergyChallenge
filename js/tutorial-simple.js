@@ -124,7 +124,7 @@ class SimpleTutorial {
                         <li><strong>Carbon Impact (20 pts):</strong> CO₂ reduction vs emissions</li>
                         <li><strong>Energy Diversity (20 pts):</strong> Using different renewable sources</li>
                         <li><strong>Grid Reliability (15 pts):</strong> Consistent power supply</li>
-                        <li><strong>Community Impact (10 pts):</strong> All zone types placed and powered</li>
+                        <li><strong>Community Impact (10 pts):</strong> All zone types placed and powered (reduced by pollution in residential areas)</li>
                     </ul>
                 `,
                 highlight: ".dashboard"
@@ -163,6 +163,7 @@ class SimpleTutorial {
                         <li><strong>Use terrain bonuses:</strong> Place energy sources strategically on matching terrain</li>
                         <li><strong>Diversify renewable energy:</strong> Use all 5 renewable sources for maximum diversity score</li>
                         <li><strong>Complete city planning:</strong> Place all three zone types for full community score</li>
+                        <li><strong>Consider pollution impact:</strong> Wind turbines create noise pollution in residential areas, while biomass and coal plants cause toxic emissions</li>
                         <li><strong>Avoid fossil fuels:</strong> Coal and natural gas reduce your carbon impact score</li>
                         <li><strong>Monitor sustainability:</strong> Aim for A+ grade (90+ points)</li>
                         <li><strong>Manage budget wisely:</strong> Balance investments with zone income</li>

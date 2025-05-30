@@ -131,15 +131,15 @@ class TutorialSystem {
                         <h4>🌱 Renewable Energy:</h4>
                         <ul>
                             <li><strong>Solar:</strong> $3,750 • 50kW • Enhanced by sunny weather</li>
-                            <li><strong>Wind:</strong> $11,500 • 100kW • Boosted by windy conditions</li>
+                            <li><strong>Wind:</strong> $11,500 • 100kW • Boosted by windy conditions (noise pollution in residential areas)</li>
                             <li><strong>Hydro:</strong> $56,000 • 200kW • +60% bonus near rivers</li>
                             <li><strong>Geothermal:</strong> $81,000 • 180kW • +50% bonus in mountains</li>
-                            <li><strong>Biomass:</strong> $55,000 • 200kW • +40% bonus in forests</li>
+                            <li><strong>Biomass:</strong> $55,000 • 200kW • +40% bonus in forests (toxic emissions in residential areas)</li>
                         </ul>
                         
                         <h4>🏭 Fossil Fuels:</h4>
                         <ul>
-                            <li><strong>Coal:</strong> $100,000 • 400kW • High pollution impact</li>
+                            <li><strong>Coal:</strong> $100,000 • 400kW • High pollution impact (toxic emissions in residential areas)</li>
                             <li><strong>Natural Gas:</strong> $84,000 • 300kW • Lower emissions than coal</li>
                         </ul>
                         

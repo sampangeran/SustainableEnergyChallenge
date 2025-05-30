@@ -176,7 +176,7 @@ class EnergySourceManager {
         this.sources.set('coal', new EnergySource(
             'coal',
             'Coal Power Plant',
-            100000,
+            80000,
             400,
             'Burns coal to generate electricity. High carbon emissions and environmental impact.',
             -8.5
@@ -185,7 +185,7 @@ class EnergySourceManager {
         this.sources.set('naturalgas', new EnergySource(
             'naturalgas',
             'Natural Gas Plant',
-            84000,
+            66000,
             300,
             'Burns natural gas for electricity. Lower emissions than coal but still fossil fuel.',
             -5.2

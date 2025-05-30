@@ -53,6 +53,11 @@ class RenewableEnergySimulator {
             console.log('Step 5: Initializing budget system...');
             this.budgetManager.initialize();
             
+            // Initialize city name system
+            if (this.cityNameManager) {
+                this.cityNameManager.initialize();
+            }
+            
             // Start systems
             console.log('Step 6: Starting systems...');
             this.startSystems();
@@ -102,6 +107,11 @@ class RenewableEnergySimulator {
         // Initialize tooltip system
         if (typeof TooltipSystem !== 'undefined') {
             this.tooltipSystem = new TooltipSystem();
+        }
+        
+        // Initialize city name manager
+        if (typeof CityNameManager !== 'undefined') {
+            this.cityNameManager = new CityNameManager();
         }
         
         // Initialize storage manager
@@ -1200,6 +1210,11 @@ class RenewableEnergySimulator {
         this.weatherSystem.reset();
         this.budgetManager.reset();
         this.dashboard.reset();
+        
+        // Reset city name
+        if (this.cityNameManager) {
+            this.cityNameManager.reset();
+        }
         
         // Clear storage
         this.storageManager.clearStorage();

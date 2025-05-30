@@ -24,11 +24,18 @@ class CityNameManager {
             cityNameDisplay.className = 'city-name-display';
             cityNameDisplay.innerHTML = `
                 <div class="city-name-container">
-                    <i class="fas fa-city"></i>
-                    <span id="city-name-text">${this.cityName || this.defaultName}</span>
-                    <button id="edit-city-name" class="edit-name-btn" title="Edit city name">
-                        <i class="fas fa-edit"></i>
-                    </button>
+                    <div class="city-badge">
+                        <div class="city-icon">
+                            <span>🏙️</span>
+                        </div>
+                        <div class="city-info">
+                            <span class="city-label">Mayor of</span>
+                            <span id="city-name-text" class="city-name">${this.cityName || this.defaultName}</span>
+                        </div>
+                        <button id="edit-city-name" class="edit-name-btn" title="Edit city name">
+                            <span>✏️</span>
+                        </button>
+                    </div>
                 </div>
             `;
             
@@ -311,39 +318,158 @@ class CityNameManager {
         const style = document.createElement('style');
         style.textContent = `
             .city-name-display {
-                margin: 10px 0;
-                padding: 8px 0;
+                margin-left: 2rem;
+                flex-shrink: 0;
             }
             
             .city-name-container {
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                font-size: 1.2rem;
-                color: #2c3e50;
-                font-weight: 600;
+                justify-content: center;
             }
             
-            .city-name-container i {
-                color: #3498db;
-                font-size: 1.1rem;
+            .city-badge {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 12px;
+                padding: 0.75rem 1.25rem;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .city-badge::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(90deg, #2c5530, #4a7c59, #2c5530);
+                opacity: 0.8;
+            }
+            
+            .city-badge:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.9));
+            }
+            
+            .city-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                background: linear-gradient(135deg, #2c5530, #4a7c59);
+                border-radius: 8px;
+                font-size: 18px;
+                box-shadow: 0 2px 8px rgba(44, 85, 48, 0.3);
+            }
+            
+            .city-info {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                min-width: 0;
+            }
+            
+            .city-label {
+                font-size: 0.7rem;
+                font-weight: 500;
+                color: #666;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                line-height: 1;
+            }
+            
+            .city-name {
+                font-size: 1rem;
+                font-weight: 700;
+                color: #2c5530;
+                line-height: 1.2;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                max-width: 140px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
             
             .edit-name-btn {
-                background: none;
-                border: 1px solid #bdc3c7;
-                border-radius: 4px;
-                padding: 4px 6px;
+                background: rgba(44, 85, 48, 0.1);
+                border: none;
+                color: #2c5530;
                 cursor: pointer;
-                color: #7f8c8d;
-                font-size: 0.8rem;
+                padding: 0.5rem;
+                border-radius: 6px;
                 transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
             
             .edit-name-btn:hover {
-                background: #ecf0f1;
-                color: #2c3e50;
-                border-color: #95a5a6;
+                background: rgba(44, 85, 48, 0.15);
+                transform: scale(1.05);
+            }
+            
+            .edit-name-btn:active {
+                transform: scale(0.95);
+            }
+            
+            @media (max-width: 768px) {
+                .city-name-display {
+                    margin-left: 1rem;
+                }
+                
+                .city-badge {
+                    gap: 0.5rem;
+                    padding: 0.6rem 1rem;
+                }
+                
+                .city-icon {
+                    width: 30px;
+                    height: 30px;
+                    font-size: 14px;
+                }
+                
+                .city-label {
+                    font-size: 0.65rem;
+                }
+                
+                .city-name {
+                    font-size: 0.9rem;
+                    max-width: 100px;
+                }
+                
+                .edit-name-btn {
+                    min-width: 28px;
+                    height: 28px;
+                    font-size: 12px;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .city-name-display {
+                    margin-left: 0.5rem;
+                }
+                
+                .city-badge {
+                    gap: 0.4rem;
+                    padding: 0.5rem 0.8rem;
+                }
+                
+                .city-name {
+                    max-width: 80px;
+                }
             }
             
             .city-name-modal .modal {

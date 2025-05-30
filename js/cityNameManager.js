@@ -76,35 +76,63 @@ class CityNameManager {
             z-index: 10000;
         `;
         modal.innerHTML = `
-            <div class="modal city-name-input-modal">
-                <div class="modal-header">
-                    <h3>${isEdit ? 'Rename Your City' : 'Name Your City'}</h3>
-                    ${isEdit ? '<button class="modal-close">&times;</button>' : ''}
+            <div class="modal city-name-input-modal" style="
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                max-width: 500px;
+                width: 90%;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                position: relative;
+                max-height: 80vh;
+                overflow-y: auto;
+            ">
+                <div class="modal-header" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0; color: #2c5530; font-size: 1.5rem; font-weight: bold;">${isEdit ? 'Rename Your City' : 'Name Your City'}</h3>
+                    ${isEdit ? '<button class="modal-close" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>' : ''}
                 </div>
                 <div class="modal-content">
                     <div class="city-name-form">
-                        <label for="city-name-input">Enter a name for your sustainable city:</label>
+                        <label for="city-name-input" style="display: block; margin-bottom: 0.5rem; color: #555; font-weight: 500;">Enter a name for your sustainable city:</label>
                         <input type="text" 
                                id="city-name-input" 
                                placeholder="e.g., Green Valley, Eco Harbor, Solar Springs"
                                maxlength="30"
                                value="${this.cityName || ''}"
-                               autofocus>
-                        <div class="name-suggestions">
-                            <p>Suggestions:</p>
-                            <div class="suggestion-buttons">
-                                <button class="suggestion-btn" data-name="Green Valley">Green Valley</button>
-                                <button class="suggestion-btn" data-name="Eco Harbor">Eco Harbor</button>
-                                <button class="suggestion-btn" data-name="Solar Springs">Solar Springs</button>
-                                <button class="suggestion-btn" data-name="Wind Ridge">Wind Ridge</button>
-                                <button class="suggestion-btn" data-name="Renewable City">Renewable City</button>
+                               autofocus
+                               style="
+                                   width: 100%;
+                                   padding: 0.75rem;
+                                   border: 2px solid #ddd;
+                                   border-radius: 6px;
+                                   font-size: 1rem;
+                                   box-sizing: border-box;
+                                   margin-bottom: 1rem;
+                               ">
+                        <div class="name-suggestions" style="margin-bottom: 1.5rem;">
+                            <p style="margin: 0 0 0.5rem 0; color: #666; font-size: 0.9rem;">Suggestions:</p>
+                            <div class="suggestion-buttons" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                <button class="suggestion-btn" data-name="Green Valley" style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Green Valley</button>
+                                <button class="suggestion-btn" data-name="Eco Harbor" style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Eco Harbor</button>
+                                <button class="suggestion-btn" data-name="Solar Springs" style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Solar Springs</button>
+                                <button class="suggestion-btn" data-name="Wind Ridge" style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Wind Ridge</button>
+                                <button class="suggestion-btn" data-name="Renewable City" style="padding: 0.4rem 0.8rem; border: 1px solid #ddd; background: #f8f9fa; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Renewable City</button>
                             </div>
                         </div>
-                        <div class="modal-actions">
-                            <button id="confirm-city-name" class="btn-primary">
+                        <div class="modal-actions" style="display: flex; gap: 1rem; justify-content: flex-end;">
+                            <button id="confirm-city-name" class="btn-primary" style="
+                                background: #2c5530;
+                                color: white;
+                                border: none;
+                                padding: 0.75rem 1.5rem;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-size: 1rem;
+                                font-weight: 500;
+                            ">
                                 ${isEdit ? 'Update Name' : 'Start Building'}
                             </button>
-                            ${isEdit ? '<button id="cancel-city-name" class="btn-secondary">Cancel</button>' : ''}
+                            ${isEdit ? '<button id="cancel-city-name" class="btn-secondary" style="background: #6c757d; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; font-size: 1rem;">Cancel</button>' : ''}
                         </div>
                     </div>
                 </div>

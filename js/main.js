@@ -724,8 +724,17 @@ class RenewableEnergySimulator {
             }
         });
         
-        // Clear selection
+        // Clear selection immediately and force DOM update
         this.clearCellSelections();
+        
+        // Force immediate DOM refresh to remove any lingering selection styles
+        setTimeout(() => {
+            document.querySelectorAll('.grid-cell').forEach(cell => {
+                cell.style.border = '';
+                cell.style.backgroundColor = '';
+                cell.classList.remove('selected');
+            });
+        }, 10);
         
         // Update income calculation after energy source changes
         if (placedCount > 0) {
@@ -771,10 +780,19 @@ class RenewableEnergySimulator {
             }
         });
         
-        // Clear selection and remove menu
+        // Clear selection and remove menu immediately
         this.clearCellSelections();
         const menu = document.querySelector('.bulk-action-menu');
         if (menu && menu.parentNode) menu.parentNode.removeChild(menu);
+        
+        // Force immediate DOM refresh to remove any lingering selection styles
+        setTimeout(() => {
+            document.querySelectorAll('.grid-cell').forEach(cell => {
+                cell.style.border = '';
+                cell.style.backgroundColor = '';
+                cell.classList.remove('selected');
+            });
+        }, 10);
         
         // Update income calculation after zone changes
         if (assignedCount > 0) {

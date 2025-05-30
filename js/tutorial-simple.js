@@ -95,13 +95,13 @@ class SimpleTutorial {
                     <p>Weather conditions change every few minutes and affect energy production:</p>
                     
                     <ul>
-                        <li><strong>☀️ Sunny:</strong> +20% solar, normal wind/hydro</li>
-                        <li><strong>☁️ Cloudy:</strong> -50% solar, +10% hydro</li>
-                        <li><strong>🌧️ Rainy:</strong> -70% solar, +30% hydro</li>
-                        <li><strong>💨 Windy:</strong> +40% wind, -10% solar</li>
+                        <li><strong>☀️ Sunny:</strong> +20% solar, -20% wind</li>
+                        <li><strong>☁️ Cloudy:</strong> -40% solar, normal wind/hydro</li>
+                        <li><strong>🌧️ Rainy:</strong> -60% solar, +30% hydro, -10% wind</li>
+                        <li><strong>💨 Windy:</strong> +40% wind, normal solar</li>
                     </ul>
                     
-                    <p>Diversify your energy sources to maintain stable power during all weather conditions.</p>
+                    <p>The weather impact percentage shows how current conditions affect your energy mix compared to neutral weather. Diversify your energy sources to maintain stable power during all weather conditions.</p>
                 `,
                 highlight: ".weather-display"
             },

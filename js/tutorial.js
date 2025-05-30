@@ -183,14 +183,15 @@ class TutorialSystem {
                         <p>Weather conditions change every 30-60 seconds and affect energy production:</p>
                         
                         <ul>
-                            <li><strong>☀️ Sunny:</strong> Solar +20%, others normal</li>
-                            <li><strong>☁️ Cloudy:</strong> Solar -30%, others normal</li>
-                            <li><strong>🌧️ Rainy:</strong> Solar -50%, Hydro +30%</li>
-                            <li><strong>💨 Windy:</strong> Wind +40%, Solar -10%</li>
+                            <li><strong>☀️ Sunny:</strong> Solar +20%, Wind -20%</li>
+                            <li><strong>☁️ Cloudy:</strong> Solar -40%, others normal</li>
+                            <li><strong>🌧️ Rainy:</strong> Solar -60%, Hydro +30%, Wind -10%</li>
+                            <li><strong>💨 Windy:</strong> Wind +40%, others normal</li>
                         </ul>
                         
                         <p><strong>Advanced Features:</strong></p>
                         <ul>
+                            <li>Weather impact shows percentage change from neutral conditions</li>
                             <li>Weather forecast shows upcoming conditions</li>
                             <li>Real-time production updates based on weather</li>
                             <li>Diversify energy sources to handle weather changes</li>

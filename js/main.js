@@ -74,7 +74,7 @@ class RenewableEnergySimulator {
                 if (!this.cityNameManager.isCityNameSet()) {
                     console.log('No city name set, showing dialog in 2 seconds');
                     setTimeout(() => {
-                        this.cityNameManager.showCityNameDialog(false);
+                        this.showSimpleCityNameDialog();
                     }, 2000);
                 } else {
                     console.log('City name already set:', this.cityNameManager.getCityName());
@@ -1552,6 +1552,109 @@ class RenewableEnergySimulator {
 
     showError(message) {
         this.showNotification(message, 'error');
+    }
+
+    showSimpleCityNameDialog() {
+        console.log('Creating simple city name dialog');
+        
+        // Remove any existing modals
+        const existing = document.querySelector('.simple-city-modal');
+        if (existing) existing.remove();
+        
+        const modal = document.createElement('div');
+        modal.className = 'simple-city-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            font-family: Arial, sans-serif;
+        `;
+        
+        const content = document.createElement('div');
+        content.style.cssText = `
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        `;
+        
+        content.innerHTML = `
+            <h2 style="margin: 0 0 20px 0; color: #2c5530;">Name Your City</h2>
+            <p style="margin-bottom: 20px; color: #666;">Welcome to the Sustainable City Challenge! Let's start by giving your city a name:</p>
+            <input type="text" id="simple-city-input" placeholder="Enter city name" style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                font-size: 16px;
+                margin-bottom: 20px;
+                box-sizing: border-box;
+            ">
+            <button id="simple-city-confirm" style="
+                background: #2c5530;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 6px;
+                font-size: 16px;
+                cursor: pointer;
+                width: 100%;
+            ">Start Building</button>
+        `;
+        
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+        
+        console.log('Simple modal added to DOM');
+        
+        // Focus input
+        const input = document.getElementById('simple-city-input');
+        if (input) {
+            input.focus();
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.handleCityNameSubmit();
+                }
+            });
+        }
+        
+        // Handle confirm button
+        const confirmBtn = document.getElementById('simple-city-confirm');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', () => {
+                this.handleCityNameSubmit();
+            });
+        }
+    }
+    
+    handleCityNameSubmit() {
+        const input = document.getElementById('simple-city-input');
+        const name = input ? input.value.trim() : '';
+        
+        if (name) {
+            console.log('Setting city name:', name);
+            if (this.cityNameManager) {
+                this.cityNameManager.setCityName(name);
+            }
+            
+            // Remove modal
+            const modal = document.querySelector('.simple-city-modal');
+            if (modal) modal.remove();
+            
+            this.showNotification(`Welcome to ${name}! Start building your sustainable city.`, 'success');
+        } else {
+            this.showNotification('Please enter a city name.', 'warning');
+        }
     }
 
     getSimulationData() {

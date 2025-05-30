@@ -75,7 +75,7 @@ class SimpleTutorial {
                 title: "Budget and Financial Management",
                 content: `
                     <h3>💰 Managing Your City Budget</h3>
-                    <p>Start with $250,000 to build your sustainable city. Smart planning is essential:</p>
+                    <p>Start with $500,000 to build your sustainable city. Smart planning is essential:</p>
                     
                     <ul>
                         <li><strong>Energy Costs:</strong> Each source requires upfront investment</li>

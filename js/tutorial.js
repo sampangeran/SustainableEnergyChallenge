@@ -38,7 +38,7 @@ class TutorialSystem {
                             <li>📊 Real-time performance tracking</li>
                         </ul>
                         
-                        <p><strong>Goal:</strong> Build a profitable, sustainable city with $250,000 starting budget!</p>
+                        <p><strong>Goal:</strong> Build a profitable, sustainable city with $500,000 starting budget!</p>
                     </div>
                 `,
                 highlight: null,
@@ -49,7 +49,7 @@ class TutorialSystem {
                 content: `
                     <div class="tutorial-budget">
                         <h3>💰 Managing Your City Budget</h3>
-                        <p>You start with <strong>$250,000</strong> to build your city. Here's how money works:</p>
+                        <p>You start with <strong>$500,000</strong> to build your city. Here's how money works:</p>
                         
                         <h4>💸 Expenses:</h4>
                         <ul>

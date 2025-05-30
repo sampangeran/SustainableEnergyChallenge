@@ -5,7 +5,7 @@
 
 class BudgetManager {
     constructor() {
-        this.initialBudget = 250000; // Starting budget in dollars
+        this.initialBudget = 500000; // Starting budget in dollars
         this.currentBudget = this.initialBudget;
         this.totalSpent = 0;
         this.incomePerTurn = 0;

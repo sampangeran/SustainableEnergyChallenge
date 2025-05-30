@@ -302,7 +302,7 @@ class EnergyDashboard {
         
         // Innovation & Future-Readiness (10 points max)
         const advancedSources = (energyMix.geothermal?.count || 0) + (energyMix.biomass?.count || 0);
-        const innovationScore = Math.min(10, advancedSources * 2);
+        const innovationScore = Math.min(10, advancedSources * 1);
         score += innovationScore;
         scoreBreakdown.innovation = {
             score: Math.round(innovationScore),

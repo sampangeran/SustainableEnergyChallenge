@@ -189,6 +189,10 @@ class SimpleTutorial {
         } else {
             console.log(`Tutorial: Finishing tutorial`);
             this.stop();
+            // Show city name dialog after tutorial completion
+            if (this.mainApp && this.mainApp.cityNameManager) {
+                this.mainApp.cityNameManager.showCityNameDialogAfterTutorial();
+            }
         }
     }
 

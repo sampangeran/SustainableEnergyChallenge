@@ -1580,36 +1580,53 @@ class RenewableEnergySimulator {
         const content = document.createElement('div');
         content.style.cssText = `
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 400px;
+            padding: 32px;
+            border-radius: 16px;
+            max-width: 480px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
         `;
         
         content.innerHTML = `
-            <h2 style="margin: 0 0 20px 0; color: #2c5530;">Name Your City</h2>
-            <p style="margin-bottom: 20px; color: #666;">Welcome to the Sustainable City Challenge! Let's start by giving your city a name:</p>
-            <input type="text" id="simple-city-input" placeholder="Enter city name" style="
-                width: 100%;
-                padding: 12px;
-                border: 2px solid #ddd;
-                border-radius: 6px;
-                font-size: 16px;
-                margin-bottom: 20px;
-                box-sizing: border-box;
-            ">
-            <button id="simple-city-confirm" style="
-                background: #2c5530;
-                color: white;
-                border: none;
-                padding: 12px 24px;
-                border-radius: 6px;
-                font-size: 16px;
-                cursor: pointer;
-                width: 100%;
-            ">Start Building</button>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #2c5530, #4a7c59); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: white; font-size: 24px; font-weight: bold;">🏙️</span>
+                </div>
+                <h2 style="margin: 0 0 8px 0; color: #2c5530; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 600;">Name Your City</h2>
+                <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.4;">Welcome to the Sustainable City Challenge!<br>Let's start by giving your city a name:</p>
+            </div>
+            <div style="margin-bottom: 24px;">
+                <input type="text" id="simple-city-input" placeholder="Enter your city name..." style="
+                    width: 100%;
+                    padding: 14px 16px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    box-sizing: border-box;
+                    transition: all 0.2s ease;
+                    outline: none;
+                " onfocus="this.style.borderColor='#2c5530'; this.style.boxShadow='0 0 0 3px rgba(44,85,48,0.1)'" onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'">
+            </div>
+            <div style="text-align: center;">
+                <button id="simple-city-confirm" style="
+                    background: linear-gradient(135deg, #2c5530, #4a7c59);
+                    color: white;
+                    border: none;
+                    padding: 14px 32px;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    transition: all 0.2s ease;
+                    box-shadow: 0 2px 8px rgba(44,85,48,0.2);
+                " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(44,85,48,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(44,85,48,0.2)'">
+                    🚀 Start Building Your City
+                </button>
+            </div>
         `;
         
         modal.appendChild(content);
@@ -1663,47 +1680,68 @@ class RenewableEnergySimulator {
         const content = document.createElement('div');
         content.style.cssText = `
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 400px;
+            padding: 32px;
+            border-radius: 16px;
+            max-width: 480px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
         `;
         
         const currentName = this.cityNameManager ? this.cityNameManager.getCityName() : '';
         
         content.innerHTML = `
-            <h2 style="margin: 0 0 20px 0; color: #2c5530;">Rename Your City</h2>
-            <p style="margin-bottom: 20px; color: #666;">Enter a new name for your city:</p>
-            <input type="text" id="simple-city-input" placeholder="Enter city name" value="${currentName}" style="
-                width: 100%;
-                padding: 12px;
-                border: 2px solid #ddd;
-                border-radius: 6px;
-                font-size: 16px;
-                margin-bottom: 20px;
-                box-sizing: border-box;
-            ">
-            <div style="display: flex; gap: 10px; justify-content: center;">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #2c5530, #4a7c59); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: white; font-size: 24px; font-weight: bold;">✏️</span>
+                </div>
+                <h2 style="margin: 0 0 8px 0; color: #2c5530; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 600;">Rename Your City</h2>
+                <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.4;">Update your city's name below:</p>
+            </div>
+            <div style="margin-bottom: 24px;">
+                <input type="text" id="simple-city-input" placeholder="Enter new city name..." value="${currentName}" style="
+                    width: 100%;
+                    padding: 14px 16px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    box-sizing: border-box;
+                    transition: all 0.2s ease;
+                    outline: none;
+                " onfocus="this.style.borderColor='#2c5530'; this.style.boxShadow='0 0 0 3px rgba(44,85,48,0.1)'" onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'">
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: center;">
                 <button id="simple-city-confirm" style="
-                    background: #2c5530;
+                    background: linear-gradient(135deg, #2c5530, #4a7c59);
                     color: white;
                     border: none;
                     padding: 12px 24px;
-                    border-radius: 6px;
-                    font-size: 16px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-weight: 600;
                     cursor: pointer;
-                ">Update Name</button>
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    transition: all 0.2s ease;
+                    box-shadow: 0 2px 8px rgba(44,85,48,0.2);
+                " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(44,85,48,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(44,85,48,0.2)'">
+                    ✓ Update Name
+                </button>
                 <button id="simple-city-cancel" style="
-                    background: #6c757d;
-                    color: white;
-                    border: none;
+                    background: #f8f9fa;
+                    color: #6c757d;
+                    border: 2px solid #e0e0e0;
                     padding: 12px 24px;
-                    border-radius: 6px;
-                    font-size: 16px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-weight: 600;
                     cursor: pointer;
-                ">Cancel</button>
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    transition: all 0.2s ease;
+                " onmouseover="this.style.borderColor='#6c757d'; this.style.color='#495057'" onmouseout="this.style.borderColor='#e0e0e0'; this.style.color='#6c757d'">
+                    Cancel
+                </button>
             </div>
         `;
         

@@ -237,11 +237,6 @@ class CityNameManager {
         this.isNameSet = true;
         this.updateCityNameDisplay();
         this.saveCityName();
-        
-        // Show success message
-        if (window.simulator && window.simulator.showNotification) {
-            window.simulator.showNotification(`Welcome to ${name}!`, 'success');
-        }
     }
     
     updateCityNameDisplay() {

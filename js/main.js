@@ -346,8 +346,7 @@ class RenewableEnergySimulator {
             this.handleKeyboardShortcuts(e);
         });
         
-        // Grid drag and drop events
-        this.setupGridDragDropEvents();
+        // Removed drag-and-drop event setup
     }
 
     setupHeaderControls() {
@@ -367,25 +366,7 @@ class RenewableEnergySimulator {
         }
     }
 
-    setupGridDragDropEvents() {
-        const gridContainer = document.getElementById('city-grid');
-        if (!gridContainer) return;
-        
-        gridContainer.addEventListener('dragover', (e) => {
-            this.dragDropHandler.handleDragOver(e);
-        });
-        
-        gridContainer.addEventListener('drop', (e) => {
-            this.dragDropHandler.handleDrop(e);
-        });
-        
-        gridContainer.addEventListener('dragleave', (e) => {
-            this.dragDropHandler.handleDragLeave(e);
-        });
-
-        // Temporarily disable drag selection to fix single clicks
-        // TODO: Re-implement drag selection properly later
-    }
+    // Removed unused drag-and-drop functionality
 
     setupGridClickHandlers() {
         console.log('Setting up grid click handlers...');

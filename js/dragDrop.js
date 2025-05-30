@@ -408,9 +408,22 @@ class DragDropHandler {
         cell.className = 'grid-cell';
         cell.innerHTML = '';
         
-        // Add zone class
+        // Add zone class and icon
         if (zoneType) {
             cell.classList.add(`zone-${zoneType}`);
+            
+            // Add zone icon
+            const zoneIcon = document.createElement('div');
+            zoneIcon.className = 'zone-icon';
+            
+            const zoneIconMap = {
+                residential: '🏠',
+                commercial: '🏢', 
+                industrial: '🏭'
+            };
+            
+            zoneIcon.innerHTML = zoneIconMap[zoneType] || '';
+            cell.appendChild(zoneIcon);
         }
         
         // Add energy source if present

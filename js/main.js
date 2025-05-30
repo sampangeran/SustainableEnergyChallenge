@@ -999,9 +999,22 @@ class RenewableEnergySimulator {
         cell.className = 'grid-cell';
         cell.innerHTML = '';
         
-        // Add zone class
+        // Add zone class and icon
         if (zoneType) {
             cell.classList.add(`zone-${zoneType}`);
+            
+            // Add zone icon
+            const zoneIcon = document.createElement('div');
+            zoneIcon.className = 'zone-icon';
+            
+            const zoneIconMap = {
+                residential: '🏠',
+                commercial: '🏢', 
+                industrial: '🏭'
+            };
+            
+            zoneIcon.innerHTML = zoneIconMap[zoneType] || '';
+            cell.appendChild(zoneIcon);
             
             // Check if city has insufficient power for income-generating zones
             if (this.energyManager && this.weatherSystem && zoneType) {

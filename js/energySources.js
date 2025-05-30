@@ -140,7 +140,7 @@ class EnergySourceManager {
         this.sources.set('wind', new EnergySource(
             'wind',
             'Wind Turbine',
-            8000,
+            5500,
             100,
             'Converts wind energy into electricity. Performance increases with wind speed.',
             2.5
@@ -167,7 +167,7 @@ class EnergySourceManager {
         this.sources.set('biomass', new EnergySource(
             'biomass',
             'Biomass Plant',
-            10000,
+            7800,
             120,
             'Burns organic materials to produce electricity. Weather-independent operation.',
             3.2

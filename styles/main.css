@@ -158,6 +158,11 @@ body {
     color: white;
 }
 
+.btn.active:hover {
+    background: hsl(var(--primary-color));
+    border-color: hsl(var(--primary-color));
+}
+
 .btn:not(.active) {
     background: #6c757d;
     color: #f8f9fa;

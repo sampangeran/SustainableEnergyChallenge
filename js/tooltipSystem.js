@@ -220,11 +220,25 @@ class TooltipSystem {
             if (sourceInfo) {
                 const weather = window.simulator.weatherSystem.getCurrentWeather();
                 const source = window.simulator.energyManager.getSource(sourceType);
-                const currentOutput = source ? source.getCurrentOutput(weather) : 0;
+                
+                // Calculate output with terrain bonus
+                const zoneType = window.simulator.zoneManager.getCellZone(row, col);
+                const zone = window.simulator.zoneManager.zones.get(zoneType);
+                const terrainBonus = zone ? zone.getTerrainBonus(sourceType) : 1.0;
+                const baseOutput = source ? source.getCurrentOutput(weather) : 0;
+                const outputWithTerrain = Math.round(baseOutput * terrainBonus);
+                
+                let description = `${sourceInfo.description}\nCurrent output: ${outputWithTerrain}kW`;
+                if (terrainBonus > 1.0) {
+                    description += ` (+${Math.round((terrainBonus - 1) * 100)}% terrain bonus)`;
+                } else if (terrainBonus < 1.0) {
+                    description += ` (${Math.round((terrainBonus - 1) * 100)}% terrain penalty)`;
+                }
+                description += ` (${weather.name} weather)`;
                 
                 return {
                     title: sourceInfo.title,
-                    description: `${sourceInfo.description}\nCurrent output: ${currentOutput}kW (${weather.name} weather)`
+                    description: description
                 };
             }
         }

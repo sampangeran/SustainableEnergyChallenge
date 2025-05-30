@@ -517,8 +517,8 @@ body {
     position: absolute;
     top: 2px;
     right: 2px;
-    font-size: 0.8rem;
-    opacity: 0.8;
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 .grid-cell.zone-mountain::before {
@@ -526,8 +526,8 @@ body {
     position: absolute;
     top: 2px;
     right: 2px;
-    font-size: 0.8rem;
-    opacity: 0.8;
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 .grid-cell.zone-beach::before {
@@ -535,8 +535,8 @@ body {
     position: absolute;
     top: 2px;
     right: 2px;
-    font-size: 0.8rem;
-    opacity: 0.8;
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 .grid-cell.zone-river::before {
@@ -544,8 +544,32 @@ body {
     position: absolute;
     top: 2px;
     right: 2px;
-    font-size: 0.8rem;
-    opacity: 0.8;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Make terrain icons larger on desktop */
+@media (min-width: 768px) {
+    .grid-cell.zone-forest::before,
+    .grid-cell.zone-mountain::before,
+    .grid-cell.zone-beach::before,
+    .grid-cell.zone-river::before {
+        font-size: 1.6rem;
+        top: 3px;
+        right: 3px;
+    }
+}
+
+/* Even larger on wide screens */
+@media (min-width: 1200px) {
+    .grid-cell.zone-forest::before,
+    .grid-cell.zone-mountain::before,
+    .grid-cell.zone-beach::before,
+    .grid-cell.zone-river::before {
+        font-size: 2rem;
+        top: 4px;
+        right: 4px;
+    }
 }
 
 .grid-cell.drop-target {

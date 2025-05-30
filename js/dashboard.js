@@ -351,7 +351,11 @@ class EnergyDashboard {
         }
         
         // Apply pollution penalty
+        const originalScore = communityScore;
         communityScore = Math.max(0, communityScore - pollutionPenalty);
+        
+        // Debug logging
+        console.log(`Community Score Debug: Original=${originalScore}, Penalty=${pollutionPenalty}, Final=${communityScore}`);
         
         let description = `${activeCityZones.length}/${totalPossibleZones} zone types placed${efficiency >= 100 ? ' and powered' : ''}`;
         if (pollutionPenalty > 0) {

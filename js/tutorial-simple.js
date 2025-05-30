@@ -67,7 +67,7 @@ class SimpleTutorial {
                         <li><strong>🌱 Biomass:</strong> $55,000 • 200kW - Organic waste to energy</li>
                     </ul>
                     
-                    <p>You can drag these onto the grid or use Energy Mode for placement.</p>
+                    <p>Click an energy source to select it, then click on grid cells to place it.</p>
                 `,
                 highlight: ".energy-sources"
             },

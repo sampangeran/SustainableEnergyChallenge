@@ -184,13 +184,23 @@ class EnergyDashboard {
             description: "How well energy production meets demand"
         };
         
-        // Carbon Reduction Impact (20 points max)
-        const carbonScore = Math.min(20, carbonReduction / 500 * 20);
+        // Carbon Impact (20 points max)
+        const carbonScore = Math.min(20, Math.max(-20, carbonReduction / 500 * 20));
         score += carbonScore;
+        
+        let carbonDescription;
+        if (carbonReduction > 0) {
+            carbonDescription = `Prevented ${Math.round(carbonReduction)} tons CO₂/year`;
+        } else if (carbonReduction < 0) {
+            carbonDescription = `Produced ${Math.round(Math.abs(carbonReduction))} tons CO₂/year`;
+        } else {
+            carbonDescription = `No carbon impact`;
+        }
+        
         scoreBreakdown.carbon = {
             score: Math.round(carbonScore),
             max: 20,
-            description: `Prevented ${Math.round(carbonReduction)} tons CO₂/year`
+            description: carbonDescription
         };
         
         // Energy Source Diversity (20 points max) - Only count renewable sources

@@ -242,17 +242,25 @@ class EnergyDashboard {
         const activeCityZones = cityZones.filter(zoneType => 
             zoneStats[zoneType] && zoneStats[zoneType].cellCount > 0
         );
-        const totalZones = activeCityZones.length;
+        const totalPossibleZones = cityZones.length; // Always 3 (residential, commercial, industrial)
         
-        // If city-wide efficiency >= 100%, all zones are considered fully powered
-        // Otherwise, no zones are considered fully powered in the community score
-        const poweredZones = efficiency >= 100 ? totalZones : 0;
-        const communityScore = totalZones > 0 ? (poweredZones / totalZones) * 10 : 0;
+        // Community score is based on having all zone types AND powering them
+        // Points deducted for missing zone types and insufficient power
+        let communityScore = 0;
+        if (activeCityZones.length === totalPossibleZones && efficiency >= 100) {
+            // Full score: all 3 zone types placed and fully powered
+            communityScore = 10;
+        } else if (activeCityZones.length > 0) {
+            // Partial score: some zones placed, proportional to completion and power
+            const zoneCompletionRatio = activeCityZones.length / totalPossibleZones;
+            const powerRatio = efficiency >= 100 ? 1 : 0;
+            communityScore = zoneCompletionRatio * powerRatio * 10;
+        }
         score += communityScore;
         scoreBreakdown.community = {
             score: Math.round(communityScore),
             max: 10,
-            description: `${poweredZones}/${totalZones} zones fully powered`
+            description: `${activeCityZones.length}/${totalPossibleZones} zone types placed${efficiency >= 100 ? ' and powered' : ''}`
         };
         
         return {

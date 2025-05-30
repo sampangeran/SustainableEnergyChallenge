@@ -472,20 +472,30 @@ body {
     position: absolute;
     top: 2px;
     left: 2px;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     color: #e74c3c;
     z-index: 10;
     animation: pulse 1.5s infinite;
-    text-shadow: 0 0 4px rgba(231, 76, 60, 0.8);
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+    text-shadow: 0 0 6px rgba(231, 76, 60, 1), 0 0 10px rgba(231, 76, 60, 0.5);
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8));
+    font-weight: bold;
 }
 
-/* Make power indicators larger on desktop */
+/* Make power indicators even larger on desktop */
 @media (min-width: 768px) {
     .power-status {
-        font-size: 1.5rem;
-        top: 3px;
-        left: 3px;
+        font-size: 2.2rem;
+        top: 4px;
+        left: 4px;
+    }
+}
+
+/* Extra large for very wide screens */
+@media (min-width: 1200px) {
+    .power-status {
+        font-size: 2.5rem;
+        top: 5px;
+        left: 5px;
     }
 }
 

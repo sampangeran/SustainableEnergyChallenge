@@ -106,13 +106,6 @@ class RenewableEnergySimulator {
             this.weatherSystem
         );
         
-        // Initialize drag and drop
-        this.dragDropHandler = new DragDropHandler(
-            this.energyManager,
-            this.zoneManager,
-            this.weatherSystem
-        );
-        
         // Initialize budget manager
         this.budgetManager = new BudgetManager();
         
@@ -272,17 +265,9 @@ class RenewableEnergySimulator {
     }
 
     setupEnergySourceDraggables() {
-        const energySources = document.querySelectorAll('.energy-source[draggable="true"]');
+        const energySources = document.querySelectorAll('.energy-source');
         
         energySources.forEach(source => {
-            source.addEventListener('dragstart', (e) => {
-                this.dragDropHandler.handleDragStart(e);
-            });
-            
-            source.addEventListener('dragend', (e) => {
-                this.dragDropHandler.handleDragEnd(e);
-            });
-            
             // Add click handler for placement mode
             source.addEventListener('click', (e) => {
                 if (e.detail === 1) { // Single click

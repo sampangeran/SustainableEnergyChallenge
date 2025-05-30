@@ -131,7 +131,7 @@ class EnergySourceManager {
         this.sources.set('solar', new EnergySource(
             'solar',
             'Solar Panel',
-            2500,
+            3750,
             50,
             'Harnesses sunlight to generate clean electricity. Most effective during sunny days.',
             1.2
@@ -140,7 +140,7 @@ class EnergySourceManager {
         this.sources.set('wind', new EnergySource(
             'wind',
             'Wind Turbine',
-            5500,
+            11500,
             100,
             'Converts wind energy into electricity. Performance increases with wind speed.',
             2.5
@@ -149,7 +149,7 @@ class EnergySourceManager {
         this.sources.set('hydro', new EnergySource(
             'hydro',
             'Hydro Power',
-            12000,
+            56000,
             200,
             'Uses flowing water to generate electricity. Enhanced by rainfall.',
             5.2
@@ -158,7 +158,7 @@ class EnergySourceManager {
         this.sources.set('geothermal', new EnergySource(
             'geothermal',
             'Geothermal Plant',
-            15000,
+            81000,
             180,
             'Taps into Earth\'s internal heat for consistent power generation.',
             4.5
@@ -167,7 +167,7 @@ class EnergySourceManager {
         this.sources.set('biomass', new EnergySource(
             'biomass',
             'Biomass Plant',
-            8000,
+            33825,
             123,
             'Burns organic materials to produce electricity. Weather-independent operation.',
             3.28
@@ -176,7 +176,7 @@ class EnergySourceManager {
         this.sources.set('coal', new EnergySource(
             'coal',
             'Coal Power Plant',
-            25000,
+            100000,
             400,
             'Burns coal to generate electricity. High carbon emissions and environmental impact.',
             -8.5
@@ -185,7 +185,7 @@ class EnergySourceManager {
         this.sources.set('naturalgas', new EnergySource(
             'naturalgas',
             'Natural Gas Plant',
-            18000,
+            84000,
             300,
             'Burns natural gas for electricity. Lower emissions than coal but still fossil fuel.',
             -5.2

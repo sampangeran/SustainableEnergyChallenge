@@ -53,8 +53,28 @@ class CityNameManager {
     }
     
     showCityNameDialog(isEdit = false) {
+        console.log('Attempting to show city name dialog, isEdit:', isEdit);
+        
+        // Remove any existing city name modals
+        const existingModal = document.querySelector('.city-name-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
         const modal = document.createElement('div');
         modal.className = 'modal-overlay city-name-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        `;
         modal.innerHTML = `
             <div class="modal city-name-input-modal">
                 <div class="modal-header">
@@ -92,12 +112,16 @@ class CityNameManager {
         `;
         
         document.body.appendChild(modal);
+        console.log('City name modal added to DOM');
         
         // Focus the input
         const input = document.getElementById('city-name-input');
         if (input) {
             input.focus();
             input.select();
+            console.log('Input focused');
+        } else {
+            console.log('Input not found');
         }
         
         this.setupCityNameDialogHandlers(modal, isEdit);

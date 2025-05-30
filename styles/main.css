@@ -472,10 +472,21 @@ body {
     position: absolute;
     top: 2px;
     left: 2px;
-    font-size: 0.8rem;
+    font-size: 1.2rem;
     color: #e74c3c;
     z-index: 10;
     animation: pulse 1.5s infinite;
+    text-shadow: 0 0 4px rgba(231, 76, 60, 0.8);
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Make power indicators larger on desktop */
+@media (min-width: 768px) {
+    .power-status {
+        font-size: 1.5rem;
+        top: 3px;
+        left: 3px;
+    }
 }
 
 @keyframes pulse {

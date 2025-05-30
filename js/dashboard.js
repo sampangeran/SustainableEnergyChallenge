@@ -184,9 +184,10 @@ class EnergyDashboard {
             };
         }
         
-        // Calculate base production capacity vs demand ratio
-        const baseProduction = this.calculateBaseProduction();
-        const productionRatio = baseProduction / totalConsumption;
+        // Calculate production capacity with terrain bonuses vs demand ratio
+        const neutralWeather = { type: 'neutral' };
+        const productionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, neutralWeather);
+        const productionRatio = productionWithTerrain / totalConsumption;
         
         // Score based on production capacity relative to demand
         if (productionRatio >= 1.5) {

@@ -378,17 +378,17 @@ class EnergyDashboard {
             const resRatio = Math.round((residentialCount / totalZones) * 100);
             const comRatio = Math.round((commercialCount / totalZones) * 100);
             const indRatio = Math.round((industrialCount / totalZones) * 100);
-            description = `Zone ratio: ${resRatio}%/${comRatio}%/${indRatio}% (ideal: 60%/30%/10%)`;
+            description = `Zone balance: ${resRatio}% residential, ${comRatio}% commercial, ${indRatio}% industrial`;
             
             if (efficiency >= 100) {
-                description += ", fully powered";
+                description += " - fully powered";
             } else if (efficiency > 0) {
-                description += ", partially powered";
+                description += " - partially powered";
             }
             
             if (pollutionPenalty > 0) {
                 const pollutingSources = Math.round(pollutionPenalty);
-                description += `, pollution penalty (-${pollutingSources})`;
+                description += ` (pollution impact: -${pollutingSources})`;
             }
         }
         

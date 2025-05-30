@@ -163,13 +163,16 @@ body {
     border-color: hsl(var(--primary-color));
 }
 
-.btn:not(.active) {
+/* Only apply gray styling to mode control buttons, not all buttons */
+#zone-mode:not(.active),
+#energy-mode:not(.active) {
     background: #6c757d;
     color: #f8f9fa;
     border-color: #6c757d;
 }
 
-.btn:not(.active):hover {
+#zone-mode:not(.active):hover,
+#energy-mode:not(.active):hover {
     background: #5a6268;
     border-color: #545b62;
     color: white;

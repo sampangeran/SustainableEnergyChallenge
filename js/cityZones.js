@@ -92,7 +92,7 @@ class CityZone {
             wind: 100,       // Matches energySources.js: 100kW
             hydro: 200,      // Matches energySources.js: 200kW
             geothermal: 180, // Matches energySources.js: 180kW
-            biomass: 120,    // Matches energySources.js: 120kW
+            biomass: 123,    // Matches energySources.js: 123kW
             coal: 400,       // Matches energySources.js: 400kW
             naturalgas: 300  // Matches energySources.js: 300kW
         };

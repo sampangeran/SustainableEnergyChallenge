@@ -44,7 +44,10 @@ class CityNameManager {
             const editButton = document.getElementById('edit-city-name');
             if (editButton) {
                 editButton.addEventListener('click', () => {
-                    this.showCityNameDialog(true);
+                    // Use the main app's working dialog instead
+                    if (window.simulator) {
+                        window.simulator.showEditCityNameDialog();
+                    }
                 });
             }
         }

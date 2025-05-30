@@ -1637,6 +1637,111 @@ class RenewableEnergySimulator {
         }
     }
     
+    showEditCityNameDialog() {
+        console.log('Creating edit city name dialog');
+        
+        // Remove any existing modals
+        const existing = document.querySelector('.simple-city-modal');
+        if (existing) existing.remove();
+        
+        const modal = document.createElement('div');
+        modal.className = 'simple-city-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            font-family: Arial, sans-serif;
+        `;
+        
+        const content = document.createElement('div');
+        content.style.cssText = `
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        `;
+        
+        const currentName = this.cityNameManager ? this.cityNameManager.getCityName() : '';
+        
+        content.innerHTML = `
+            <h2 style="margin: 0 0 20px 0; color: #2c5530;">Rename Your City</h2>
+            <p style="margin-bottom: 20px; color: #666;">Enter a new name for your city:</p>
+            <input type="text" id="simple-city-input" placeholder="Enter city name" value="${currentName}" style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                font-size: 16px;
+                margin-bottom: 20px;
+                box-sizing: border-box;
+            ">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="simple-city-confirm" style="
+                    background: #2c5530;
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 6px;
+                    font-size: 16px;
+                    cursor: pointer;
+                ">Update Name</button>
+                <button id="simple-city-cancel" style="
+                    background: #6c757d;
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 6px;
+                    font-size: 16px;
+                    cursor: pointer;
+                ">Cancel</button>
+            </div>
+        `;
+        
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+        
+        console.log('Edit modal added to DOM');
+        
+        // Focus input and select text
+        const input = document.getElementById('simple-city-input');
+        if (input) {
+            input.focus();
+            input.select();
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.handleCityNameSubmit();
+                }
+            });
+        }
+        
+        // Handle confirm button
+        const confirmBtn = document.getElementById('simple-city-confirm');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', () => {
+                this.handleCityNameSubmit();
+            });
+        }
+        
+        // Handle cancel button
+        const cancelBtn = document.getElementById('simple-city-cancel');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                const modals = document.querySelectorAll('.simple-city-modal, .city-name-modal, .modal-overlay');
+                modals.forEach(modal => modal.remove());
+            });
+        }
+    }
+
     handleCityNameSubmit() {
         const input = document.getElementById('simple-city-input');
         const name = input ? input.value.trim() : '';

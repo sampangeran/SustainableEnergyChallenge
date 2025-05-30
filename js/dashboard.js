@@ -410,11 +410,11 @@ class EnergyDashboard {
             this.addUpdateAnimation(this.elements.currentProduction);
         }
 
-        // Update weather impact indicator
+        // Update weather impact indicator - relative to neutral weather conditions
         if (this.elements.weatherImpact) {
             const weather = this.weatherSystem.getCurrentWeather();
-            const baseWeather = { type: 'sunny' };
-            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, baseWeather);
+            const neutralWeather = { type: 'neutral' }; // Use neutral as baseline instead of sunny
+            const baseProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, neutralWeather);
             const currentProductionWithTerrain = this.zoneManager.getTotalEnergyProduction(this.energyManager, weather);
             const impact = baseProductionWithTerrain > 0 ? ((currentProductionWithTerrain - baseProductionWithTerrain) / baseProductionWithTerrain) * 100 : 0;
             

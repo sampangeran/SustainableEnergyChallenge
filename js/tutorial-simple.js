@@ -60,7 +60,7 @@ class SimpleTutorial {
                     <p>Choose from various energy technologies, each with unique characteristics:</p>
                     
                     <ul>
-                        <li><strong>☀️ Solar:</strong> $5,000 • 50kW - Clean, weather-dependent</li>
+                        <li><strong>☀️ Solar:</strong> $2,500 • 50kW - Clean, weather-dependent</li>
                         <li><strong>💨 Wind:</strong> $8,000 • 100kW - Powerful in windy conditions</li>
                         <li><strong>🌊 Hydro:</strong> $12,000 • 200kW - Reliable water power</li>
                         <li><strong>🌋 Geothermal:</strong> $15,000 • 180kW - Consistent underground energy</li>

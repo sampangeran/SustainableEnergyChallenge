@@ -130,7 +130,7 @@ class TutorialSystem {
                         
                         <h4>🌱 Renewable Energy:</h4>
                         <ul>
-                            <li><strong>Solar:</strong> $5,000 • 50kW • Works best in sunny weather</li>
+                            <li><strong>Solar:</strong> $2,500 • 50kW • Works best in sunny weather</li>
                             <li><strong>Wind:</strong> $8,000 • 100kW • Enhanced by windy weather</li>
                             <li><strong>Hydro:</strong> $12,000 • 200kW • +60% bonus near rivers</li>
                             <li><strong>Geothermal:</strong> $15,000 • 180kW • +50% bonus in mountains</li>

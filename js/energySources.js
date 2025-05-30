@@ -131,7 +131,7 @@ class EnergySourceManager {
         this.sources.set('solar', new EnergySource(
             'solar',
             'Solar Panel',
-            5000,
+            2500,
             50,
             'Harnesses sunlight to generate clean electricity. Most effective during sunny days.',
             1.2

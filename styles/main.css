@@ -470,9 +470,9 @@ body {
 
 .power-status {
     position: absolute;
-    top: 3px;
-    right: 3px;
-    font-size: 1.4rem;
+    top: 2px;
+    right: 2px;
+    font-size: 1.1rem;
     color: #e74c3c;
     z-index: 15;
     animation: pulse 1.5s infinite;
@@ -485,18 +485,18 @@ body {
 /* Make power indicators appropriately sized on desktop */
 @media (min-width: 768px) {
     .power-status {
-        font-size: 1.8rem;
-        top: 4px;
-        right: 4px;
+        font-size: 1.3rem;
+        top: 3px;
+        right: 3px;
     }
 }
 
 /* Slightly larger for wide screens but not overwhelming */
 @media (min-width: 1200px) {
     .power-status {
-        font-size: 2rem;
-        top: 5px;
-        right: 5px;
+        font-size: 1.5rem;
+        top: 4px;
+        right: 4px;
     }
 }
 

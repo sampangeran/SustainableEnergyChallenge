@@ -69,10 +69,18 @@ class RenewableEnergySimulator {
             this.checkFirstTimeUser();
             
             // If no tutorial and no city name set, show city name dialog
-            if (this.cityNameManager && !this.cityNameManager.isCityNameSet()) {
-                setTimeout(() => {
-                    this.cityNameManager.showCityNameDialog(false);
-                }, 2000);
+            if (this.cityNameManager) {
+                console.log('City name manager found, checking if name is set:', this.cityNameManager.isCityNameSet());
+                if (!this.cityNameManager.isCityNameSet()) {
+                    console.log('No city name set, showing dialog in 2 seconds');
+                    setTimeout(() => {
+                        this.cityNameManager.showCityNameDialog(false);
+                    }, 2000);
+                } else {
+                    console.log('City name already set:', this.cityNameManager.getCityName());
+                }
+            } else {
+                console.log('City name manager not found');
             }
             
         } catch (error) {

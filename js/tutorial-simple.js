@@ -190,8 +190,10 @@ class SimpleTutorial {
             console.log(`Tutorial: Finishing tutorial`);
             this.stop();
             // Show city name dialog after tutorial completion
-            if (this.mainApp && this.mainApp.cityNameManager) {
-                this.mainApp.cityNameManager.showCityNameDialogAfterTutorial();
+            if (this.mainApp) {
+                setTimeout(() => {
+                    this.mainApp.showSimpleCityNameDialog();
+                }, 500);
             }
         }
     }

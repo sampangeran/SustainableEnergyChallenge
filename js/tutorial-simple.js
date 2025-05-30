@@ -114,11 +114,18 @@ class SimpleTutorial {
                     <ul>
                         <li><strong>Energy Production:</strong> Current output vs demand</li>
                         <li><strong>Grid Efficiency:</strong> How well you meet power needs</li>
-                        <li><strong>Sustainability Score:</strong> Environmental impact rating</li>
+                        <li><strong>Sustainability Score:</strong> Environmental impact rating based on 5 factors</li>
                         <li><strong>Financial Performance:</strong> Income and expense tracking</li>
                     </ul>
                     
-                    <p>Aim for high efficiency and sustainability scores to maximize your city's success.</p>
+                    <h4>Sustainability Score Components:</h4>
+                    <ul>
+                        <li><strong>Energy Efficiency (25 pts):</strong> Production meeting demand</li>
+                        <li><strong>Carbon Impact (20 pts):</strong> CO₂ reduction vs emissions</li>
+                        <li><strong>Energy Diversity (20 pts):</strong> Using different renewable sources</li>
+                        <li><strong>Grid Reliability (15 pts):</strong> Consistent power supply</li>
+                        <li><strong>Community Impact (10 pts):</strong> All zone types placed and powered</li>
+                    </ul>
                 `,
                 highlight: ".dashboard"
             },
@@ -126,15 +133,22 @@ class SimpleTutorial {
                 title: "Creating City Zones",
                 content: `
                     <h3>🏘️ Build Your First Zone</h3>
-                    <p>Now let's create a residential area:</p>
+                    <p>Create a diverse city with three zone types:</p>
                     
                     <ol>
-                        <li>Make sure "Zone Mode" is selected (orange button)</li>
-                        <li>Choose "Residential" from the dropdown menu</li>
-                        <li>Click on any empty grid cell to create the zone</li>
+                        <li>Make sure "Zone Mode" is selected (active button is highlighted)</li>
+                        <li>Choose zone type from dropdown: Residential, Commercial, or Industrial</li>
+                        <li>Click on any empty grid cell or drag to select multiple cells</li>
                     </ol>
                     
-                    <p>Zones only generate income when they have sufficient power supply. Unpowered zones show red warning indicators.</p>
+                    <h4>Zone Types & Requirements:</h4>
+                    <ul>
+                        <li><strong>🏠 Residential:</strong> 50kW demand, $120/month income</li>
+                        <li><strong>🏢 Commercial:</strong> 100kW demand, $250/month income</li>
+                        <li><strong>🏭 Industrial:</strong> 200kW demand, $400/month income</li>
+                    </ul>
+                    
+                    <p><strong>Important:</strong> For maximum Community Impact score, place all three zone types and power them adequately!</p>
                 `,
                 highlight: ".grid-controls"
             },
@@ -146,13 +160,15 @@ class SimpleTutorial {
                     
                     <h4>Success Tips:</h4>
                     <ul>
-                        <li><strong>Use terrain bonuses:</strong> Place energy sources strategically</li>
-                        <li><strong>Diversify energy:</strong> Mix sources for weather resilience</li>
-                        <li><strong>Monitor performance:</strong> Keep efficiency high</li>
-                        <li><strong>Manage budget:</strong> Balance investments with income</li>
+                        <li><strong>Use terrain bonuses:</strong> Place energy sources strategically on matching terrain</li>
+                        <li><strong>Diversify renewable energy:</strong> Use all 5 renewable sources for maximum diversity score</li>
+                        <li><strong>Complete city planning:</strong> Place all three zone types for full community score</li>
+                        <li><strong>Avoid fossil fuels:</strong> Coal and natural gas reduce your carbon impact score</li>
+                        <li><strong>Monitor sustainability:</strong> Aim for A+ grade (90+ points)</li>
+                        <li><strong>Manage budget wisely:</strong> Balance investments with zone income</li>
                     </ul>
                     
-                    <p><strong>Challenge:</strong> Can you build a 100% renewable city that's profitable and efficient?</p>
+                    <p><strong>Ultimate Challenge:</strong> Can you achieve a 100% renewable city with all zone types, full power coverage, and maximum sustainability score?</p>
                 `,
                 highlight: "#city-grid"
             }

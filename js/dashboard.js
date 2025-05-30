@@ -166,53 +166,55 @@ class EnergyDashboard {
         return energyCostSaving + carbonCreditValue;
     }
 
-    calculateWeatherReliability() {
-        const energyMix = this.energyManager.getEnergyMix();
-        const weatherConditions = ['sunny', 'cloudy', 'rainy', 'windy'];
-        const totalProduction = {};
-        const totalDemand = this.zoneManager.getTotalEnergyDemand();
-        
-        // Calculate energy production under each weather condition
-        weatherConditions.forEach(weatherType => {
-            const mockWeather = { type: weatherType };
-            totalProduction[weatherType] = this.zoneManager.getTotalEnergyProduction(this.energyManager, mockWeather);
-        });
-        
-        // Calculate minimum production across all weather conditions
-        const productionValues = Object.values(totalProduction);
-        const minProduction = Math.min(...productionValues);
-        const maxProduction = Math.max(...productionValues);
-        const avgProduction = productionValues.reduce((sum, val) => sum + val, 0) / productionValues.length;
-        
-        // Calculate reliability metrics
-        const minEfficiency = totalDemand > 0 ? (minProduction / totalDemand) * 100 : 100;
-        const variabilityRatio = maxProduction > 0 ? (maxProduction - minProduction) / maxProduction : 0;
-        
-        // Score based on minimum efficiency and low variability
+    calculateGridReliability(totalProduction, totalConsumption) {
         let reliabilityScore = 0;
-        let description = "No energy sources installed";
+        let description = "No energy infrastructure";
         
-        if (avgProduction > 0) {
-            // Base score: can we meet demand in worst weather?
-            const worstCaseScore = Math.min(1, minEfficiency / 100);
-            
-            // Stability bonus: lower variability is better
-            const stabilityBonus = Math.max(0, 1 - variabilityRatio);
-            
-            reliabilityScore = (worstCaseScore * 0.7) + (stabilityBonus * 0.3);
-            
-            if (minEfficiency >= 100) {
-                description = `Reliable in all weather (${Math.round(variabilityRatio * 100)}% variation)`;
-            } else {
-                description = `${Math.round(minEfficiency)}% minimum efficiency across weather conditions`;
-            }
+        if (totalConsumption === 0) {
+            return {
+                score: 1,
+                description: "No power demand to meet"
+            };
+        }
+        
+        if (totalProduction === 0) {
+            return {
+                score: 0,
+                description: "No energy production available"
+            };
+        }
+        
+        // Calculate base production capacity vs demand ratio
+        const baseProduction = this.calculateBaseProduction();
+        const productionRatio = baseProduction / totalConsumption;
+        
+        // Score based on production capacity relative to demand
+        if (productionRatio >= 1.5) {
+            // Excellent reliability - significant excess capacity
+            reliabilityScore = 1.0;
+            description = `Excellent grid stability (${Math.round(productionRatio * 100)}% capacity vs demand)`;
+        } else if (productionRatio >= 1.2) {
+            // Good reliability - adequate buffer
+            reliabilityScore = 0.8;
+            description = `Good grid reliability (${Math.round(productionRatio * 100)}% capacity vs demand)`;
+        } else if (productionRatio >= 1.0) {
+            // Adequate reliability - meeting demand
+            reliabilityScore = 0.6;
+            description = `Adequate grid capacity (${Math.round(productionRatio * 100)}% capacity vs demand)`;
+        } else if (productionRatio >= 0.8) {
+            // Poor reliability - insufficient capacity
+            reliabilityScore = 0.3;
+            description = `Insufficient grid capacity (${Math.round(productionRatio * 100)}% capacity vs demand)`;
+        } else {
+            // Critical reliability issues
+            reliabilityScore = 0.1;
+            description = `Critical power shortage (${Math.round(productionRatio * 100)}% capacity vs demand)`;
         }
         
         return {
             score: Math.max(0, Math.min(1, reliabilityScore)),
             description: description,
-            minEfficiency: minEfficiency,
-            variability: variabilityRatio * 100
+            productionRatio: productionRatio
         };
     }
 
@@ -264,11 +266,9 @@ class EnergyDashboard {
             description: `Using ${uniqueRenewableSources}/5 renewable energy types`
         };
         
-        // Grid Reliability (15 points max) - Now accounts for weather variation
-        const reliabilityData = this.calculateWeatherReliability();
-        const baseReliabilityScore = efficiency >= 100 ? 10 : Math.max(0, efficiency - 50) * 0.2;
-        const weatherReliabilityScore = reliabilityData.score * 5; // Up to 5 points for weather stability
-        const reliabilityScore = baseReliabilityScore + weatherReliabilityScore;
+        // Grid Reliability (15 points max) - Based on production vs consumption balance
+        const reliabilityData = this.calculateGridReliability(totalProduction, totalDemand);
+        const reliabilityScore = reliabilityData.score * 15;
         
         score += reliabilityScore;
         scoreBreakdown.reliability = {

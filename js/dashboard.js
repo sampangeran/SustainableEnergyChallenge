@@ -234,8 +234,8 @@ class EnergyDashboard {
             description: "How well energy production meets demand"
         };
         
-        // Carbon Impact (20 points max) - Adjusted for realistic budget constraints
-        const carbonScore = Math.min(20, Math.max(-20, carbonReduction / 250 * 20));
+        // Carbon Impact (20 points max) - Adjusted for grid size and budget constraints  
+        const carbonScore = Math.min(20, Math.max(-20, carbonReduction / 200 * 20));
         score += carbonScore;
         
         let carbonDescription;

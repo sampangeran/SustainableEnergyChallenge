@@ -234,9 +234,13 @@ class EnergyDashboard {
         };
         
         // Community Impact (10 points max)
+        // Since energy sources contribute to a shared grid, all zones should have the same efficiency
         const zoneStats = this.zoneManager.getZoneStats(this.energyManager, this.weatherSystem.getCurrentWeather());
-        const poweredZones = Object.values(zoneStats).filter(zone => zone.efficiency >= 100).length;
         const totalZones = Object.keys(zoneStats).length;
+        
+        // If city-wide efficiency >= 100%, all zones are considered fully powered
+        // Otherwise, no zones are considered fully powered in the community score
+        const poweredZones = efficiency >= 100 ? totalZones : 0;
         const communityScore = totalZones > 0 ? (poweredZones / totalZones) * 10 : 0;
         score += communityScore;
         scoreBreakdown.community = {

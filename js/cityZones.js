@@ -539,8 +539,8 @@ class CityZoneManager {
         // Define incompatible combinations
         const restrictions = {
             residential: {
-                hydro: 'Hydro power requires water sources, not suitable for residential areas',
-                biomass: 'Biomass plants may cause air quality concerns in residential areas'
+                hydro: 'Hydro power requires water sources, not suitable for residential areas'
+                // Removed biomass restriction to allow pollution demonstration
             },
             commercial: {
                 hydro: 'Hydro power requires specific geographical features'

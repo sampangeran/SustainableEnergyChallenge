@@ -263,7 +263,7 @@ class TooltipSystem {
     }
     
     showTooltip(tooltipInfo, event) {
-        if (!tooltipInfo) return;
+        if (!tooltipInfo || !this.tooltip) return;
         
         this.tooltip.innerHTML = `
             <div class="tooltip-header">${tooltipInfo.title}</div>
@@ -277,7 +277,7 @@ class TooltipSystem {
     }
     
     positionTooltip(event) {
-        if (!this.isVisible) return;
+        if (!this.isVisible || !this.tooltip) return;
         
         const mouseX = event.clientX;
         const mouseY = event.clientY;

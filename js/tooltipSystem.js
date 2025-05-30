@@ -363,13 +363,13 @@ class TooltipSystem {
             .grid-cell:hover,
             .energy-source-item:hover,
             .power-status:hover {
-                cursor: help;
+                cursor: default;
             }
             
             #budget-panel:hover,
             #weather-panel:hover,
             #dashboard-panel:hover {
-                cursor: help;
+                cursor: default;
             }
         `;
         document.head.appendChild(style);

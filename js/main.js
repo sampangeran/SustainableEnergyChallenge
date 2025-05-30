@@ -1647,9 +1647,9 @@ class RenewableEnergySimulator {
                 this.cityNameManager.setCityName(name);
             }
             
-            // Remove modal
-            const modal = document.querySelector('.simple-city-modal');
-            if (modal) modal.remove();
+            // Remove all modals and overlays
+            const modals = document.querySelectorAll('.simple-city-modal, .city-name-modal, .modal-overlay');
+            modals.forEach(modal => modal.remove());
             
             this.showNotification(`Welcome to ${name}! Start building your sustainable city.`, 'success');
         } else {

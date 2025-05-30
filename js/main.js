@@ -1081,6 +1081,25 @@ class RenewableEnergySimulator {
             
             energyIcon.innerHTML = `<i class="${iconMap[energySource] || 'fas fa-bolt'}"></i>`;
             cell.appendChild(energyIcon);
+            
+            // Add pollution warnings for energy sources in residential zones
+            if (zoneType === 'residential') {
+                if (energySource === 'wind') {
+                    const warningIcon = document.createElement('div');
+                    warningIcon.className = 'pollution-warning noise-warning';
+                    warningIcon.innerHTML = '🔊';
+                    warningIcon.title = 'High Noise Pollution - Wind turbines generate noise that affects residential quality of life';
+                    cell.appendChild(warningIcon);
+                    cell.classList.add('pollution-warning-cell');
+                } else if (energySource === 'coal' || energySource === 'biomass') {
+                    const warningIcon = document.createElement('div');
+                    warningIcon.className = 'pollution-warning toxic-warning';
+                    warningIcon.innerHTML = '☠️';
+                    warningIcon.title = 'Toxic Emissions - This energy source produces harmful pollutants affecting residential health';
+                    cell.appendChild(warningIcon);
+                    cell.classList.add('pollution-warning-cell');
+                }
+            }
         }
     }
 

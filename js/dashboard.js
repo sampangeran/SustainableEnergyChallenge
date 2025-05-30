@@ -321,8 +321,24 @@ class EnergyDashboard {
         );
         const totalPossibleZones = cityZones.length; // Always 3 (residential, commercial, industrial)
         
-        // Community score is based on having all zone types AND powering them
-        // Points deducted for missing zone types and insufficient power
+        // Calculate pollution penalties for energy sources in residential zones
+        let pollutionPenalty = 0;
+        const residentialZone = this.zoneManager.zones.get('residential');
+        if (residentialZone) {
+            residentialZone.cells.forEach(cellId => {
+                const [row, col] = cellId.split('-').map(Number);
+                const energySource = this.zoneManager.getEnergySourceAt(row, col);
+                if (energySource) {
+                    if (energySource === 'wind') {
+                        pollutionPenalty += 1; // 1 point penalty for noise pollution
+                    } else if (energySource === 'coal' || energySource === 'biomass') {
+                        pollutionPenalty += 2; // 2 point penalty for toxic emissions
+                    }
+                }
+            });
+        }
+        
+        // Community score is based on having all zone types AND powering them, minus pollution penalties
         let communityScore = 0;
         if (activeCityZones.length === totalPossibleZones && efficiency >= 100) {
             // Full score: all 3 zone types placed and fully powered
@@ -333,11 +349,20 @@ class EnergyDashboard {
             const powerRatio = efficiency >= 100 ? 1 : 0;
             communityScore = zoneCompletionRatio * powerRatio * 10;
         }
+        
+        // Apply pollution penalty
+        communityScore = Math.max(0, communityScore - pollutionPenalty);
+        
+        let description = `${activeCityZones.length}/${totalPossibleZones} zone types placed${efficiency >= 100 ? ' and powered' : ''}`;
+        if (pollutionPenalty > 0) {
+            description += ` (-${pollutionPenalty}pts pollution penalty)`;
+        }
+        
         score += communityScore;
         scoreBreakdown.community = {
             score: Math.round(communityScore),
             max: 10,
-            description: `${activeCityZones.length}/${totalPossibleZones} zone types placed${efficiency >= 100 ? ' and powered' : ''}`
+            description: description
         };
         
         return {

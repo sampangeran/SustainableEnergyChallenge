@@ -1200,6 +1200,7 @@ class RenewableEnergySimulator {
         this.energyManager.reset();
         this.zoneManager.reset();
         this.weatherSystem.reset();
+        this.budgetManager.reset();
         this.dashboard.reset();
         
         // Clear storage

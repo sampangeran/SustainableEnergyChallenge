@@ -88,8 +88,8 @@ class CityZone {
         
         // Get base energy output values (match energySources.js exactly)
         const energyOutputs = {
-            solar: 100,      // Matches energySources.js: 100kW
-            wind: 150,       // Matches energySources.js: 150kW
+            solar: 50,       // Matches energySources.js: 50kW
+            wind: 100,       // Matches energySources.js: 100kW
             hydro: 200,      // Matches energySources.js: 200kW
             geothermal: 180, // Matches energySources.js: 180kW
             biomass: 120,    // Matches energySources.js: 120kW

@@ -330,9 +330,9 @@ class EnergyDashboard {
                 const energySource = this.zoneManager.getEnergySourceAt(row, col);
                 if (energySource) {
                     if (energySource === 'wind') {
-                        pollutionPenalty += 1; // 1 point penalty for noise pollution
+                        pollutionPenalty += 0.5; // 0.5 point penalty for noise pollution
                     } else if (energySource === 'coal' || energySource === 'biomass') {
-                        pollutionPenalty += 2; // 2 point penalty for toxic emissions
+                        pollutionPenalty += 1; // 1 point penalty for toxic emissions
                     }
                 }
             });
@@ -351,15 +351,12 @@ class EnergyDashboard {
         }
         
         // Apply pollution penalty
-        const originalScore = communityScore;
         communityScore = Math.max(0, communityScore - pollutionPenalty);
-        
-        // Debug logging
-        console.log(`Community Score Debug: Original=${originalScore}, Penalty=${pollutionPenalty}, Final=${communityScore}`);
         
         let description = `${activeCityZones.length}/${totalPossibleZones} zone types placed${efficiency >= 100 ? ' and powered' : ''}`;
         if (pollutionPenalty > 0) {
-            description += ` (-${pollutionPenalty}pts pollution penalty)`;
+            const pollutingSources = Math.round(pollutionPenalty);
+            description += `. Pollution concerns in residential areas (-${pollutingSources} impact)`;
         }
         
         score += communityScore;

@@ -593,6 +593,8 @@ class RenewableEnergySimulator {
         // Remove selection highlighting from all cells
         document.querySelectorAll('.grid-cell.selected').forEach(cell => {
             cell.classList.remove('selected');
+            cell.style.border = '';
+            cell.style.backgroundColor = '';
         });
         this.selectedCells.clear();
     }

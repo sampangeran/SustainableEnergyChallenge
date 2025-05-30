@@ -697,7 +697,12 @@ class RenewableEnergySimulator {
         
         // Update income calculation after energy source changes
         if (placedCount > 0) {
-            this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
+            // Force a full grid refresh to update all power indicators
+            setTimeout(() => {
+                this.updateGridDisplay();
+                this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
+                this.dashboard.updateDashboard();
+            }, 50);
         }
         
         // Show appropriate notification
@@ -743,7 +748,12 @@ class RenewableEnergySimulator {
         
         // Update income calculation after zone changes
         if (assignedCount > 0) {
-            this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
+            // Force a full grid refresh to update all power indicators
+            setTimeout(() => {
+                this.updateGridDisplay();
+                this.budgetManager.updateIncome(this.zoneManager, this.energyManager, this.weatherSystem);
+                this.dashboard.updateDashboard();
+            }, 50);
         }
         
         // Show appropriate notification
@@ -981,11 +991,6 @@ class RenewableEnergySimulator {
                     const zoneBalance = zone.getEnergyBalance(this.energyManager, currentWeather);
                     const zoneEfficiency = zone.getEfficiencyPercentage(this.energyManager, currentWeather);
                     
-                    // Debug logging for power status
-                    if (zone.cells.size > 0) {
-                        console.log(`Power check for ${zoneType} zone at ${row},${col}: balance=${zoneBalance}, efficiency=${zoneEfficiency}%, cells=${zone.cells.size}`);
-                    }
-                    
                     // Only show power shortage if this specific zone is underpowered
                     if (zoneBalance < 0 && zone.cells.size > 0) {
                         cell.classList.add('underpowered');
@@ -995,9 +1000,6 @@ class RenewableEnergySimulator {
                         powerIcon.innerHTML = '⚡';
                         powerIcon.title = `Zone underpowered: ${Math.round(zoneEfficiency)}% efficiency (${currentWeather?.name || 'Sunny'} weather)`;
                         cell.appendChild(powerIcon);
-                        console.log(`Added underpowered indicator to ${zoneType} zone at ${row},${col}`);
-                    } else if (zone.cells.size > 0) {
-                        console.log(`Zone ${zoneType} at ${row},${col} is adequately powered`);
                     }
                 }
             }

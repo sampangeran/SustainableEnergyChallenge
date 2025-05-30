@@ -166,6 +166,56 @@ class EnergyDashboard {
         return energyCostSaving + carbonCreditValue;
     }
 
+    calculateWeatherReliability() {
+        const energyMix = this.energyManager.getEnergyMix();
+        const weatherConditions = ['sunny', 'cloudy', 'rainy', 'windy'];
+        const totalProduction = {};
+        const totalDemand = this.zoneManager.getTotalEnergyDemand();
+        
+        // Calculate energy production under each weather condition
+        weatherConditions.forEach(weatherType => {
+            const mockWeather = { type: weatherType };
+            totalProduction[weatherType] = this.zoneManager.getTotalEnergyProduction(this.energyManager, mockWeather);
+        });
+        
+        // Calculate minimum production across all weather conditions
+        const productionValues = Object.values(totalProduction);
+        const minProduction = Math.min(...productionValues);
+        const maxProduction = Math.max(...productionValues);
+        const avgProduction = productionValues.reduce((sum, val) => sum + val, 0) / productionValues.length;
+        
+        // Calculate reliability metrics
+        const minEfficiency = totalDemand > 0 ? (minProduction / totalDemand) * 100 : 100;
+        const variabilityRatio = maxProduction > 0 ? (maxProduction - minProduction) / maxProduction : 0;
+        
+        // Score based on minimum efficiency and low variability
+        let reliabilityScore = 0;
+        let description = "No energy sources installed";
+        
+        if (avgProduction > 0) {
+            // Base score: can we meet demand in worst weather?
+            const worstCaseScore = Math.min(1, minEfficiency / 100);
+            
+            // Stability bonus: lower variability is better
+            const stabilityBonus = Math.max(0, 1 - variabilityRatio);
+            
+            reliabilityScore = (worstCaseScore * 0.7) + (stabilityBonus * 0.3);
+            
+            if (minEfficiency >= 100) {
+                description = `Reliable in all weather (${Math.round(variabilityRatio * 100)}% variation)`;
+            } else {
+                description = `${Math.round(minEfficiency)}% minimum efficiency across weather conditions`;
+            }
+        }
+        
+        return {
+            score: Math.max(0, Math.min(1, reliabilityScore)),
+            description: description,
+            minEfficiency: minEfficiency,
+            variability: variabilityRatio * 100
+        };
+    }
+
     calculateSustainabilityScore(efficiency, carbonReduction, installations) {
         const energyMix = this.energyManager.getEnergyMix();
         const currentWeather = this.weatherSystem.getCurrentWeather();
@@ -214,13 +264,17 @@ class EnergyDashboard {
             description: `Using ${uniqueRenewableSources}/5 renewable energy types`
         };
         
-        // Grid Reliability (15 points max)
-        const reliabilityScore = efficiency >= 100 ? 15 : Math.max(0, efficiency - 50) * 0.3;
+        // Grid Reliability (15 points max) - Now accounts for weather variation
+        const reliabilityData = this.calculateWeatherReliability();
+        const baseReliabilityScore = efficiency >= 100 ? 10 : Math.max(0, efficiency - 50) * 0.2;
+        const weatherReliabilityScore = reliabilityData.score * 5; // Up to 5 points for weather stability
+        const reliabilityScore = baseReliabilityScore + weatherReliabilityScore;
+        
         score += reliabilityScore;
         scoreBreakdown.reliability = {
             score: Math.round(reliabilityScore),
             max: 15,
-            description: efficiency >= 100 ? "Fully powered grid" : "Partial power coverage"
+            description: reliabilityData.description
         };
         
         // Innovation & Future-Readiness (10 points max)

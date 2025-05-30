@@ -311,15 +311,8 @@ class EnergyDashboard {
         };
         
         // Community Impact (10 points max)
-        // Since energy sources contribute to a shared grid, all zones should have the same efficiency
+        // Based on optimal zone ratio: 60% Residential, 30% Commercial, 10% Industrial
         const zoneStats = this.zoneManager.getZoneStats(this.energyManager, this.weatherSystem.getCurrentWeather());
-        
-        // Only count actual city zones that need power (exclude terrain zones)
-        const cityZones = ['residential', 'commercial', 'industrial'];
-        const activeCityZones = cityZones.filter(zoneType => 
-            zoneStats[zoneType] && zoneStats[zoneType].cellCount > 0
-        );
-        const totalPossibleZones = cityZones.length; // Always 3 (residential, commercial, industrial)
         
         // Calculate pollution penalties for energy sources in residential zones
         let pollutionPenalty = 0;
@@ -338,25 +331,65 @@ class EnergyDashboard {
             });
         }
         
-        // Community score is based on having all zone types AND powering them, minus pollution penalties
+        // Calculate zone ratio scoring
         let communityScore = 0;
-        if (activeCityZones.length === totalPossibleZones && efficiency >= 100) {
-            // Full score: all 3 zone types placed and fully powered
-            communityScore = 10;
-        } else if (activeCityZones.length > 0) {
-            // Partial score: some zones placed, proportional to completion and power
-            const zoneCompletionRatio = activeCityZones.length / totalPossibleZones;
-            const powerRatio = efficiency >= 100 ? 1 : 0;
-            communityScore = zoneCompletionRatio * powerRatio * 10;
+        const residentialCount = zoneStats.residential?.cellCount || 0;
+        const commercialCount = zoneStats.commercial?.cellCount || 0;
+        const industrialCount = zoneStats.industrial?.cellCount || 0;
+        const totalZones = residentialCount + commercialCount + industrialCount;
+        
+        if (totalZones > 0) {
+            // Calculate actual ratios
+            const actualResidentialRatio = residentialCount / totalZones;
+            const actualCommercialRatio = commercialCount / totalZones;
+            const actualIndustrialRatio = industrialCount / totalZones;
+            
+            // Ideal ratios
+            const idealResidentialRatio = 0.60;
+            const idealCommercialRatio = 0.30;
+            const idealIndustrialRatio = 0.10;
+            
+            // Calculate deviation from ideal ratios
+            const residentialDeviation = Math.abs(actualResidentialRatio - idealResidentialRatio);
+            const commercialDeviation = Math.abs(actualCommercialRatio - idealCommercialRatio);
+            const industrialDeviation = Math.abs(actualIndustrialRatio - idealIndustrialRatio);
+            
+            // Average deviation (0 = perfect ratio, higher = worse)
+            const averageDeviation = (residentialDeviation + commercialDeviation + industrialDeviation) / 3;
+            
+            // Convert deviation to score (1 - deviation gives us a score where 1 = perfect, 0 = maximum deviation)
+            const ratioScore = Math.max(0, 1 - (averageDeviation * 2)); // *2 to make deviations more impactful
+            
+            // Base score from zone completion and power efficiency
+            const hasAllZoneTypes = residentialCount > 0 && commercialCount > 0 && industrialCount > 0;
+            const baseScore = hasAllZoneTypes ? 8 : (totalZones > 0 ? 5 : 0); // 8 points for having all types, 5 for partial
+            const powerBonus = efficiency >= 100 ? 2 : 0; // 2 bonus points for full power
+            
+            communityScore = (baseScore + powerBonus) * ratioScore;
         }
         
         // Apply pollution penalty
         communityScore = Math.max(0, communityScore - pollutionPenalty);
         
-        let description = `${activeCityZones.length}/${totalPossibleZones} zone types placed${efficiency >= 100 ? ' and powered' : ''}`;
-        if (pollutionPenalty > 0) {
-            const pollutingSources = Math.round(pollutionPenalty);
-            description += `. Pollution concerns in residential areas (-${pollutingSources} impact)`;
+        let description;
+        if (totalZones === 0) {
+            description = "No city zones placed";
+        } else {
+            const resRatio = Math.round((residentialCount / totalZones) * 100);
+            const comRatio = Math.round((commercialCount / totalZones) * 100);
+            const indRatio = Math.round((industrialCount / totalZones) * 100);
+            description = `Zone ratio: ${resRatio}%/${comRatio}%/${indRatio}% (ideal: 60%/30%/10%)`;
+            
+            if (efficiency >= 100) {
+                description += ", fully powered";
+            } else if (efficiency > 0) {
+                description += ", partially powered";
+            }
+            
+            if (pollutionPenalty > 0) {
+                const pollutingSources = Math.round(pollutionPenalty);
+                description += `, pollution penalty (-${pollutingSources})`;
+            }
         }
         
         score += communityScore;

@@ -193,14 +193,15 @@ class EnergyDashboard {
             description: `Prevented ${Math.round(carbonReduction)} tons CO₂/year`
         };
         
-        // Energy Source Diversity (20 points max)
-        const uniqueSources = Object.keys(energyMix).filter(type => energyMix[type].count > 0).length;
-        const diversityScore = Math.min(20, uniqueSources * 4);
+        // Energy Source Diversity (20 points max) - Only count renewable sources
+        const renewableSources = ['solar', 'wind', 'hydro', 'geothermal', 'biomass'];
+        const uniqueRenewableSources = renewableSources.filter(type => energyMix[type]?.count > 0).length;
+        const diversityScore = Math.min(20, uniqueRenewableSources * 4);
         score += diversityScore;
         scoreBreakdown.diversity = {
             score: Math.round(diversityScore),
             max: 20,
-            description: `Using ${uniqueSources}/5 renewable energy types`
+            description: `Using ${uniqueRenewableSources}/5 renewable energy types`
         };
         
         // Grid Reliability (15 points max)

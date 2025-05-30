@@ -132,18 +132,18 @@ class EnergySourceManager {
             'solar',
             'Solar Panel',
             5000,
-            100,
+            50,
             'Harnesses sunlight to generate clean electricity. Most effective during sunny days.',
-            2.5
+            1.2
         ));
 
         this.sources.set('wind', new EnergySource(
             'wind',
             'Wind Turbine',
             8000,
-            150,
+            100,
             'Converts wind energy into electricity. Performance increases with wind speed.',
-            3.8
+            2.5
         ));
 
         this.sources.set('hydro', new EnergySource(

@@ -130,17 +130,17 @@ class TutorialSystem {
                         
                         <h4>🌱 Renewable Energy:</h4>
                         <ul>
-                            <li><strong>Solar:</strong> $15,000 • 100kW • Enhanced by sunny weather</li>
-                            <li><strong>Wind:</strong> $20,000 • 150kW • Boosted by windy conditions</li>
-                            <li><strong>Hydro:</strong> $25,000 • 200kW • +60% bonus near rivers</li>
-                            <li><strong>Geothermal:</strong> $30,000 • 180kW • +50% bonus in mountains</li>
-                            <li><strong>Biomass:</strong> $18,000 • 120kW • +40% bonus in forests</li>
+                            <li><strong>Solar:</strong> $5,000 • 50kW • Enhanced by sunny weather</li>
+                            <li><strong>Wind:</strong> $8,000 • 100kW • Boosted by windy conditions</li>
+                            <li><strong>Hydro:</strong> $12,000 • 200kW • +60% bonus near rivers</li>
+                            <li><strong>Geothermal:</strong> $15,000 • 180kW • +50% bonus in mountains</li>
+                            <li><strong>Biomass:</strong> $10,000 • 120kW • +40% bonus in forests</li>
                         </ul>
                         
                         <h4>🏭 Fossil Fuels:</h4>
                         <ul>
-                            <li><strong>Coal:</strong> $35,000 • 400kW • High pollution impact</li>
-                            <li><strong>Natural Gas:</strong> $28,000 • 300kW • Lower emissions than coal</li>
+                            <li><strong>Coal:</strong> $25,000 • 400kW • High pollution impact</li>
+                            <li><strong>Natural Gas:</strong> $18,000 • 300kW • Lower emissions than coal</li>
                         </ul>
                         
                         <p><strong>Advanced Placement:</strong> Drag to select multiple cells, then auto-place energy sources!</p>

@@ -60,11 +60,11 @@ class SimpleTutorial {
                     <p>Choose from various energy technologies, each with unique characteristics:</p>
                     
                     <ul>
-                        <li><strong>☀️ Solar:</strong> $8,000 - Clean, weather-dependent</li>
-                        <li><strong>💨 Wind:</strong> $10,000 - Powerful in windy conditions</li>
-                        <li><strong>🌊 Hydro:</strong> $12,000 - Reliable water power</li>
-                        <li><strong>🌋 Geothermal:</strong> $15,000 - Consistent underground energy</li>
-                        <li><strong>🌱 Biomass:</strong> $10,000 - Organic waste to energy</li>
+                        <li><strong>☀️ Solar:</strong> $5,000 • 50kW - Clean, weather-dependent</li>
+                        <li><strong>💨 Wind:</strong> $8,000 • 100kW - Powerful in windy conditions</li>
+                        <li><strong>🌊 Hydro:</strong> $12,000 • 200kW - Reliable water power</li>
+                        <li><strong>🌋 Geothermal:</strong> $15,000 • 180kW - Consistent underground energy</li>
+                        <li><strong>🌱 Biomass:</strong> $10,000 • 120kW - Organic waste to energy</li>
                     </ul>
                     
                     <p>You can drag these onto the grid or use Energy Mode for placement.</p>

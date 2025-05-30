@@ -99,6 +99,11 @@ class RenewableEnergySimulator {
         // Initialize tutorial system
         this.tutorialSystem = new SimpleTutorial(this);
         
+        // Initialize tooltip system
+        if (typeof TooltipSystem !== 'undefined') {
+            this.tooltipSystem = new TooltipSystem();
+        }
+        
         // Initialize storage manager
         this.storageManager = new StorageManager(this);
         

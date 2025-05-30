@@ -167,8 +167,8 @@ class EnergySourceManager {
         this.sources.set('biomass', new EnergySource(
             'biomass',
             'Biomass Plant',
-            7800,
-            120,
+            8000,
+            123,
             'Burns organic materials to produce electricity. Weather-independent operation.',
             3.2
         ));

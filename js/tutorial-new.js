@@ -134,7 +134,7 @@ class TutorialSystem {
                             <li><strong>Wind:</strong> $5,500 • 100kW • Boosted by windy conditions</li>
                             <li><strong>Hydro:</strong> $12,000 • 200kW • +60% bonus near rivers</li>
                             <li><strong>Geothermal:</strong> $15,000 • 180kW • +50% bonus in mountains</li>
-                            <li><strong>Biomass:</strong> $7,800 • 120kW • +40% bonus in forests</li>
+                            <li><strong>Biomass:</strong> $8,000 • 123kW • +40% bonus in forests</li>
                         </ul>
                         
                         <h4>🏭 Fossil Fuels:</h4>

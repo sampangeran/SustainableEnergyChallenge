@@ -170,7 +170,7 @@ class EnergySourceManager {
             8000,
             123,
             'Burns organic materials to produce electricity. Weather-independent operation.',
-            3.2
+            3.28
         ));
 
         this.sources.set('coal', new EnergySource(

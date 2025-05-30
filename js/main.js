@@ -68,6 +68,13 @@ class RenewableEnergySimulator {
             // Show welcome tutorial if first time user
             this.checkFirstTimeUser();
             
+            // If no tutorial and no city name set, show city name dialog
+            if (this.cityNameManager && !this.cityNameManager.isCityNameSet()) {
+                setTimeout(() => {
+                    this.cityNameManager.showCityNameDialog(false);
+                }, 2000);
+            }
+            
         } catch (error) {
             console.error('Failed to initialize simulator:', error);
             this.showError('Failed to initialize the simulator. Please refresh the page.');

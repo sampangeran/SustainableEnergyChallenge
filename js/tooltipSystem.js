@@ -158,6 +158,11 @@ class TooltipSystem {
     }
     
     getTooltipInfo(element) {
+        // Check if element exists and has required properties
+        if (!element || !element.dataset || !element.classList) {
+            return null;
+        }
+        
         // Check for explicit tooltip data attribute
         if (element.dataset.tooltip) {
             return {

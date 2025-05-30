@@ -158,6 +158,18 @@ body {
     color: white;
 }
 
+.btn:not(.active) {
+    background: #6c757d;
+    color: #f8f9fa;
+    border-color: #6c757d;
+}
+
+.btn:not(.active):hover {
+    background: #5a6268;
+    border-color: #545b62;
+    color: white;
+}
+
 /* Energy Panel */
 .energy-panel {
     background: hsl(var(--surface));

@@ -106,7 +106,7 @@ class EnergyDashboard {
         const totalConsumption = this.zoneManager.getTotalEnergyDemand();
         const totalCost = this.energyManager.getTotalCost();
         const totalInstallations = this.energyManager.getTotalInstallations();
-        const carbonReduction = this.energyManager.getTotalCarbonReduction();
+        const carbonReduction = this.calculateTerrainAwareCarbonReduction();
         
         // Calculate efficiency
         const efficiency = totalConsumption > 0 ? 
@@ -157,6 +157,28 @@ class EnergyDashboard {
             weather,
             timestamp: Date.now()
         };
+    }
+
+    calculateTerrainAwareCarbonReduction() {
+        let totalCarbonReduction = 0;
+        
+        // Calculate CO2 reduction based on actual terrain-enhanced production
+        this.zoneManager.zones.forEach((zone, zoneType) => {
+            zone.energySources.forEach((sources, cellId) => {
+                sources.forEach(sourceType => {
+                    const source = this.energyManager.getSource(sourceType);
+                    if (source) {
+                        // Get terrain bonus for this source type in this zone
+                        const terrainBonus = zone.getTerrainBonus(sourceType);
+                        // Scale CO2 reduction by terrain bonus (more production = more CO2 saved)
+                        const enhancedCarbonReduction = source.carbonReduction * terrainBonus;
+                        totalCarbonReduction += enhancedCarbonReduction;
+                    }
+                });
+            });
+        });
+        
+        return totalCarbonReduction;
     }
 
     calculateAnnualSavings(totalProduction, carbonReduction) {

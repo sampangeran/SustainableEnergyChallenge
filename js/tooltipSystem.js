@@ -236,6 +236,15 @@ class TooltipSystem {
                 }
                 description += ` (${weather.name} weather)`;
                 
+                // Add pollution warnings for residential zones
+                if (zoneType === 'residential') {
+                    if (sourceType === 'wind') {
+                        description += `\n\n⚠️ HIGH NOISE POLLUTION: Wind turbines generate noise that reduces residential quality of life and property values. Consider relocating to industrial areas.`;
+                    } else if (sourceType === 'coal' || sourceType === 'biomass') {
+                        description += `\n\n☠️ TOXIC EMISSIONS: This energy source produces harmful pollutants including particulates and chemicals that pose serious health risks to residents. Strongly recommend relocating away from residential areas.`;
+                    }
+                }
+                
                 return {
                     title: sourceInfo.title,
                     description: description

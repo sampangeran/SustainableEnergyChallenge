@@ -801,6 +801,8 @@ body {
     padding: 1.5rem;
     box-shadow: 0 4px 20px hsl(var(--shadow));
     overflow-y: auto;
+    min-width: 0; /* Prevent flex shrinking issues */
+    width: 100%;
 }
 
 .dashboard h3 {
@@ -950,15 +952,21 @@ body {
     .main-content {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
+        gap: 1.5rem;
     }
     
-    .energy-panel,
-    .dashboard {
-        order: 2;
+    .energy-panel {
+        order: 3;
     }
     
     .city-container {
         order: 1;
+    }
+    
+    .dashboard {
+        order: 2;
+        max-width: 100%;
+        margin: 0 auto;
     }
     
     .header {
@@ -1042,6 +1050,9 @@ body {
     border: 2px solid hsl(var(--success) / 0.2);
     border-radius: 12px;
     padding: 1rem;
+    margin-bottom: 1rem;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .sustainability-header {
@@ -1098,6 +1109,8 @@ body {
     border-radius: 8px;
     padding: 0.75rem;
     border: 1px solid hsl(var(--border));
+    min-width: 0;
+    word-wrap: break-word;
 }
 
 .category-header {

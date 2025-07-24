@@ -37,7 +37,7 @@ class EnergyDashboard {
             co2Reduction: document.getElementById('co2-reduction'),
             sustainabilityScore: document.getElementById('sustainability-score'),
             energyChart: document.getElementById('energy-chart'),
-            performanceFill: document.getElementById('performance-fill')
+
         };
 
         // Initialize chart canvas
@@ -92,7 +92,6 @@ class EnergyDashboard {
         this.updateEnergyMetrics(metrics);
         this.updateFinancialMetrics(metrics);
         this.updateEnvironmentalMetrics(metrics);
-        this.updatePerformanceBar(metrics);
         this.updateEnergyChart(metrics);
         
         this.recordPerformanceHistory(metrics);
@@ -612,16 +611,7 @@ class EnergyDashboard {
         }
     }
 
-    updatePerformanceBar(metrics) {
-        if (this.elements.performanceFill) {
-            const performance = Math.min(100, metrics.efficiency);
-            this.elements.performanceFill.style.width = `${performance}%`;
-            
-            // Update color based on performance
-            const color = this.getPerformanceColor(performance);
-            this.elements.performanceFill.style.background = color;
-        }
-    }
+
 
     updateEnergyChart(metrics) {
         if (!this.chartContext) return;
@@ -749,17 +739,7 @@ class EnergyDashboard {
         return 'hsl(0, 70%, 50%)'; // Red
     }
 
-    getPerformanceColor(performance) {
-        if (performance >= 80) {
-            return 'linear-gradient(90deg, hsl(120, 70%, 50%), hsl(120, 70%, 60%))';
-        } else if (performance >= 60) {
-            return 'linear-gradient(90deg, hsl(45, 100%, 50%), hsl(45, 100%, 60%))';
-        } else if (performance >= 40) {
-            return 'linear-gradient(90deg, hsl(30, 100%, 50%), hsl(30, 100%, 60%))';
-        } else {
-            return 'linear-gradient(90deg, hsl(0, 70%, 50%), hsl(0, 70%, 60%))';
-        }
-    }
+
 
     recordPerformanceHistory(metrics) {
         this.performanceHistory.push({
@@ -984,10 +964,7 @@ class EnergyDashboard {
             this.chartContext.clearRect(0, 0, this.chartCanvas.width, this.chartCanvas.height);
         }
         
-        // Reset performance bar
-        if (this.elements.performanceFill) {
-            this.elements.performanceFill.style.width = '0%';
-        }
+
     }
 }
 
